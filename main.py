@@ -5,25 +5,25 @@ from pydantic import BaseModel, Field
 import bcrypt
 import pymysql
 
-app = FastAPI(title="日常發票載具之個人碳足跡系統 API")
+app = FastAPI(title="日常發票載具之個人碳足跡與隱形碳成本智慧盤查推估系統")
 
 # 1. 設定 CORS (允許來自 Vercel 雲端前端與本機的跨網域呼叫)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 專題上線測試期間可先設為 ["*"] 允許所有來源
+    allow_origins=["*"],  # 專題上線測試期間允許所有來源
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# 2. 連線 MySQL 資料庫的函式 (自動適配本機或雲端環境變數)
+# 2. 連線 MySQL 資料庫的函式 (自動適配 Railway 雲端環境變數或本機環境)
 def get_db_connection():
     return pymysql.connect(
-        host=os.getenv("DB_HOST", "localhost"),
-        user=os.getenv("DB_USER", "root"),
-        password=os.getenv("DB_PASSWORD", ""),      # 本機預設空密碼，雲端則讀取環境變數
-        database=os.getenv("DB_NAME", "carbon_db"),
-        port=int(os.getenv("DB_PORT", 3306)),
+        host=os.getenv("DB_HOST", os.getenv("MYSQLHOST", "localhost")),
+        user=os.getenv("DB_USER", os.getenv("MYSQLUSER", "root")),
+        password=os.getenv("DB_PASSWORD", os.getenv("MYSQLPASSWORD", "")),
+        database=os.getenv("DB_NAME", os.getenv("MYSQLDATABASE", "carbon_db")),
+        port=int(os.getenv("DB_PORT", os.getenv("MYSQLPORT", 3306))),
         charset="utf8mb4",
         cursorclass=pymysql.cursors.DictCursor
     )
