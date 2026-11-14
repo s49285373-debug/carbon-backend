@@ -28,12 +28,16 @@ def get_db_connection():
         cursorclass=pymysql.cursors.DictCursor
     )
 
-# 3. 定義前端傳入的註冊資料格式
+# 3. 定義前端傳入的註冊與登入資料格式
 class RegisterRequest(BaseModel):
     phone: str = Field(..., description="手機號碼")
     password: str = Field(..., description="密碼")
     nickname: str = Field(..., description="暱稱")
     role: str = Field(..., description="身分")
+
+class LoginRequest(BaseModel):
+    phone: str = Field(..., description="手機號碼")
+    password: str = Field(..., description="密碼")
 
 # 4. 註冊 API 端點
 @app.post("/api/register")
@@ -66,6 +70,35 @@ def register_user(user: RegisterRequest):
                 "role": user.role
             }
         }
+    finally:
+        connection.close()
+
+# 5. 登入 API 端點
+@app.post("/api/login")
+def login_user(user: LoginRequest):
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            # 根據手機號碼查詢使用者
+            sql_check = "SELECT * FROM users WHERE phone = %s"
+            cursor.execute(sql_check, (user.phone,))
+            db_user = cursor.fetchone()
+            
+            if not db_user:
+                raise HTTPException(status_code=400, detail="此手機號碼尚未註冊！")
+            
+            # 驗證密碼（使用 bcrypt 比對雜湊密碼）
+            stored_password = db_user["password"].encode('utf-8')
+            if not bcrypt.checkpw(user.password.encode('utf-8'), stored_password):
+                raise HTTPException(status_code=400, detail="密碼錯誤！")
+            
+            # 登入成功，回傳使用者的真實暱稱與身分
+            return {
+                "status": "success",
+                "message": "登入成功！",
+                "nickname": db_user["nickname"],
+                "role": db_user["role"]
+            }
     finally:
         connection.close()
 
