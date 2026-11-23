@@ -12,7 +12,6 @@ import pymysql
 
 app = FastAPI(title="日常發票載具之個人碳足跡與隱形碳成本智慧盤查推估系統")
 
-# 1. 設定 CORS (允許來自 Vercel 雲端前端與本機的跨網域呼叫)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -21,7 +20,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 2. 連線 MySQL 資料庫的函式 (自動適配 Railway 雲端環境變數或本機環境)
 def get_db_connection():
     return pymysql.connect(
         host=os.getenv("DB_HOST", os.getenv("MYSQLHOST", "localhost")),
@@ -33,7 +31,6 @@ def get_db_connection():
         cursorclass=pymysql.cursors.DictCursor,
     )
 
-# 3. 定義前端傳入的註冊、登入與發票資料格式
 class RegisterRequest(BaseModel):
     phone: str = Field(..., description="手機號碼")
     password: str = Field(..., description="密碼")
@@ -73,7 +70,6 @@ class InvoiceCreateRequest(BaseModel):
     source_type: str = Field("qr", description="來源類型")
     items: list[InvoiceItemInput] = Field(default_factory=list, description="逐項商品明細")
 
-# 4. 註冊 API 端點
 @app.post("/api/register")
 def register_user(user: RegisterRequest):
     connection = get_db_connection()
@@ -108,7 +104,6 @@ def register_user(user: RegisterRequest):
     finally:
         connection.close()
 
-# 5. 登入 API 端點
 @app.post("/api/login")
 def login_user(user: LoginRequest):
     connection = get_db_connection()
@@ -134,7 +129,6 @@ def login_user(user: LoginRequest):
     finally:
         connection.close()
 
-# 6. 碳足跡係數、非實物排除與統編自動查詢設定
 ITEM_CARBON_FACTORS = {
     "牛肉": 0.0270,
     "豬肉": 0.0072,
@@ -277,19 +271,23 @@ def lookup_merchant_category(
 
     return None, default_category
 
-# 7. 發票內容解析工具與 API 端點
+# 通用的 Base64 / UTF-8 / Big5 / CP950 自動解碼函式（不寫死任何商品名稱）
 def decode_text_safely(text: str) -> str:
     cleaned = text.strip()
     if not cleaned:
         return ""
 
-    if len(cleaned) >= 8 and len(cleaned) % 4 == 0 and re.fullmatch(r"[A-Za-z0-9+/=]+", cleaned):
+    if len(cleaned) >= 4 and len(cleaned) % 4 == 0 and re.fullmatch(r"[A-Za-z0-9+/=]+", cleaned):
         try:
             decoded_bytes = base64.b64decode(cleaned, validate=True)
             for enc in ("utf-8", "big5", "cp950"):
                 try:
                     decoded_str = decoded_bytes.decode(enc).strip()
-                    if decoded_str and all(ord(ch) >= 32 or ch in "\r\n\t" for ch in decoded_str):
+                    if (
+                        decoded_str
+                        and "\ufffd" not in decoded_str
+                        and all(ord(ch) >= 32 or ch in "\r\n\t" for ch in decoded_str)
+                    ):
                         return decoded_str
                 except UnicodeDecodeError:
                     continue
@@ -416,7 +414,7 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
     items = []
     idx = 0
     while idx + 2 < len(filtered_tokens):
-        name_candidate = filtered_tokens[idx].strip()
+        name_candidate = decode_text_safely(filtered_tokens[idx]).strip()
         qty_candidate = filtered_tokens[idx + 1].strip()
         price_candidate = filtered_tokens[idx + 2].strip()
 
@@ -514,7 +512,6 @@ def extract_invoice(req: InvoiceExtractRequest):
         if conn is not None:
             conn.close()
 
-# 8. 雲端發票持久化 CRUD 端點（綁定帳號手機號碼 phone）
 @app.post("/api/invoices")
 def create_invoice(req: InvoiceCreateRequest):
     phone_clean = req.phone.strip()
@@ -578,7 +575,7 @@ def create_invoice(req: InvoiceCreateRequest):
                 item_rows = [
                     (
                         invoice_id,
-                        it.item_name,
+                        decode_text_safely(it.item_name).strip(),
                         it.quantity,
                         it.unit_price,
                         it.amount,
@@ -642,7 +639,7 @@ def list_invoices(phone: str = Query(..., description="會員手機號碼")):
         for item in all_items:
             items_by_inv[item["invoice_id"]].append(
                 {
-                    "item_name": item["item_name"],
+                    "item_name": decode_text_safely(item["item_name"]).strip(),
                     "quantity": float(item["quantity"]),
                     "unit_price": float(item["unit_price"]),
                     "amount": float(item["amount"]),
