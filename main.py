@@ -2,6 +2,8 @@ import os
 import base64
 import json
 import re
+import urllib.request
+import urllib.parse
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -109,7 +111,7 @@ def login_user(user: LoginRequest):
     finally:
         connection.close()
 
-# 6. 碳足跡係數、店家統編對照與類別推估設定
+# 6. 碳足跡係數、字軌類別與統編自動查詢設定
 ITEM_CARBON_FACTORS = {
     "牛肉": 0.0270,
     "豬肉": 0.0072,
@@ -126,15 +128,9 @@ ITEM_CARBON_FACTORS = {
 
 CATEGORY_INTENSITY = {
     "餐飲食品": 0.0022,
+    "餐飲消費": 0.0022,
     "便利商店": 0.0018,
     "一般消費": 0.0015,
-}
-
-MERCHANT_TAX_MAP: dict[str, tuple[str, str]] = {
-    # 可依常掃發票補上賣方統編 -> (店家名稱, 消費類別)
-    # "56801904": ("蝦皮購物", "一般消費"),
-    # "22099131": ("統一超商 (7-ELEVEN)", "便利商店"),
-    # "22555003": ("全家便利商店", "便利商店"),
 }
 
 TRACK_CATEGORY_MAP: dict[str, str] = {
@@ -150,33 +146,85 @@ def estimate_item_carbon(item_name: str, amount: float) -> float:
             return round(amount * factor, 4)
     return round(amount * CATEGORY_INTENSITY["一般消費"], 4)
 
+def fetch_merchant_from_public_api(seller_tax_id: str) -> tuple[str | None, str | None]:
+    """依 8 碼賣方統編向公開營業人資料查詢店名與消費類別"""
+    if not re.fullmatch(r"\d{8}", seller_tax_id):
+        return None, None
+
+    url = (
+        "https://data.gcis.nat.gov.tw/od/data/api/5F64D864-61CB-4D0D-8AD9-492047CC1EA6"
+        f"?$format=json&$filter=Business_Accounting_NO%20eq%20{urllib.parse.quote(seller_tax_id)}&$skip=0&$top=1"
+    )
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=4) as resp:
+            payload = json.loads(resp.read().decode("utf-8"))
+            if isinstance(payload, list) and len(payload) > 0:
+                row = payload[0]
+                name = (
+                    row.get("Business_Name")
+                    or row.get("Company_Name")
+                    or ""
+                ).strip()
+                industry = str(row.get("Industry") or row.get("Business_Item") or "")
+                category = (
+                    "餐飲消費"
+                    if any(k in industry for k in ("餐飲", "食品", "飲料", "咖啡"))
+                    else "一般消費"
+                )
+                if name:
+                    return name, category
+    except Exception:
+        pass
+    return None, None
+
 def lookup_merchant_category(
     seller_tax_id: str | None,
     invoice_number: str = "",
     connection=None,
 ) -> tuple[str | None, str]:
-    """查詢資料庫、統編對照表或字軌預設類別，回傳 (店家名稱或None, 消費類別)"""
+    """先查資料庫快取；查不到則自動查詢公開資料並寫入 merchant_categories"""
     prefix = invoice_number[:2].strip().upper() if len(invoice_number) >= 2 else ""
     default_category = TRACK_CATEGORY_MAP.get(prefix, "一般消費")
 
-    if seller_tax_id:
-        tax_key = seller_tax_id.strip()
+    if not seller_tax_id:
+        return None, default_category
+
+    tax_key = seller_tax_id.strip()
+
+    if connection is not None:
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "SELECT merchant_name, category_name FROM merchant_categories WHERE seller_tax_id = %s LIMIT 1",
+                    (tax_key,),
+                )
+                row = cursor.fetchone()
+                if row and row.get("merchant_name"):
+                    return row["merchant_name"], row.get("category_name") or default_category
+        except Exception:
+            pass
+
+    fetched_name, fetched_cat = fetch_merchant_from_public_api(tax_key)
+    if fetched_name:
+        final_cat = fetched_cat or default_category
         if connection is not None:
             try:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT merchant_name, category_name FROM merchant_categories WHERE seller_tax_id = %s LIMIT 1",
-                        (tax_key,),
+                        """
+                        INSERT INTO merchant_categories (seller_tax_id, merchant_name, category_name)
+                        VALUES (%s, %s, %s)
+                        ON DUPLICATE KEY UPDATE
+                            merchant_name = VALUES(merchant_name),
+                            category_name = VALUES(category_name)
+                        """,
+                        (tax_key, fetched_name, final_cat),
                     )
-                    row = cursor.fetchone()
-                    if row and row.get("merchant_name"):
-                        return row["merchant_name"], row.get("category_name") or default_category
+                connection.commit()
             except Exception:
                 pass
-
-        if tax_key in MERCHANT_TAX_MAP:
-            mapped_name, mapped_cat = MERCHANT_TAX_MAP[tax_key]
-            return mapped_name, mapped_cat or default_category
+        return fetched_name, final_cat
 
     return None, default_category
 
@@ -256,7 +304,6 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
     if not raw:
         raise ValueError("發票內容為空，無法解析")
 
-    # 手動輸入模式（前端傳入 JSON: invoiceType, invoiceDate, invoiceNumber, totalAmount, randomCode）
     if source_type == "manual":
         try:
             payload = json.loads(raw)
