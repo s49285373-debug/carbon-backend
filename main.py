@@ -4,7 +4,7 @@ import json
 import re
 import urllib.request
 import urllib.parse
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 import bcrypt
@@ -33,7 +33,7 @@ def get_db_connection():
         cursorclass=pymysql.cursors.DictCursor,
     )
 
-# 3. 定義前端傳入的註冊、登入與發票解析資料格式
+# 3. 定義前端傳入的註冊、登入與發票資料格式
 class RegisterRequest(BaseModel):
     phone: str = Field(..., description="手機號碼")
     password: str = Field(..., description="密碼")
@@ -49,6 +49,29 @@ class InvoiceExtractRequest(BaseModel):
     invoice_type: str = Field("electronic", description="發票類型：electronic 或 traditional")
     source_type: str = Field("qr", description="來源類型：qr、qr_simulated 或 manual")
     qr_raw_data: str = Field(..., description="發票 QR Code 原始字串或手動輸入 JSON")
+
+class InvoiceItemInput(BaseModel):
+    item_name: str
+    quantity: float = 1.0
+    unit_price: float = 0.0
+    amount: float = 0.0
+    carbon_kg: float = 0.0
+
+class InvoiceCreateRequest(BaseModel):
+    phone: str = Field(..., description="會員手機號碼")
+    invoice_number: str = Field(..., description="發票字軌號碼")
+    purchase_date: str | None = Field(None, description="購買日期 YYYY/MM/DD")
+    random_code: str | None = Field(None, description="隨機碼")
+    seller_tax_id: str | None = Field(None, description="賣方統一編號")
+    merchant_name: str = Field(..., description="店家與類別顯示字串")
+    store_name: str | None = Field(None, description="店家名稱")
+    category_name: str = Field("一般消費", description="消費類別")
+    total_amount: float = Field(0.0, description="發票總金額")
+    carbon_kg: float = Field(0.0, description="碳足跡 kg CO2e")
+    hidden_carbon_cost: float = Field(0.0, description="隱形碳成本 元")
+    calc_label: str | None = Field(None, description="計算方式說明")
+    source_type: str = Field("qr", description="來源類型")
+    items: list[InvoiceItemInput] = Field(default_factory=list, description="逐項商品明細")
 
 # 4. 註冊 API 端點
 @app.post("/api/register")
@@ -139,6 +162,16 @@ TRACK_CATEGORY_MAP: dict[str, str] = {
 }
 
 HIDDEN_CARBON_COST_PER_KG = 3.2  # 每公斤 CO2e 隱形碳成本（元/kg CO2e）
+
+def format_date_slash(date_str: str | None) -> str | None:
+    """將 YYYY-MM-DD 或 YYYY/MM/DD 統一格式化為 YYYY/MM/DD"""
+    if not date_str:
+        return None
+    cleaned = date_str.strip().replace("-", "/")
+    if re.fullmatch(r"\d{4}/\d{1,2}/\d{1,2}", cleaned):
+        parts = cleaned.split("/")
+        return f"{int(parts[0]):04d}/{int(parts[1]):02d}/{int(parts[2]):02d}"
+    return cleaned
 
 def estimate_item_carbon(item_name: str, amount: float) -> float:
     for kw, factor in ITEM_CARBON_FACTORS.items():
@@ -250,14 +283,14 @@ def decode_text_safely(text: str) -> str:
 
     return cleaned
 
-def parse_roc_date_to_iso(roc_7digits: str) -> str | None:
-    """將民國 7 碼日期（如 1150920）轉為西元日期（如 2026-09-20）"""
+def parse_roc_date_to_slash(roc_7digits: str) -> str | None:
+    """將民國 7 碼日期（如 1150920）轉為 YYYY/MM/DD（如 2026/09/20）"""
     if len(roc_7digits) == 7 and roc_7digits.isdigit():
         roc_year = int(roc_7digits[0:3])
         month = int(roc_7digits[3:5])
         day = int(roc_7digits[5:7])
         if 1 <= month <= 12 and 1 <= day <= 31:
-            return f"{roc_year + 1911:04d}-{month:02d}-{day:02d}"
+            return f"{roc_year + 1911:04d}/{month:02d}/{day:02d}"
     return None
 
 def parse_qr_header_amount(header: str) -> float:
@@ -313,9 +346,10 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
         invoice_number = str(
             payload.get("invoiceNumber") or payload.get("invoice_number") or ""
         ).strip().upper()
-        purchase_date = str(
+        raw_date = str(
             payload.get("invoiceDate") or payload.get("purchase_date") or ""
         ).strip() or None
+        purchase_date = format_date_slash(raw_date)
         random_code = str(
             payload.get("randomCode") or payload.get("random_code") or ""
         ).strip() or None
@@ -346,6 +380,7 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
             "random_code": random_code,
             "seller_tax_id": seller_tax_id,
             "merchant_name": merchant_name,
+            "store_name": merchant_raw,
             "category_name": category_name,
             "total_amount": total_amount,
             "carbon_kg": carbon_kg,
@@ -360,7 +395,7 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
 
     invoice_number = header[0:10].strip().upper() if len(header) >= 10 else ""
     roc_date = header[10:17].strip() if len(header) >= 17 else ""
-    purchase_date = parse_roc_date_to_iso(roc_date)
+    purchase_date = parse_roc_date_to_slash(roc_date)
     random_code = header[17:21].strip() if len(header) >= 21 else ""
     seller_tax_id = header[45:53].strip() if len(header) >= 53 else ""
     header_amount = parse_qr_header_amount(header)
@@ -426,6 +461,7 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
         "random_code": random_code or None,
         "seller_tax_id": seller_tax_id or None,
         "merchant_name": merchant_name,
+        "store_name": merchant_raw,
         "category_name": category_name,
         "total_amount": total_amount,
         "carbon_kg": carbon_kg,
@@ -456,6 +492,188 @@ def extract_invoice(req: InvoiceExtractRequest):
     finally:
         if conn is not None:
             conn.close()
+
+# 8. 雲端發票持久化 CRUD 端點（綁定帳號手機號碼 phone）
+@app.post("/api/invoices")
+def create_invoice(req: InvoiceCreateRequest):
+    phone_clean = req.phone.strip()
+    inv_no_clean = req.invoice_number.strip().upper()
+    if not phone_clean or not inv_no_clean:
+        raise HTTPException(status_code=400, detail="缺少手機號碼或發票號碼")
+
+    formatted_date = format_date_slash(req.purchase_date) or ""
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cursor:
+            sql_insert_inv = """
+                INSERT INTO invoices (
+                    phone, invoice_number, purchase_date, random_code,
+                    seller_tax_id, merchant_name, store_name, category_name,
+                    total_amount, carbon_kg, hidden_carbon_cost, calc_label, source_type
+                )
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    id = LAST_INSERT_ID(id),
+                    purchase_date = VALUES(purchase_date),
+                    random_code = VALUES(random_code),
+                    seller_tax_id = VALUES(seller_tax_id),
+                    merchant_name = VALUES(merchant_name),
+                    store_name = VALUES(store_name),
+                    category_name = VALUES(category_name),
+                    total_amount = VALUES(total_amount),
+                    carbon_kg = VALUES(carbon_kg),
+                    hidden_carbon_cost = VALUES(hidden_carbon_cost),
+                    calc_label = VALUES(calc_label),
+                    source_type = VALUES(source_type)
+            """
+            cursor.execute(
+                sql_insert_inv,
+                (
+                    phone_clean,
+                    inv_no_clean,
+                    formatted_date,
+                    req.random_code,
+                    req.seller_tax_id,
+                    req.merchant_name,
+                    req.store_name,
+                    req.category_name,
+                    req.total_amount,
+                    req.carbon_kg,
+                    req.hidden_carbon_cost,
+                    req.calc_label,
+                    req.source_type,
+                ),
+            )
+            invoice_id = cursor.lastrowid
+
+            cursor.execute("DELETE FROM invoice_items WHERE invoice_id = %s", (invoice_id,))
+            if req.items:
+                sql_insert_item = """
+                    INSERT INTO invoice_items (
+                        invoice_id, item_name, quantity, unit_price, amount, carbon_kg
+                    )
+                    VALUES (%s, %s, %s, %s, %s, %s)
+                """
+                item_rows = [
+                    (
+                        invoice_id,
+                        it.item_name,
+                        it.quantity,
+                        it.unit_price,
+                        it.amount,
+                        it.carbon_kg,
+                    )
+                    for it in req.items
+                ]
+                cursor.executemany(sql_insert_item, item_rows)
+
+            conn.commit()
+
+        return {
+            "status": "success",
+            "message": "發票已儲存至雲端資料庫",
+            "data": {
+                "id": invoice_id,
+                "phone": phone_clean,
+                "invoice_number": inv_no_clean,
+                "purchase_date": formatted_date,
+            },
+        }
+    finally:
+        conn.close()
+
+@app.get("/api/invoices")
+def list_invoices(phone: str = Query(..., description="會員手機號碼")):
+    phone_clean = phone.strip()
+    if not phone_clean:
+        raise HTTPException(status_code=400, detail="請提供手機號碼")
+
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT * FROM invoices
+                WHERE phone = %s
+                ORDER BY id DESC
+                """,
+                (phone_clean,),
+            )
+            invoices = cursor.fetchall()
+
+            if not invoices:
+                return {"status": "success", "data": []}
+
+            invoice_ids = [inv["id"] for inv in invoices]
+            placeholders = ",".join(["%s"] * len(invoice_ids))
+            cursor.execute(
+                f"""
+                SELECT id, invoice_id, item_name, quantity, unit_price, amount, carbon_kg
+                FROM invoice_items
+                WHERE invoice_id IN ({placeholders})
+                ORDER BY id ASC
+                """,
+                invoice_ids,
+            )
+            all_items = cursor.fetchall()
+
+        items_by_inv: dict[int, list[dict]] = {inv_id: [] for inv_id in invoice_ids}
+        for item in all_items:
+            items_by_inv[item["invoice_id"]].append(
+                {
+                    "item_name": item["item_name"],
+                    "quantity": float(item["quantity"]),
+                    "unit_price": float(item["unit_price"]),
+                    "amount": float(item["amount"]),
+                    "carbon_kg": float(item["carbon_kg"]),
+                }
+            )
+
+        result = []
+        for inv in invoices:
+            result.append(
+                {
+                    "id": inv["id"],
+                    "phone": inv["phone"],
+                    "invoice_number": inv["invoice_number"],
+                    "purchase_date": format_date_slash(inv.get("purchase_date")),
+                    "random_code": inv.get("random_code"),
+                    "seller_tax_id": inv.get("seller_tax_id"),
+                    "merchant_name": inv["merchant_name"],
+                    "store_name": inv.get("store_name"),
+                    "category_name": inv["category_name"],
+                    "total_amount": float(inv["total_amount"]),
+                    "carbon_kg": float(inv["carbon_kg"]),
+                    "hidden_carbon_cost": float(inv["hidden_carbon_cost"]),
+                    "calc_label": inv.get("calc_label"),
+                    "source_type": inv.get("source_type", "qr"),
+                    "items": items_by_inv.get(inv["id"], []),
+                }
+            )
+
+        return {"status": "success", "data": result}
+    finally:
+        conn.close()
+
+@app.delete("/api/invoices/{invoice_id}")
+def delete_invoice(invoice_id: int, phone: str = Query(..., description="會員手機號碼")):
+    phone_clean = phone.strip()
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "DELETE FROM invoices WHERE id = %s AND phone = %s",
+                (invoice_id, phone_clean),
+            )
+            affected = cursor.rowcount
+            conn.commit()
+
+        if affected == 0:
+            raise HTTPException(status_code=404, detail="找不到該筆發票或無權刪除")
+
+        return {"status": "success", "message": "發票已刪除"}
+    finally:
+        conn.close()
 
 if __name__ == "__main__":
     import uvicorn
