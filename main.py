@@ -209,10 +209,21 @@ def parse_qr_header_amount(header: str) -> float:
                 return val
     return 0.0
 
+def is_valid_item_name(name: str) -> bool:
+    """過濾遮罩字元（如 ********）、空白或純數字品名"""
+    cleaned = name.strip()
+    if not cleaned:
+        return False
+    if re.fullmatch(r"\*+", cleaned):
+        return False
+    if cleaned.isdigit():
+        return False
+    return True
+
 def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None) -> dict:
     """
     解析紙本電子發票 QR Code 或手動輸入內容：
-    - 有逐項商品明細時：逐項計算碳足跡
+    - 有逐項商品明細時：逐項計算碳足跡（保留負值折扣品項）
     - 無逐項商品明細時：不產生假商品，改依總金額與預設類別係數推估碳足跡與隱形碳成本
     """
     raw = decode_text_safely(raw_data)
@@ -245,10 +256,14 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
         merchant_name, category_name = lookup_merchant_category(seller_tax_id, db_conn)
         if not merchant_name:
             prefix = invoice_number[:2] if len(invoice_number) >= 2 else "手動"
-            merchant_name = f"預設{category_name}推估（{prefix}字軌）"
+            merchant_name = (
+                f"賣方 {seller_tax_id}"
+                if seller_tax_id
+                else f"預設{category_name}推估（{prefix}字軌）"
+            )
 
         factor = CATEGORY_INTENSITY.get(category_name, CATEGORY_INTENSITY["一般消費"])
-        carbon_kg = round(total_amount * factor, 2)
+        carbon_kg = round(max(total_amount, 0.0) * factor, 2)
         hidden_carbon_cost = round(carbon_kg * HIDDEN_CARBON_COST_PER_KG, 2)
 
         return {
@@ -282,13 +297,17 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
     items = []
     idx = 0
     while idx + 2 < len(filtered_tokens):
-        name_candidate = filtered_tokens[idx]
-        qty_candidate = filtered_tokens[idx + 1]
-        price_candidate = filtered_tokens[idx + 2]
+        name_candidate = filtered_tokens[idx].strip()
+        qty_candidate = filtered_tokens[idx + 1].strip()
+        price_candidate = filtered_tokens[idx + 2].strip()
 
         try:
             qty = float(qty_candidate)
             price = float(price_candidate)
+            if not is_valid_item_name(name_candidate) or qty == 0:
+                idx += 1
+                continue
+
             amount = round(qty * price, 2)
             item_carbon = estimate_item_carbon(name_candidate, amount)
             items.append(
@@ -306,19 +325,23 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
 
     merchant_name, category_name = lookup_merchant_category(seller_tax_id, db_conn)
     if not merchant_name:
-        merchant_name = f"賣方 {seller_tax_id}" if seller_tax_id else f"合作商店（{invoice_number[:2] or 'QR'}字軌）"
+        prefix = invoice_number[:2] if len(invoice_number) >= 2 else "QR"
+        merchant_name = (
+            f"賣方 {seller_tax_id}"
+            if seller_tax_id
+            else f"預設{category_name}推估（{prefix}字軌）"
+        )
 
     if items:
-        total_amount = round(sum(item["amount"] for item in items), 2)
-        if total_amount <= 0 and header_amount > 0:
-            total_amount = header_amount
-        carbon_kg = round(sum(item["carbon_kg"] for item in items), 2)
+        items_sum = round(sum(item["amount"] for item in items), 2)
+        total_amount = header_amount if header_amount > 0 else items_sum
+        carbon_kg = round(max(sum(item["carbon_kg"] for item in items), 0.0), 2)
         hidden_carbon_cost = round(carbon_kg * HIDDEN_CARBON_COST_PER_KG, 2)
         calc_label = "逐項商品明細推估"
     else:
         total_amount = header_amount
         factor = CATEGORY_INTENSITY.get(category_name, CATEGORY_INTENSITY["一般消費"])
-        carbon_kg = round(total_amount * factor, 2)
+        carbon_kg = round(max(total_amount, 0.0) * factor, 2)
         hidden_carbon_cost = round(carbon_kg * HIDDEN_CARBON_COST_PER_KG, 2)
         calc_label = f"無逐項明細，套用預設「{category_name}」係數推估"
 
