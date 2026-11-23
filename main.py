@@ -134,7 +134,7 @@ def login_user(user: LoginRequest):
     finally:
         connection.close()
 
-# 6. 碳足跡係數、字軌類別與統編自動查詢設定
+# 6. 碳足跡係數、非實物排除與統編自動查詢設定
 ITEM_CARBON_FACTORS = {
     "牛肉": 0.0270,
     "豬肉": 0.0072,
@@ -151,6 +151,8 @@ ITEM_CARBON_FACTORS = {
     "飯糰": 0.0018,
     "便當": 0.0025,
 }
+
+NON_CARBON_KEYWORDS = ("代收", "代繳", "手續費", "跨行", "物流費", "運費")
 
 CATEGORY_INTENSITY = {
     "餐飲食品": 0.0022,
@@ -171,10 +173,9 @@ KNOWN_MERCHANT_MAP: dict[str, tuple[str, str]] = {
     "22099131": ("OK超商", "便利商店"),
 }
 
-HIDDEN_CARBON_COST_PER_KG = 3.2  # 每公斤 CO2e 隱形碳成本（元/kg CO2e）
+HIDDEN_CARBON_COST_PER_KG = 3.2
 
 def format_date_slash(date_str: str | None) -> str | None:
-    """將 YYYY-MM-DD 或 YYYY/MM/DD 統一格式化為 YYYY/MM/DD"""
     if not date_str:
         return None
     cleaned = date_str.strip().replace("-", "/")
@@ -186,13 +187,14 @@ def format_date_slash(date_str: str | None) -> str | None:
 def estimate_item_carbon(item_name: str, amount: float) -> float:
     if amount <= 0:
         return 0.0
+    if any(kw in item_name for kw in NON_CARBON_KEYWORDS):
+        return 0.0
     for kw, factor in ITEM_CARBON_FACTORS.items():
         if kw in item_name:
             return round(amount * factor, 4)
     return round(amount * CATEGORY_INTENSITY["一般消費"], 4)
 
 def fetch_merchant_from_public_api(seller_tax_id: str) -> tuple[str | None, str | None]:
-    """依 8 碼賣方統編向公開營業人資料查詢店名與消費類別"""
     if not re.fullmatch(r"\d{8}", seller_tax_id):
         return None, None
 
@@ -228,7 +230,6 @@ def lookup_merchant_category(
     invoice_number: str = "",
     connection=None,
 ) -> tuple[str | None, str]:
-    """先查資料庫快取；查不到則查內建統編表或公開資料並寫入 merchant_categories"""
     prefix = invoice_number[:2].strip().upper() if len(invoice_number) >= 2 else ""
     default_category = TRACK_CATEGORY_MAP.get(prefix, "一般消費")
 
@@ -278,7 +279,6 @@ def lookup_merchant_category(
 
 # 7. 發票內容解析工具與 API 端點
 def decode_text_safely(text: str) -> str:
-    """嘗試還原可能經過 Base64 或 Big5/UTF-8 編碼的發票文字"""
     cleaned = text.strip()
     if not cleaned:
         return ""
@@ -299,7 +299,6 @@ def decode_text_safely(text: str) -> str:
     return cleaned
 
 def parse_roc_date_to_slash(roc_7digits: str) -> str | None:
-    """將民國 7 碼日期（如 1150920）轉為 YYYY/MM/DD（如 2026/09/20）"""
     if len(roc_7digits) == 7 and roc_7digits.isdigit():
         roc_year = int(roc_7digits[0:3])
         month = int(roc_7digits[3:5])
@@ -309,7 +308,6 @@ def parse_roc_date_to_slash(roc_7digits: str) -> str | None:
     return None
 
 def parse_qr_header_amount(header: str) -> float:
-    """從 77 碼表頭第 29~37 碼（總計金額）或第 21~29 碼（銷售額）嘗試解析金額"""
     if len(header) >= 37:
         total_seg = header[29:37].strip()
         if total_seg.isdigit():
@@ -332,22 +330,16 @@ def parse_qr_header_amount(header: str) -> float:
     return 0.0
 
 def is_valid_item_name(name: str) -> bool:
-    """過濾遮罩字元（如 ********）、空白或純數字品名"""
     cleaned = name.strip()
     if not cleaned:
         return False
     if re.fullmatch(r"\*+", cleaned):
         return False
-    if cleaned.isdigit():
+    if re.fullmatch(r"-?\d+(\.\d+)?", cleaned):
         return False
     return True
 
 def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None) -> dict:
-    """
-    解析紙本電子發票 QR Code 或手動輸入內容：
-    - 有逐項商品明細時：逐項計算碳足跡（保留負值折扣品項）
-    - 無逐項商品明細時：不產生假商品，改依總金額與預設類別係數推估碳足跡與隱形碳成本
-    """
     raw = decode_text_safely(raw_data)
     if not raw:
         raise ValueError("發票內容為空，無法解析")
@@ -404,7 +396,6 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
             "items": [],
         }
 
-    # 紙本電子發票 QR Code 模式：前 77 碼為固定表頭，之後為冒號分隔明細
     header = raw[:77]
     detail_section = raw[77:] if len(raw) > 77 else ""
 
@@ -419,7 +410,6 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
     raw_tokens = [decode_text_safely(t).strip() for t in decoded_detail.split(":")]
     filtered_tokens = [t for t in raw_tokens if t != "" and not re.fullmatch(r"\*+", t)]
 
-    # 台灣電子發票左側明細開頭常見「總品項數:編碼別」
     if len(filtered_tokens) >= 2 and filtered_tokens[0].isdigit() and filtered_tokens[1] in ("0", "1", "2"):
         filtered_tokens = filtered_tokens[2:]
 
@@ -433,7 +423,7 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
         try:
             qty = float(qty_candidate)
             price = float(price_candidate)
-            if not is_valid_item_name(name_candidate) or qty == 0:
+            if not is_valid_item_name(name_candidate) or qty == 0 or price == 0:
                 idx += 1
                 continue
 
@@ -442,7 +432,7 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
             items.append(
                 {
                     "item_name": name_candidate,
-                    "quantity": qty,
+                    "quantity": abs(qty),
                     "unit_price": price,
                     "amount": amount,
                     "carbon_kg": item_carbon,
@@ -463,9 +453,20 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
     merchant_name = f"{store_label} · {category_name}"
 
     if items:
-        items_sum = round(sum(item["amount"] for item in items), 2)
-        total_amount = header_amount if header_amount > 0 else items_sum
-        carbon_kg = round(max(sum(item["carbon_kg"] for item in items), 0.0), 2)
+        raw_items_sum = round(sum(item["amount"] for item in items), 2)
+        total_amount = header_amount if header_amount > 0 else raw_items_sum
+        if total_amount > 0 and abs(total_amount - raw_items_sum) >= 1:
+            diff = round(total_amount - raw_items_sum, 2)
+            items.append(
+                {
+                    "item_name": "促銷折扣／優惠折讓" if diff < 0 else "其他加項／差額",
+                    "quantity": 1.0,
+                    "unit_price": diff,
+                    "amount": diff,
+                    "carbon_kg": 0.0,
+                }
+            )
+        carbon_kg = round(max(sum(max(item["carbon_kg"], 0.0) for item in items), 0.0), 2)
         hidden_carbon_cost = round(carbon_kg * HIDDEN_CARBON_COST_PER_KG, 2)
         calc_label = "逐項商品明細推估"
     else:
