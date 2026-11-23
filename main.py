@@ -109,7 +109,7 @@ def login_user(user: LoginRequest):
     finally:
         connection.close()
 
-# 6. 碳足跡係數與類別推估設定（依品項關鍵字或預設消費類別係數計算）
+# 6. 碳足跡係數、店家統編對照與類別推估設定
 ITEM_CARBON_FACTORS = {
     "牛肉": 0.0270,
     "豬肉": 0.0072,
@@ -130,6 +130,18 @@ CATEGORY_INTENSITY = {
     "一般消費": 0.0015,
 }
 
+MERCHANT_TAX_MAP: dict[str, tuple[str, str]] = {
+    # 可依常掃發票補上賣方統編 -> (店家名稱, 消費類別)
+    # "56801904": ("蝦皮購物", "一般消費"),
+    # "22099131": ("統一超商 (7-ELEVEN)", "便利商店"),
+    # "22555003": ("全家便利商店", "便利商店"),
+}
+
+TRACK_CATEGORY_MAP: dict[str, str] = {
+    "FT": "一般消費",
+    "FG": "餐飲消費",
+}
+
 HIDDEN_CARBON_COST_PER_KG = 3.2  # 每公斤 CO2e 隱形碳成本（元/kg CO2e）
 
 def estimate_item_carbon(item_name: str, amount: float) -> float:
@@ -138,21 +150,35 @@ def estimate_item_carbon(item_name: str, amount: float) -> float:
             return round(amount * factor, 4)
     return round(amount * CATEGORY_INTENSITY["一般消費"], 4)
 
-def lookup_merchant_category(seller_tax_id: str | None, connection=None) -> tuple[str | None, str]:
-    """若資料庫有 merchant_categories 表則查詢對應店家與類別，否則回傳預設類別"""
-    if seller_tax_id and connection is not None:
-        try:
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    "SELECT merchant_name, category_name FROM merchant_categories WHERE seller_tax_id = %s LIMIT 1",
-                    (seller_tax_id,),
-                )
-                row = cursor.fetchone()
-                if row:
-                    return row.get("merchant_name"), row.get("category_name") or "一般消費"
-        except Exception:
-            pass
-    return None, "一般消費"
+def lookup_merchant_category(
+    seller_tax_id: str | None,
+    invoice_number: str = "",
+    connection=None,
+) -> tuple[str | None, str]:
+    """查詢資料庫、統編對照表或字軌預設類別，回傳 (店家名稱或None, 消費類別)"""
+    prefix = invoice_number[:2].strip().upper() if len(invoice_number) >= 2 else ""
+    default_category = TRACK_CATEGORY_MAP.get(prefix, "一般消費")
+
+    if seller_tax_id:
+        tax_key = seller_tax_id.strip()
+        if connection is not None:
+            try:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT merchant_name, category_name FROM merchant_categories WHERE seller_tax_id = %s LIMIT 1",
+                        (tax_key,),
+                    )
+                    row = cursor.fetchone()
+                    if row and row.get("merchant_name"):
+                        return row["merchant_name"], row.get("category_name") or default_category
+            except Exception:
+                pass
+
+        if tax_key in MERCHANT_TAX_MAP:
+            mapped_name, mapped_cat = MERCHANT_TAX_MAP[tax_key]
+            return mapped_name, mapped_cat or default_category
+
+    return None, default_category
 
 # 7. 發票內容解析工具與 API 端點
 def decode_text_safely(text: str) -> str:
@@ -253,14 +279,15 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
             raw_amount = payload.get("total_amount", 0)
         total_amount = round(float(raw_amount or 0), 2)
 
-        merchant_name, category_name = lookup_merchant_category(seller_tax_id, db_conn)
-        if not merchant_name:
-            prefix = invoice_number[:2] if len(invoice_number) >= 2 else "手動"
-            merchant_name = (
-                f"賣方 {seller_tax_id}"
-                if seller_tax_id
-                else f"預設{category_name}推估（{prefix}字軌）"
-            )
+        merchant_raw, category_name = lookup_merchant_category(
+            seller_tax_id, invoice_number=invoice_number, connection=db_conn
+        )
+        store_label = (
+            merchant_raw
+            if merchant_raw
+            else (f"統編 {seller_tax_id}" if seller_tax_id else f"{invoice_number[:2] or '手動'}字軌")
+        )
+        merchant_name = f"{store_label} · {category_name}"
 
         factor = CATEGORY_INTENSITY.get(category_name, CATEGORY_INTENSITY["一般消費"])
         carbon_kg = round(max(total_amount, 0.0) * factor, 2)
@@ -323,14 +350,15 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
         except ValueError:
             idx += 1
 
-    merchant_name, category_name = lookup_merchant_category(seller_tax_id, db_conn)
-    if not merchant_name:
-        prefix = invoice_number[:2] if len(invoice_number) >= 2 else "QR"
-        merchant_name = (
-            f"賣方 {seller_tax_id}"
-            if seller_tax_id
-            else f"預設{category_name}推估（{prefix}字軌）"
-        )
+    merchant_raw, category_name = lookup_merchant_category(
+        seller_tax_id, invoice_number=invoice_number, connection=db_conn
+    )
+    store_label = (
+        merchant_raw
+        if merchant_raw
+        else (f"統編 {seller_tax_id}" if seller_tax_id else f"{invoice_number[:2] or 'QR'}字軌")
+    )
+    merchant_name = f"{store_label} · {category_name}"
 
     if items:
         items_sum = round(sum(item["amount"] for item in items), 2)
