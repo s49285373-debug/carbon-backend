@@ -140,11 +140,14 @@ ITEM_CARBON_FACTORS = {
     "豬肉": 0.0072,
     "雞": 0.0057,
     "炸雞": 0.0065,
+    "套餐": 0.0028,
     "年糕": 0.0022,
     "薯條": 0.0024,
     "奶": 0.0032,
     "茶": 0.0012,
     "咖啡": 0.0020,
+    "杯麵": 0.0021,
+    "麵": 0.0019,
     "飯糰": 0.0018,
     "便當": 0.0025,
 }
@@ -161,6 +164,13 @@ TRACK_CATEGORY_MAP: dict[str, str] = {
     "FG": "餐飲消費",
 }
 
+KNOWN_MERCHANT_MAP: dict[str, tuple[str, str]] = {
+    "80344914": ("統一超商", "便利商店"),
+    "22618874": ("全家便利商店", "便利商店"),
+    "53152396": ("萊爾富", "便利商店"),
+    "22099131": ("OK超商", "便利商店"),
+}
+
 HIDDEN_CARBON_COST_PER_KG = 3.2  # 每公斤 CO2e 隱形碳成本（元/kg CO2e）
 
 def format_date_slash(date_str: str | None) -> str | None:
@@ -174,6 +184,8 @@ def format_date_slash(date_str: str | None) -> str | None:
     return cleaned
 
 def estimate_item_carbon(item_name: str, amount: float) -> float:
+    if amount <= 0:
+        return 0.0
     for kw, factor in ITEM_CARBON_FACTORS.items():
         if kw in item_name:
             return round(amount * factor, 4)
@@ -216,7 +228,7 @@ def lookup_merchant_category(
     invoice_number: str = "",
     connection=None,
 ) -> tuple[str | None, str]:
-    """先查資料庫快取；查不到則自動查詢公開資料並寫入 merchant_categories"""
+    """先查資料庫快取；查不到則查內建統編表或公開資料並寫入 merchant_categories"""
     prefix = invoice_number[:2].strip().upper() if len(invoice_number) >= 2 else ""
     default_category = TRACK_CATEGORY_MAP.get(prefix, "一般消費")
 
@@ -239,6 +251,9 @@ def lookup_merchant_category(
             pass
 
     fetched_name, fetched_cat = fetch_merchant_from_public_api(tax_key)
+    if not fetched_name and tax_key in KNOWN_MERCHANT_MAP:
+        fetched_name, fetched_cat = KNOWN_MERCHANT_MAP[tax_key]
+
     if fetched_name:
         final_cat = fetched_cat or default_category
         if connection is not None:
@@ -400,8 +415,13 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
     seller_tax_id = header[45:53].strip() if len(header) >= 53 else ""
     header_amount = parse_qr_header_amount(header)
 
-    tokens = [decode_text_safely(t) for t in detail_section.split(":")]
-    filtered_tokens = [t for t in tokens if t != "" and not t.startswith("**")]
+    decoded_detail = decode_text_safely(detail_section)
+    raw_tokens = [decode_text_safely(t).strip() for t in decoded_detail.split(":")]
+    filtered_tokens = [t for t in raw_tokens if t != "" and not re.fullmatch(r"\*+", t)]
+
+    # 台灣電子發票左側明細開頭常見「總品項數:編碼別」
+    if len(filtered_tokens) >= 2 and filtered_tokens[0].isdigit() and filtered_tokens[1] in ("0", "1", "2"):
+        filtered_tokens = filtered_tokens[2:]
 
     items = []
     idx = 0
