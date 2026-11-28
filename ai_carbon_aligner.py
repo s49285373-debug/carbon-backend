@@ -2,7 +2,6 @@ import gc
 import json
 import math
 import os
-import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -17,7 +16,7 @@ from carbon_moenv_service import (
     get_category_averages,
     load_estimation_config,
 )
-from carbon_normalization import normalize_item_query
+from carbon_normalization import extract_measure_from_text, normalize_item_query
 
 router = APIRouter(prefix="/api/carbon/ai", tags=["AI Carbon Aligner"])
 
@@ -48,9 +47,16 @@ FOOD_HINTS = (
     "排骨",
     "肉",
     "菜",
+    "菇",
 )
 BEVERAGE_HINTS = (
     "茶",
+    "紅茶",
+    "綠茶",
+    "烏龍",
+    "奶茶",
+    "茉莉茶園",
+    "蘋果紅茶",
     "咖啡",
     "拿鐵",
     "美式",
@@ -60,6 +66,9 @@ BEVERAGE_HINTS = (
     "綠豆沙",
     "可可",
     "飲料",
+    "飲品",
+    "汽水",
+    "果汁",
     "ml",
     "毫升",
 )
@@ -234,28 +243,6 @@ def _build_chroma_collection(force_rebuild: bool = False) -> Any:
     return collection
 
 
-def _extract_amount_and_unit(item_name: str) -> Tuple[Optional[float], Optional[str]]:
-    m_weight = re.search(r"(\d+(?:\.\d+)?)\s*(公克|g|G)\b", item_name)
-    if m_weight:
-        return float(m_weight.group(1)), "g"
-
-    m_vol = re.search(r"(\d+(?:\.\d+)?)\s*(毫升|ml|mL|ML)\b", item_name)
-    if m_vol:
-        return float(m_vol.group(1)), "ml"
-
-    m_liter = re.search(r"(\d+(?:\.\d+)?)\s*(公升|l|L)\b", item_name)
-    if m_liter:
-        return float(m_liter.group(1)) * 1000.0, "ml"
-
-    tail_match = re.search(r"(\d{3,4})$", item_name.strip())
-    if tail_match:
-        val = float(tail_match.group(1))
-        if 100.0 <= val <= 2000.0:
-            return val, "ml"
-
-    return None, None
-
-
 def _compute_effective_units(
     meta: Dict[str, Any],
     quantity: float,
@@ -276,13 +263,39 @@ def _compute_effective_units(
     return float(quantity) * (float(unit_scale) if unit_scale > 0 else 1.0)
 
 
+def _compute_fallback_units(
+    quantity: float,
+    amount_val: Optional[float],
+    amount_unit: Optional[str],
+    cat_key: str,
+) -> float:
+    """低信心退回類別平均時，避免把公克/毫升數值直接當份數放大。"""
+    q = float(quantity)
+    if amount_val is not None and amount_val > 0:
+        if amount_unit == "g":
+            # 蛋類以單顆約 50g 估算；一般食材/食物以 100g 為一份估算
+            return round(amount_val / 100.0, 4) * q
+        if amount_unit == "ml":
+            # 飲品以 500ml 為一杯基準估算
+            base_ml = 500.0 if cat_key == "beverage" else 250.0
+            return round(amount_val / base_ml, 4) * q
+
+    # 若未在字串寫出單位，但 quantity 明顯是公克/毫升數值（例如誤傳 150）
+    if q >= 50.0 and cat_key in ("food", "beverage"):
+        return round(q / 100.0, 4)
+
+    return q
+
+
 def _infer_category_from_name(item_name: str, default_cat: str) -> str:
     lower = item_name.lower()
-    has_food = any(h in item_name or h in lower for h in FOOD_HINTS)
     has_bev = any(h in item_name or h in lower for h in BEVERAGE_HINTS)
+    has_food = any(h in item_name or h in lower for h in FOOD_HINTS)
+    if has_bev and not has_food:
+        return "beverage"
     if has_food and not has_bev:
         return "food"
-    if has_bev and not has_food:
+    if "紅茶" in item_name or "綠茶" in item_name or "茶" in item_name:
         return "beverage"
     return default_cat
 
@@ -429,7 +442,7 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
     feedback = _load_feedback_map()
     averages = get_category_averages()
     factors_all = get_all_emission_factors()
-    amount_val, amount_unit = _extract_amount_and_unit(req.item_name)
+    amount_val, amount_unit = extract_measure_from_text(req.item_name)
     default_cat = req.fallback_category_key if req.fallback_category_key in averages else cfg_fallback
     inferred_cat = _infer_category_from_name(
         f"{req.item_name} {norm_info['cleaned_name']} {norm_info['canonical_name']}",
@@ -553,7 +566,7 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
 
         cat_info = averages[cat_key]
         avg_kg = float(cat_info.get("avg_kg_co2e") or cat_info.get("kg_co2e") or 0.0)
-        eff_units = float(req.quantity)
+        eff_units = _compute_fallback_units(float(req.quantity), amount_val, amount_unit, cat_key)
         est_total = round(avg_kg * eff_units, 4)
         est_source = "系統估算設定檔（carbon_estimation_config.json）"
 
@@ -562,7 +575,7 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
             if category_conflict and best
             else (
                 cat_info.get("basis")
-                or f"信心分數 {confidence} 低於門檻 {threshold}，依 {cat_info.get('label', cat_key)} 類別平均係數（{avg_kg} kg CO2e）× 數量 {eff_units} 估算"
+                or f"信心分數 {confidence} 低於門檻 {threshold}，依 {cat_info.get('label', cat_key)} 類別平均係數（{avg_kg} kg CO2e）× 有效單位 {eff_units} 估算"
             )
         )
 

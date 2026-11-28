@@ -1,7 +1,7 @@
 import json
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "app" / "data"
@@ -63,6 +63,36 @@ def clean_raw_item_name(raw_name: str, cfg: Optional[Dict[str, Any]] = None) -> 
 
     text = re.sub(r"\s+", " ", text).strip()
     return text or raw_name.strip()
+
+
+def extract_measure_from_text(text: str) -> Tuple[Optional[float], Optional[str]]:
+    """從品名中抽取出公克/公斤/毫升/公升，並統一回傳 (數值, 'g' 或 'ml')。"""
+    if not text:
+        return None, None
+
+    m_kg = re.search(r"(\d+(?:\.\d+)?)\s*(公斤|kg|KG)\b", text)
+    if m_kg:
+        return float(m_kg.group(1)) * 1000.0, "g"
+
+    m_g = re.search(r"(\d+(?:\.\d+)?)\s*(公克|g|G)\b", text)
+    if m_g:
+        return float(m_g.group(1)), "g"
+
+    m_l = re.search(r"(\d+(?:\.\d+)?)\s*(公升|l|L)\b", text)
+    if m_l:
+        return float(m_l.group(1)) * 1000.0, "ml"
+
+    m_ml = re.search(r"(\d+(?:\.\d+)?)\s*(毫升|ml|mL|ML)\b", text)
+    if m_ml:
+        return float(m_ml.group(1)), "ml"
+
+    tail_match = re.search(r"(?:^|[\s\-_])(\d{3,4})$", text.strip())
+    if tail_match:
+        val = float(tail_match.group(1))
+        if 100.0 <= val <= 2000.0:
+            return val, "ml"
+
+    return None, None
 
 
 def convert_unit_to_factor(quantity: float, unit: str, cfg: Optional[Dict[str, Any]] = None) -> float:

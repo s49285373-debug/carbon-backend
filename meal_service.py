@@ -85,9 +85,9 @@ def create_meal_record(req: MealCreateRequest) -> Dict[str, Any]:
             unit_str = (ing.unit or "公克 (g)").strip()
 
             grams_val = _convert_to_grams(qty_val, unit_str)
-            is_weight_g = "g" in unit_str.lower() or "公克" in unit_str
+            is_weight_g = "g" in unit_str.lower() or "公克" in unit_str or "公斤" in unit_str.lower() or "kg" in unit_str.lower()
             query_item_str = (
-                f"{name_clean} {int(grams_val) if grams_val.is_integer() else grams_val}g"
+                f"{name_clean} {int(grams_val) if float(grams_val).is_integer() else round(grams_val, 1)}g"
                 if is_weight_g
                 else name_clean
             )
@@ -95,7 +95,7 @@ def create_meal_record(req: MealCreateRequest) -> Dict[str, Any]:
             res = align_item(
                 AlignItemRequest(
                     item_name=query_item_str,
-                    quantity=1.0 if is_weight_g else qty_val,
+                    quantity=1.0,
                     fallback_category_key=req.category_key or "food",
                 )
             )
