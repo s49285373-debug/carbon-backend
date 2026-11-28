@@ -87,7 +87,10 @@ def _get_openai_client() -> Optional[OpenAI]:
 
 def _compute_data_signature(factors: List[Dict[str, Any]], feedback: Dict[str, Any]) -> str:
     payload = json.dumps(
-        {"factors": factors, "feedback": feedback}, ensure_ascii=False, sort_keys=True
+        {"factors": factors, "feedback": feedback},
+        ensure_ascii=False,
+        sort_keys=True,
+        default=str,
     )
     return str(abs(hash(payload)))
 
