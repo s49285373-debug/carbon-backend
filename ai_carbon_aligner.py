@@ -12,8 +12,9 @@ from pydantic import BaseModel, Field
 
 from carbon_moenv_service import (
     get_all_emission_factors,
+    get_carbon_split,
     get_category_averages,
-    load_seed_data,
+    load_estimation_config,
 )
 
 router = APIRouter(prefix="/api/carbon/ai", tags=["AI Carbon Aligner"])
@@ -21,9 +22,6 @@ router = APIRouter(prefix="/api/carbon/ai", tags=["AI Carbon Aligner"])
 BASE_DIR = Path(__file__).resolve().parent
 CHROMA_DIR = BASE_DIR / "chroma_store"
 FEEDBACK_FILE = BASE_DIR / "manual_corrections.json"
-
-seed_meta = load_seed_data().get("source", {})
-CONFIDENCE_THRESHOLD = float(seed_meta.get("confidence_threshold", 0.75))
 
 FOOD_HINTS = (
     "麵",
@@ -61,6 +59,14 @@ _CACHED_COLLECTION: Any = None
 _CACHED_SIGNATURE: Optional[str] = None
 
 
+def _get_confidence_threshold() -> float:
+    cfg = load_estimation_config()
+    try:
+        return float(cfg.get("confidence_threshold", 0.75))
+    except (TypeError, ValueError):
+        return 0.75
+
+
 def _load_feedback_map() -> Dict[str, Dict[str, Any]]:
     if FEEDBACK_FILE.exists():
         try:
@@ -85,9 +91,11 @@ def _get_openai_client() -> Optional[OpenAI]:
     return OpenAI(api_key=api_key)
 
 
-def _compute_data_signature(factors: List[Dict[str, Any]], feedback: Dict[str, Any]) -> str:
+def _compute_data_signature(
+    factors: List[Dict[str, Any]], feedback: Dict[str, Any], cfg: Dict[str, Any]
+) -> str:
     payload = json.dumps(
-        {"factors": factors, "feedback": feedback},
+        {"factors": factors, "feedback": feedback, "config": cfg},
         ensure_ascii=False,
         sort_keys=True,
         default=str,
@@ -96,16 +104,20 @@ def _compute_data_signature(factors: List[Dict[str, Any]], feedback: Dict[str, A
 
 
 def _split_carbon_units(raw: Dict[str, Any]) -> Tuple[float, float, float]:
+    split = get_carbon_split()
+    direct_ratio = split["direct_ratio"]
+    hidden_ratio = split["hidden_ratio"]
+
     total_kg = float(raw.get("kg_co2e") or 0.0)
     direct_kg = (
         float(raw.get("direct_kg_co2e"))
         if raw.get("direct_kg_co2e") is not None
-        else round(total_kg * 0.70, 6)
+        else round(total_kg * direct_ratio, 6)
     )
     hidden_kg = (
         float(raw.get("hidden_supply_kg_co2e"))
         if raw.get("hidden_supply_kg_co2e") is not None
-        else round(total_kg * 0.30, 6)
+        else round(total_kg * hidden_ratio, 6)
     )
     return total_kg, direct_kg, hidden_kg
 
@@ -115,14 +127,23 @@ def _build_chroma_collection(force_rebuild: bool = False) -> Any:
 
     factors = get_all_emission_factors()
     feedback = _load_feedback_map()
-    sig = _compute_data_signature(factors, feedback)
+    cfg = load_estimation_config()
+    sig = _compute_data_signature(factors, feedback, cfg)
 
     if not force_rebuild and _CACHED_COLLECTION is not None and _CACHED_SIGNATURE == sig:
         return _CACHED_COLLECTION
 
     CHROMA_DIR.mkdir(parents=True, exist_ok=True)
     client = chromadb.PersistentClient(path=str(CHROMA_DIR))
-    collection = client.get_or_create_collection(name="moenv_emission_factors")
+    collection_name = "moenv_emission_factors"
+
+    if force_rebuild:
+        try:
+            client.delete_collection(name=collection_name)
+        except Exception:
+            pass
+
+    collection = client.get_or_create_collection(name=collection_name)
 
     ids: List[str] = []
     documents: List[str] = []
@@ -364,11 +385,17 @@ def rebuild_index() -> Dict[str, Any]:
 
 @router.post("/align-item")
 def align_item(req: AlignItemRequest) -> Dict[str, Any]:
+    threshold = _get_confidence_threshold()
+    split = get_carbon_split()
+    cfg = load_estimation_config()
+    cfg_fallback = str(cfg.get("fallback_category_key") or "food")
+
     feedback = _load_feedback_map()
     averages = get_category_averages()
     factors_all = get_all_emission_factors()
     amount_val, amount_unit = _extract_amount_and_unit(req.item_name)
-    inferred_cat = _infer_category_from_name(req.item_name, req.fallback_category_key)
+    default_cat = req.fallback_category_key if req.fallback_category_key in averages else cfg_fallback
+    inferred_cat = _infer_category_from_name(req.item_name, default_cat)
 
     if req.item_name in feedback:
         fb = feedback[req.item_name]
@@ -380,18 +407,22 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
         return {
             "item_name": req.item_name,
             "matched": True,
+            "match_mode": "manual_correction",
             "is_estimated": False,
             "label": "已對齊碳係數（人工校正記憶）",
             "confidence": 0.99,
-            "threshold": CONFIDENCE_THRESHOLD,
+            "threshold": threshold,
             "factor_code": fb["factor_code"],
             "factor_name": fb["factor_name"],
             "category_key": fb["category_key"],
             "category_label": fb["category_label"],
+            "unit_kg_co2e": base_kg,
             "effective_units": round(effective_units, 4),
             "total_kg_co2e": total_kg,
             "direct_kg_co2e": round(direct_unit * effective_units, 4),
             "hidden_carbon_cost_kg": round(hidden_unit * effective_units, 4),
+            "source": "人工校正記憶（manual_corrections.json）",
+            "basis": f"依先前人工校正紀錄對齊 {fb['factor_name']}（{base_kg} kg CO2e/{fb.get('declared_unit', '件')}）",
             "top3_candidates": [],
         }
 
@@ -454,7 +485,7 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
         best = None
         confidence = 0.0
 
-    if best is None or confidence < CONFIDENCE_THRESHOLD:
+    if best is None or confidence < threshold:
         cat_key = (
             best["category_key"]
             if (
@@ -462,33 +493,36 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
                 and best.get("category_key") in averages
                 and not (inferred_cat == "food" and best.get("category_key") == "beverage")
             )
-            else (inferred_cat if inferred_cat in averages else "food")
+            else (inferred_cat if inferred_cat in averages else default_cat)
         )
-        cat_info = averages[cat_key]
-        avg_kg = float(cat_info["avg_kg_co2e"])
+        if cat_key not in averages:
+            cat_key = next(iter(averages.keys()))
 
-        if amount_unit == "g" and amount_val:
-            eff_units = round((amount_val / 100.0) * float(req.quantity), 4)
-            est_total = round(avg_kg * eff_units * 0.35, 4)
-        else:
-            eff_units = float(req.quantity)
-            est_total = round(avg_kg * eff_units, 4)
+        cat_info = averages[cat_key]
+        avg_kg = float(cat_info.get("avg_kg_co2e") or cat_info.get("kg_co2e") or 0.0)
+        eff_units = float(req.quantity)
+        est_total = round(avg_kg * eff_units, 4)
 
         return {
             "item_name": req.item_name,
             "matched": False,
+            "match_mode": "category_average",
             "is_estimated": True,
             "label": "估算品項",
             "confidence": confidence,
-            "threshold": CONFIDENCE_THRESHOLD,
+            "threshold": threshold,
             "factor_code": None,
-            "factor_name": f"{cat_info['label']}大類平均係數",
+            "factor_name": f"{cat_info.get('label', cat_key)}大類平均係數",
             "category_key": cat_key,
-            "category_label": cat_info["label"],
+            "category_label": cat_info.get("label", cat_key),
+            "unit_kg_co2e": avg_kg,
             "effective_units": eff_units,
             "total_kg_co2e": est_total,
-            "direct_kg_co2e": round(est_total * 0.70, 4),
-            "hidden_carbon_cost_kg": round(est_total * 0.30, 4),
+            "direct_kg_co2e": round(est_total * split["direct_ratio"], 4),
+            "hidden_carbon_cost_kg": round(est_total * split["hidden_ratio"], 4),
+            "source": "系統估算設定檔（carbon_estimation_config.json）",
+            "basis": cat_info.get("basis")
+            or f"信心分數 {confidence} 低於門檻 {threshold}，依 {cat_info.get('label', cat_key)} 類別平均係數（{avg_kg} kg CO2e）× 數量 {eff_units} 估算",
             "top3_candidates": top3,
         }
 
@@ -501,24 +535,29 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
     return {
         "item_name": req.item_name,
         "matched": True,
+        "match_mode": "matched",
         "is_estimated": False,
         "label": "已對齊碳係數",
         "confidence": confidence,
-        "threshold": CONFIDENCE_THRESHOLD,
+        "threshold": threshold,
         "factor_code": best["factor_code"],
         "factor_name": best["factor_name"],
         "category_key": best["category_key"],
         "category_label": best["category_label"],
+        "unit_kg_co2e": base_kg,
         "effective_units": round(effective_units, 4),
         "total_kg_co2e": total_kg_co2e,
         "direct_kg_co2e": round(direct_unit * effective_units, 4),
         "hidden_carbon_cost_kg": round(hidden_unit * effective_units, 4),
+        "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+        "basis": f"信心分數 {confidence} ≥ 門檻 {threshold}，對齊係數 {best['factor_name']}（{base_kg} kg CO2e/{best['declared_unit']}）× 有效單位 {round(effective_units, 4)}",
         "top3_candidates": top3,
     }
 
 
 @router.post("/correct")
 def save_manual_correction(req: ManualCorrectionRequest) -> Dict[str, Any]:
+    split = get_carbon_split()
     factors = get_all_emission_factors()
     averages = get_category_averages()
 
@@ -531,6 +570,7 @@ def save_manual_correction(req: ManualCorrectionRequest) -> Dict[str, Any]:
 
     cat_key = req.category_key if req.category_key in averages else "food"
     cat_info = averages[cat_key]
+    cat_avg_kg = float(cat_info.get("avg_kg_co2e") or cat_info.get("kg_co2e") or 0.0)
 
     if chosen_factor is not None:
         total_kg = float(req.custom_kg_co2e or chosen_factor["kg_co2e"])
@@ -541,25 +581,29 @@ def save_manual_correction(req: ManualCorrectionRequest) -> Dict[str, Any]:
             "category_label": chosen_factor["category_label"],
             "kg_co2e": total_kg,
             "direct_kg_co2e": float(
-                chosen_factor.get("direct_kg_co2e") or round(total_kg * 0.70, 6)
+                chosen_factor.get("direct_kg_co2e")
+                if chosen_factor.get("direct_kg_co2e") is not None
+                else round(total_kg * split["direct_ratio"], 6)
             ),
             "hidden_supply_kg_co2e": float(
-                chosen_factor.get("hidden_supply_kg_co2e") or round(total_kg * 0.30, 6)
+                chosen_factor.get("hidden_supply_kg_co2e")
+                if chosen_factor.get("hidden_supply_kg_co2e") is not None
+                else round(total_kg * split["hidden_ratio"], 6)
             ),
             "declared_unit": chosen_factor.get("declared_unit", "件"),
             "unit_to_base_gram": float(chosen_factor.get("unit_to_base_gram", 1.0)),
             "is_weight_unit": int(chosen_factor.get("is_weight_unit", 0)),
         }
     else:
-        total_kg = float(req.custom_kg_co2e or cat_info["avg_kg_co2e"])
+        total_kg = float(req.custom_kg_co2e or cat_avg_kg)
         record = {
             "factor_code": "MANUAL-CUSTOM",
-            "factor_name": f"{cat_info['label']}手動校正係數",
+            "factor_name": f"{cat_info.get('label', cat_key)}手動校正係數",
             "category_key": cat_key,
-            "category_label": cat_info["label"],
+            "category_label": cat_info.get("label", cat_key),
             "kg_co2e": total_kg,
-            "direct_kg_co2e": round(total_kg * 0.70, 6),
-            "hidden_supply_kg_co2e": round(total_kg * 0.30, 6),
+            "direct_kg_co2e": round(total_kg * split["direct_ratio"], 6),
+            "hidden_supply_kg_co2e": round(total_kg * split["hidden_ratio"], 6),
             "declared_unit": cat_info.get("unit", "份"),
             "unit_to_base_gram": 1.0,
             "is_weight_unit": 0,

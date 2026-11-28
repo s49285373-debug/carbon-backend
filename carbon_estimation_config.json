@@ -1,0 +1,47 @@
+{
+  "confidence_threshold": 0.75,
+  "fallback_category_key": "food",
+  "carbon_split": {
+    "direct_ratio": 0.7,
+    "hidden_ratio": 0.3,
+    "basis": "依系統碳排拆算規則將總碳排量區分為直接碳足跡與供應鏈隱形碳成本"
+  },
+  "category_averages": {
+    "food": {
+      "label": "餐飲食物",
+      "kg_co2e": 1.45,
+      "unit": "份",
+      "basis": "餐飲食物類別平均估算係數（信心分數低於門檻時退回使用）"
+    },
+    "beverage": {
+      "label": "樂活飲品",
+      "kg_co2e": 0.45,
+      "unit": "杯/瓶",
+      "basis": "飲品類別平均估算係數"
+    },
+    "living": {
+      "label": "生活民生",
+      "kg_co2e": 0.8,
+      "unit": "件",
+      "basis": "生活日用品類別平均估算係數"
+    },
+    "transport": {
+      "label": "運輸交通",
+      "kg_co2e": 0.25,
+      "unit": "公里/次",
+      "basis": "交通運輸類別平均估算係數"
+    },
+    "utility": {
+      "label": "水電瓦斯",
+      "kg_co2e": 0.5,
+      "unit": "度/單位",
+      "basis": "水電能源類別平均估算係數"
+    },
+    "electronics": {
+      "label": "電子產品",
+      "kg_co2e": 5.0,
+      "unit": "件",
+      "basis": "電子設備類別平均估算係數"
+    }
+  }
+}

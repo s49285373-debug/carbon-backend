@@ -6,156 +6,6995 @@
     "confidence_threshold": 0.75
   },
   "category_averages": {
-    "utility": { "label": "水電瓦斯", "avg_kg_co2e": 0.474, "unit": "度" },
-    "food": { "label": "餐飲食物", "avg_kg_co2e": 1.45, "unit": "份" },
-    "beverage": { "label": "樂活飲品", "avg_kg_co2e": 0.32, "unit": "瓶/杯" },
-    "living": { "label": "生活民生", "avg_kg_co2e": 0.78, "unit": "件" },
-    "transport": { "label": "運輸交通", "avg_kg_co2e": 0.12, "unit": "公里" },
-    "electronics": { "label": "電子產品", "avg_kg_co2e": 18.5, "unit": "件" }
+    "utility": {
+      "label": "水電瓦斯",
+      "avg_kg_co2e": 0.474,
+      "unit": "度"
+    },
+    "food": {
+      "label": "餐飲食物",
+      "avg_kg_co2e": 1.45,
+      "unit": "份"
+    },
+    "beverage": {
+      "label": "樂活飲品",
+      "avg_kg_co2e": 0.32,
+      "unit": "瓶/杯"
+    },
+    "living": {
+      "label": "生活民生",
+      "avg_kg_co2e": 0.78,
+      "unit": "件"
+    },
+    "transport": {
+      "label": "運輸交通",
+      "avg_kg_co2e": 0.12,
+      "unit": "公里"
+    },
+    "electronics": {
+      "label": "電子產品",
+      "avg_kg_co2e": 18.5,
+      "unit": "件"
+    }
   },
   "emission_factors": [
     {
-      "factor_code": "CFP-BEV-001",
-      "factor_name": "包裝紅茶／茶飲料（每公升）",
-      "category_key": "beverage",
-      "category_label": "樂活飲品",
-      "declared_unit": "L",
+      "factor_code": "MOENV-0020",
+      "factor_name": "熱軋酸洗塗油鋼捲",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
       "unit_to_base_gram": 1000.0,
       "is_weight_unit": 1,
-      "kg_co2e": 0.58,
-      "direct_kg_co2e": 0.42,
-      "hidden_supply_kg_co2e": 0.16,
-      "keywords": ["純喫茶", "純喫茶紅", "紅茶", "麥香紅茶", "錫蘭紅茶", "瓶裝茶飲", "650ml"]
+      "kg_co2e": 2.398,
+      "direct_kg_co2e": 1.6786,
+      "hidden_supply_kg_co2e": 0.7194,
+      "keywords": [
+        "熱軋酸洗塗油鋼捲"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2013"
     },
     {
-      "factor_code": "CFP-BEV-002",
-      "factor_name": "包裝綠茶／烏龍茶飲料（每公升）",
+      "factor_code": "MOENV-0044",
+      "factor_name": "台灣自來水(2011)",
       "category_key": "beverage",
       "category_label": "樂活飲品",
-      "declared_unit": "L",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.167,
+      "direct_kg_co2e": 0.1169,
+      "hidden_supply_kg_co2e": 0.0501,
+      "keywords": [
+        "台灣自來水(2011)",
+        "台灣自來水"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2013"
+    },
+    {
+      "factor_code": "MOENV-1102",
+      "factor_name": "牛皮紙",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
       "unit_to_base_gram": 1000.0,
       "is_weight_unit": 1,
-      "kg_co2e": 0.54,
-      "direct_kg_co2e": 0.39,
+      "kg_co2e": 1.22,
+      "direct_kg_co2e": 0.854,
+      "hidden_supply_kg_co2e": 0.366,
+      "keywords": [
+        "牛皮紙"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-0068",
+      "factor_name": "自用大客車(柴油)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延人公里(pkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.0606,
+      "direct_kg_co2e": 0.04242,
+      "hidden_supply_kg_co2e": 0.01818,
+      "keywords": [
+        "自用大客車(柴油)",
+        "自用大客車",
+        "柴油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0069",
+      "factor_name": "自用小客車(汽油)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延人公里(pkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.115,
+      "direct_kg_co2e": 0.0805,
+      "hidden_supply_kg_co2e": 0.0345,
+      "keywords": [
+        "自用小客車(汽油)",
+        "自用小客車",
+        "汽油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0070",
+      "factor_name": "營業小客車(汽油)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延人公里(pkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.133,
+      "direct_kg_co2e": 0.0931,
+      "hidden_supply_kg_co2e": 0.0399,
+      "keywords": [
+        "營業小客車(汽油)",
+        "營業小客車",
+        "汽油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0071",
+      "factor_name": "機器腳踏車(汽油)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延人公里(pkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.0951,
+      "direct_kg_co2e": 0.06657,
+      "hidden_supply_kg_co2e": 0.02853,
+      "keywords": [
+        "機器腳踏車(汽油)",
+        "機器腳踏車",
+        "汽油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0072",
+      "factor_name": "食用大豆油",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.23,
+      "direct_kg_co2e": 0.861,
+      "hidden_supply_kg_co2e": 0.369,
+      "keywords": [
+        "食用大豆油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0073",
+      "factor_name": "營業大客車(市區公車及公路客運-柴油)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延人公里(pkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.0944,
+      "direct_kg_co2e": 0.06608,
+      "hidden_supply_kg_co2e": 0.02832,
+      "keywords": [
+        "營業大客車(市區公車及公路客運-柴油)",
+        "營業大客車",
+        "市區公車及公路客運",
+        "柴油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0532",
+      "factor_name": "水泥熟料",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.948,
+      "direct_kg_co2e": 0.6636,
+      "hidden_supply_kg_co2e": 0.2844,
+      "keywords": [
+        "水泥熟料"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0075",
+      "factor_name": "卜特蘭水泥(乾式)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.94,
+      "direct_kg_co2e": 0.658,
+      "hidden_supply_kg_co2e": 0.282,
+      "keywords": [
+        "卜特蘭水泥(乾式)",
+        "卜特蘭水泥",
+        "乾式"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0076",
+      "factor_name": "纖維水泥板/矽酸鈣板",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.12,
+      "direct_kg_co2e": 0.784,
+      "hidden_supply_kg_co2e": 0.336,
+      "keywords": [
+        "纖維水泥板/矽酸鈣板",
+        "纖維水泥板",
+        "矽酸鈣板"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0078",
+      "factor_name": "臺北自來水(2013)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.17,
+      "direct_kg_co2e": 0.119,
+      "hidden_supply_kg_co2e": 0.051,
+      "keywords": [
+        "臺北自來水(2013)",
+        "臺北自來水"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0108",
+      "factor_name": "燃料油使用(蒸餘油/重油使用，2012)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.98,
+      "direct_kg_co2e": 2.786,
+      "hidden_supply_kg_co2e": 1.194,
+      "keywords": [
+        "燃料油使用(蒸餘油/重油使用，2012)",
+        "燃料油使用",
+        "蒸餘油",
+        "重油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0109",
+      "factor_name": "柴油(未燃燒，2012)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.74,
+      "direct_kg_co2e": 0.518,
+      "hidden_supply_kg_co2e": 0.222,
+      "keywords": [
+        "柴油(未燃燒，2012)",
+        "柴油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0110",
+      "factor_name": "柴油(於固定源使用，2012)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.42,
+      "direct_kg_co2e": 2.394,
+      "hidden_supply_kg_co2e": 1.026,
+      "keywords": [
+        "柴油(於固定源使用，2012)",
+        "柴油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0111",
+      "factor_name": "柴油(於移動源使用，2012)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.45,
+      "direct_kg_co2e": 2.415,
+      "hidden_supply_kg_co2e": 1.035,
+      "keywords": [
+        "柴油(於移動源使用，2012)",
+        "柴油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0112",
+      "factor_name": "車用汽油(未燃燒，2012)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.65,
+      "direct_kg_co2e": 0.455,
+      "hidden_supply_kg_co2e": 0.195,
+      "keywords": [
+        "車用汽油(未燃燒，2012)",
+        "車用汽油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0113",
+      "factor_name": "車用汽油(於固定源使用，2012)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.0,
+      "direct_kg_co2e": 2.1,
+      "hidden_supply_kg_co2e": 0.9,
+      "keywords": [
+        "車用汽油(於固定源使用，2012)",
+        "車用汽油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0114",
+      "factor_name": "車用汽油(於移動源使用，2012)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.1,
+      "direct_kg_co2e": 2.17,
+      "hidden_supply_kg_co2e": 0.93,
+      "keywords": [
+        "車用汽油(於移動源使用，2012)",
+        "車用汽油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0126",
+      "factor_name": "液化石油氣(於固定源使用，2012)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.09,
+      "direct_kg_co2e": 1.463,
+      "hidden_supply_kg_co2e": 0.627,
+      "keywords": [
+        "液化石油氣(於固定源使用，2012)",
+        "液化石油氣",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0128",
+      "factor_name": "食用醋(糯米醋)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.42,
+      "direct_kg_co2e": 0.294,
+      "hidden_supply_kg_co2e": 0.126,
+      "keywords": [
+        "食用醋(糯米醋)",
+        "食用醋",
+        "糯米醋"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0129",
+      "factor_name": "營業遊覽車(柴油)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延人公里(pkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.0441,
+      "direct_kg_co2e": 0.03087,
+      "hidden_supply_kg_co2e": 0.01323,
+      "keywords": [
+        "營業遊覽車(柴油)",
+        "營業遊覽車",
+        "柴油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0130",
+      "factor_name": "自用大貨車(柴油)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延噸公里(tkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.2235,
+      "direct_kg_co2e": 0.15645,
+      "hidden_supply_kg_co2e": 0.06705,
+      "keywords": [
+        "自用大貨車(柴油)",
+        "自用大貨車",
+        "柴油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0131",
+      "factor_name": "自用小貨車(汽油)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延噸公里(tkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.7393,
+      "direct_kg_co2e": 0.51751,
+      "hidden_supply_kg_co2e": 0.22179,
+      "keywords": [
+        "自用小貨車(汽油)",
+        "自用小貨車",
+        "汽油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0132",
+      "factor_name": "自用小貨車(柴油)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延噸公里(tkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.693,
+      "direct_kg_co2e": 0.4851,
+      "hidden_supply_kg_co2e": 0.2079,
+      "keywords": [
+        "自用小貨車(柴油)",
+        "自用小貨車",
+        "柴油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-1060",
+      "factor_name": "營業小貨車(汽油)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延噸公里(tkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.683,
+      "direct_kg_co2e": 0.4781,
+      "hidden_supply_kg_co2e": 0.2049,
+      "keywords": [
+        "營業小貨車(汽油)",
+        "營業小貨車",
+        "汽油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1059",
+      "factor_name": "營業小貨車(柴油)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延噸公里(tkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.587,
+      "direct_kg_co2e": 0.4109,
+      "hidden_supply_kg_co2e": 0.1761,
+      "keywords": [
+        "營業小貨車(柴油)",
+        "營業小貨車",
+        "柴油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1058",
+      "factor_name": "營業大貨車(柴油)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延噸公里(tkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.131,
+      "direct_kg_co2e": 0.0917,
+      "hidden_supply_kg_co2e": 0.0393,
+      "keywords": [
+        "營業大貨車(柴油)",
+        "營業大貨車",
+        "柴油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1017",
+      "factor_name": "特製液糖(20公噸)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公噸(mt)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 23800.0,
+      "direct_kg_co2e": 16660.0,
+      "hidden_supply_kg_co2e": 7140.0,
+      "keywords": [
+        "特製液糖(20公噸)",
+        "特製液糖",
+        "公噸"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-0146",
+      "factor_name": "養殖石斑魚活體",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公噸(mt)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 5834.88,
+      "direct_kg_co2e": 4084.416,
+      "hidden_supply_kg_co2e": 1750.464,
+      "keywords": [
+        "養殖石斑魚活體"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0147",
+      "factor_name": "養殖石斑魚條凍",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公噸(mt)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 7072.67,
+      "direct_kg_co2e": 4950.869,
+      "hidden_supply_kg_co2e": 2121.801,
+      "keywords": [
+        "養殖石斑魚條凍"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0148",
+      "factor_name": "養殖吳郭魚冷凍魚片",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公噸(mt)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 4476.42,
+      "direct_kg_co2e": 3133.494,
+      "hidden_supply_kg_co2e": 1342.926,
+      "keywords": [
+        "養殖吳郭魚冷凍魚片"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0150",
+      "factor_name": "廢水處理排放服務(南部科學工業園區管理局-高雄園區)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公噸(mt)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.61,
+      "direct_kg_co2e": 0.427,
+      "hidden_supply_kg_co2e": 0.183,
+      "keywords": [
+        "廢水處理排放服務(南部科學工業園區管理局-高雄園區)",
+        "廢水處理排放服務",
+        "南部科學工業園區管理局",
+        "高雄園區"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0151",
+      "factor_name": "廢水處理排放服務(南部科學工業園區管理局-台南園區)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公噸(mt)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.77,
+      "direct_kg_co2e": 0.539,
+      "hidden_supply_kg_co2e": 0.231,
+      "keywords": [
+        "廢水處理排放服務(南部科學工業園區管理局-台南園區)",
+        "廢水處理排放服務",
+        "南部科學工業園區管理局",
+        "台南園區"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2014"
+    },
+    {
+      "factor_code": "MOENV-0157",
+      "factor_name": "燃料油使用(蒸餘油/重油使用，2013)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 4.02,
+      "direct_kg_co2e": 2.814,
+      "hidden_supply_kg_co2e": 1.206,
+      "keywords": [
+        "燃料油使用(蒸餘油/重油使用，2013)",
+        "燃料油使用",
+        "蒸餘油",
+        "重油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0158",
+      "factor_name": "柴油(未燃燒，2013)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.76,
+      "direct_kg_co2e": 0.532,
+      "hidden_supply_kg_co2e": 0.228,
+      "keywords": [
+        "柴油(未燃燒，2013)",
+        "柴油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0159",
+      "factor_name": "柴油(於固定源使用，2013)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.46,
+      "direct_kg_co2e": 2.422,
+      "hidden_supply_kg_co2e": 1.038,
+      "keywords": [
+        "柴油(於固定源使用，2013)",
+        "柴油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0160",
+      "factor_name": "柴油(於移動源使用，2013)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.49,
+      "direct_kg_co2e": 2.443,
+      "hidden_supply_kg_co2e": 1.047,
+      "keywords": [
+        "柴油(於移動源使用，2013)",
+        "柴油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0161",
+      "factor_name": "車用汽油(未燃燒，2013)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.69,
+      "direct_kg_co2e": 0.483,
+      "hidden_supply_kg_co2e": 0.207,
+      "keywords": [
+        "車用汽油(未燃燒，2013)",
+        "車用汽油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0162",
+      "factor_name": "車用汽油(於固定源使用，2013)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.03,
+      "direct_kg_co2e": 2.121,
+      "hidden_supply_kg_co2e": 0.909,
+      "keywords": [
+        "車用汽油(於固定源使用，2013)",
+        "車用汽油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0163",
+      "factor_name": "車用汽油(於移動源使用，2013)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.12,
+      "direct_kg_co2e": 2.184,
+      "hidden_supply_kg_co2e": 0.936,
+      "keywords": [
+        "車用汽油(於移動源使用，2013)",
+        "車用汽油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0165",
+      "factor_name": "液化石油氣(於固定源使用，2013)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.34,
+      "direct_kg_co2e": 1.638,
+      "hidden_supply_kg_co2e": 0.702,
+      "keywords": [
+        "液化石油氣(於固定源使用，2013)",
+        "液化石油氣",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-1152",
+      "factor_name": "氨水",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.12,
+      "direct_kg_co2e": 0.784,
+      "hidden_supply_kg_co2e": 0.336,
+      "keywords": [
+        "氨水"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-0230",
+      "factor_name": "硫代硫酸鈉(結晶、無水)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 4.99,
+      "direct_kg_co2e": 3.493,
+      "hidden_supply_kg_co2e": 1.497,
+      "keywords": [
+        "硫代硫酸鈉(結晶、無水)",
+        "硫代硫酸鈉",
+        "結晶",
+        "無水"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0625",
+      "factor_name": "芝麻油",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.4,
+      "direct_kg_co2e": 0.98,
+      "hidden_supply_kg_co2e": 0.42,
+      "keywords": [
+        "芝麻油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0241",
+      "factor_name": "醬油(高蛋白豆片釀造)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 849.88,
+      "direct_kg_co2e": 594.916,
+      "hidden_supply_kg_co2e": 254.964,
+      "keywords": [
+        "醬油(高蛋白豆片釀造)",
+        "醬油",
+        "高蛋白豆片釀造"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0242",
+      "factor_name": "醬油(黃豆釀造)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.68,
+      "direct_kg_co2e": 1.176,
+      "hidden_supply_kg_co2e": 0.504,
+      "keywords": [
+        "醬油(黃豆釀造)",
+        "醬油",
+        "黃豆釀造"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0243",
+      "factor_name": "醬油(黑豆釀造)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 2.22,
+      "direct_kg_co2e": 1.554,
+      "hidden_supply_kg_co2e": 0.666,
+      "keywords": [
+        "醬油(黑豆釀造)",
+        "醬油",
+        "黑豆釀造"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0245",
+      "factor_name": "養殖冷凍白蝦",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 9.37,
+      "direct_kg_co2e": 6.559,
+      "hidden_supply_kg_co2e": 2.811,
+      "keywords": [
+        "養殖冷凍白蝦"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0875",
+      "factor_name": "鮮蛋",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "顆",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.105,
+      "direct_kg_co2e": 0.0735,
+      "hidden_supply_kg_co2e": 0.0315,
+      "keywords": [
+        "鮮蛋"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0248",
+      "factor_name": "插電感應式水龍頭(H-4100LR)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 16.98,
+      "direct_kg_co2e": 11.886,
+      "hidden_supply_kg_co2e": 5.094,
+      "keywords": [
+        "插電感應式水龍頭(H-4100LR)",
+        "插電感應式水龍頭",
+        "H",
+        "LR"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0249",
+      "factor_name": "電池感應式水龍頭(HB-4100LR)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 19.41,
+      "direct_kg_co2e": 13.587,
+      "hidden_supply_kg_co2e": 5.823,
+      "keywords": [
+        "電池感應式水龍頭(HB-4100LR)",
+        "電池感應式水龍頭",
+        "HB",
+        "LR"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0260",
+      "factor_name": "不鏽鋼衛生紙架(9307S，抽取式)",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 2.53,
+      "direct_kg_co2e": 1.771,
+      "hidden_supply_kg_co2e": 0.759,
+      "keywords": [
+        "不鏽鋼衛生紙架(9307S，抽取式)",
+        "不鏽鋼衛生紙架",
+        "S",
+        "抽取式"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0290",
+      "factor_name": "水泥砂漿(1:1)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 952.0,
+      "direct_kg_co2e": 666.4,
+      "hidden_supply_kg_co2e": 285.6,
+      "keywords": [
+        "水泥砂漿(1:1)",
+        "水泥砂漿",
+        ":"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0291",
+      "factor_name": "水泥砂漿粉刷(1:1)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "平方公尺(m2)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 21.4,
+      "direct_kg_co2e": 14.98,
+      "hidden_supply_kg_co2e": 6.42,
+      "keywords": [
+        "水泥砂漿粉刷(1:1)",
+        "水泥砂漿粉刷",
+        ":"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0292",
+      "factor_name": "水泥砂漿(1:2)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 625.0,
+      "direct_kg_co2e": 437.5,
+      "hidden_supply_kg_co2e": 187.5,
+      "keywords": [
+        "水泥砂漿(1:2)",
+        "水泥砂漿",
+        ":"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0293",
+      "factor_name": "水泥砂漿粉刷(1:2)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "平方公尺(m2)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 14.1,
+      "direct_kg_co2e": 9.87,
+      "hidden_supply_kg_co2e": 4.23,
+      "keywords": [
+        "水泥砂漿粉刷(1:2)",
+        "水泥砂漿粉刷",
+        ":"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0294",
+      "factor_name": "水泥砂漿(1:3)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 437.0,
+      "direct_kg_co2e": 305.9,
+      "hidden_supply_kg_co2e": 131.1,
+      "keywords": [
+        "水泥砂漿(1:3)",
+        "水泥砂漿",
+        ":"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0295",
+      "factor_name": "水泥砂漿粉刷(1:3)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "平方公尺(m2)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 9.83,
+      "direct_kg_co2e": 6.881,
+      "hidden_supply_kg_co2e": 2.949,
+      "keywords": [
+        "水泥砂漿粉刷(1:3)",
+        "水泥砂漿粉刷",
+        ":"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0306",
+      "factor_name": "再生料-廢冰箱-廢R11冷媒(活性碳冰水機法)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 6.38,
+      "direct_kg_co2e": 4.466,
+      "hidden_supply_kg_co2e": 1.914,
+      "keywords": [
+        "再生料-廢冰箱-廢R11冷媒(活性碳冰水機法)",
+        "再生料",
+        "廢冰箱",
+        "廢R",
+        "冷媒",
+        "活性碳冰水機法"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0310",
+      "factor_name": "再生料-廢電子電器暨廢資訊物品-廢潤滑油",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.1,
+      "direct_kg_co2e": 0.07,
+      "hidden_supply_kg_co2e": 0.03,
+      "keywords": [
+        "再生料-廢電子電器暨廢資訊物品-廢潤滑油",
+        "再生料",
+        "廢電子電器暨廢資訊物品",
+        "廢潤滑油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2015"
+    },
+    {
+      "factor_code": "MOENV-0319",
+      "factor_name": "焦糖烤布丁",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "個",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.34,
+      "direct_kg_co2e": 0.238,
+      "hidden_supply_kg_co2e": 0.102,
+      "keywords": [
+        "焦糖烤布丁"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0333",
+      "factor_name": "水性水泥漆",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.33,
+      "direct_kg_co2e": 0.931,
+      "hidden_supply_kg_co2e": 0.399,
+      "keywords": [
+        "水性水泥漆"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0336",
+      "factor_name": "燃料油使用(蒸餘油/重油使用，2014)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 4.0,
+      "direct_kg_co2e": 2.8,
+      "hidden_supply_kg_co2e": 1.2,
+      "keywords": [
+        "燃料油使用(蒸餘油/重油使用，2014)",
+        "燃料油使用",
+        "蒸餘油",
+        "重油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0337",
+      "factor_name": "柴油(未燃燒，2014)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.75,
+      "direct_kg_co2e": 0.525,
+      "hidden_supply_kg_co2e": 0.225,
+      "keywords": [
+        "柴油(未燃燒，2014)",
+        "柴油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0338",
+      "factor_name": "柴油(於固定源使用，2014)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.45,
+      "direct_kg_co2e": 2.415,
+      "hidden_supply_kg_co2e": 1.035,
+      "keywords": [
+        "柴油(於固定源使用，2014)",
+        "柴油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0339",
+      "factor_name": "柴油(於移動源使用，2014)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.48,
+      "direct_kg_co2e": 2.436,
+      "hidden_supply_kg_co2e": 1.044,
+      "keywords": [
+        "柴油(於移動源使用，2014)",
+        "柴油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0340",
+      "factor_name": "車用汽油(未燃燒，2014)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.67,
+      "direct_kg_co2e": 0.469,
+      "hidden_supply_kg_co2e": 0.201,
+      "keywords": [
+        "車用汽油(未燃燒，2014)",
+        "車用汽油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0341",
+      "factor_name": "車用汽油(於固定源使用，2014)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.02,
+      "direct_kg_co2e": 2.114,
+      "hidden_supply_kg_co2e": 0.906,
+      "keywords": [
+        "車用汽油(於固定源使用，2014)",
+        "車用汽油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0342",
+      "factor_name": "車用汽油(於移動源使用，2014)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.1,
+      "direct_kg_co2e": 2.17,
+      "hidden_supply_kg_co2e": 0.93,
+      "keywords": [
+        "車用汽油(於移動源使用，2014)",
+        "車用汽油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0344",
+      "factor_name": "液化石油氣(於固定源使用，2014)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.26,
+      "direct_kg_co2e": 1.582,
+      "hidden_supply_kg_co2e": 0.678,
+      "keywords": [
+        "液化石油氣(於固定源使用，2014)",
+        "液化石油氣",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0345",
+      "factor_name": "煤油使用(2014)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.02,
+      "direct_kg_co2e": 2.114,
+      "hidden_supply_kg_co2e": 0.906,
+      "keywords": [
+        "煤油使用(2014)",
+        "煤油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0363",
+      "factor_name": "國內海運貨物運輸服務(柴油動力)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延噸公里(tkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.0334,
+      "direct_kg_co2e": 0.02338,
+      "hidden_supply_kg_co2e": 0.01002,
+      "keywords": [
+        "國內海運貨物運輸服務(柴油動力)",
+        "國內海運貨物運輸服務",
+        "柴油動力"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0364",
+      "factor_name": "國內海運貨物運輸服務(燃料油動力)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延噸公里(tkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.0354,
+      "direct_kg_co2e": 0.02478,
+      "hidden_supply_kg_co2e": 0.01062,
+      "keywords": [
+        "國內海運貨物運輸服務(燃料油動力)",
+        "國內海運貨物運輸服務",
+        "燃料油動力"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0365",
+      "factor_name": "國際海運貨物運輸服務(燃料油動力)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延噸公里(tkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.0198,
+      "direct_kg_co2e": 0.01386,
+      "hidden_supply_kg_co2e": 0.00594,
+      "keywords": [
+        "國際海運貨物運輸服務(燃料油動力)",
+        "國際海運貨物運輸服務",
+        "燃料油動力"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0366",
+      "factor_name": "蔗糖",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.37,
+      "direct_kg_co2e": 0.259,
+      "hidden_supply_kg_co2e": 0.111,
+      "keywords": [
+        "蔗糖"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0367",
+      "factor_name": "糖蜜",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.32,
+      "direct_kg_co2e": 0.224,
+      "hidden_supply_kg_co2e": 0.096,
+      "keywords": [
+        "糖蜜"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0368",
+      "factor_name": "混凝土及水泥砂漿用水淬高爐爐碴粉(散裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公噸(mt)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 50.44,
+      "direct_kg_co2e": 35.308,
+      "hidden_supply_kg_co2e": 15.132,
+      "keywords": [
+        "混凝土及水泥砂漿用水淬高爐爐碴粉(散裝)",
+        "混凝土及水泥砂漿用水淬高爐爐碴粉",
+        "散裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0369",
+      "factor_name": "混凝土及水泥砂漿用水淬高爐爐碴粉(太空包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公噸(mt)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 54.73,
+      "direct_kg_co2e": 38.311,
+      "hidden_supply_kg_co2e": 16.419,
+      "keywords": [
+        "混凝土及水泥砂漿用水淬高爐爐碴粉(太空包裝)",
+        "混凝土及水泥砂漿用水淬高爐爐碴粉",
+        "太空包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-1031",
+      "factor_name": "卜特蘭高爐爐碴水泥(散裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公噸(mt)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 604.0,
+      "direct_kg_co2e": 422.8,
+      "hidden_supply_kg_co2e": 181.2,
+      "keywords": [
+        "卜特蘭高爐爐碴水泥(散裝)",
+        "卜特蘭高爐爐碴水泥",
+        "散裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-0373",
+      "factor_name": "卜特蘭高爐爐碴水泥(太空包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公噸(mt)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 516.86,
+      "direct_kg_co2e": 361.802,
+      "hidden_supply_kg_co2e": 155.058,
+      "keywords": [
+        "卜特蘭高爐爐碴水泥(太空包裝)",
+        "卜特蘭高爐爐碴水泥",
+        "太空包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0374",
+      "factor_name": "新型高爐水泥(50kg，紙袋裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 22.97,
+      "direct_kg_co2e": 16.079,
+      "hidden_supply_kg_co2e": 6.891,
+      "keywords": [
+        "新型高爐水泥(50kg，紙袋裝)",
+        "新型高爐水泥",
+        "kg",
+        "紙袋裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0386",
+      "factor_name": "大豆沙拉油 (0.6 L)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.895,
+      "direct_kg_co2e": 0.6265,
+      "hidden_supply_kg_co2e": 0.2685,
+      "keywords": [
+        "大豆沙拉油 (0.6 L)",
+        "大豆沙拉油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0387",
+      "factor_name": "大豆沙拉油 (2 L)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.07,
+      "direct_kg_co2e": 2.149,
+      "hidden_supply_kg_co2e": 0.921,
+      "keywords": [
+        "大豆沙拉油 (2 L)",
+        "大豆沙拉油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0388",
+      "factor_name": "大豆沙拉油 (2.6 L)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.87,
+      "direct_kg_co2e": 2.709,
+      "hidden_supply_kg_co2e": 1.161,
+      "keywords": [
+        "大豆沙拉油 (2.6 L)",
+        "大豆沙拉油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0389",
+      "factor_name": "大豆沙拉油 (3 L)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 4.45,
+      "direct_kg_co2e": 3.115,
+      "hidden_supply_kg_co2e": 1.335,
+      "keywords": [
+        "大豆沙拉油 (3 L)",
+        "大豆沙拉油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0390",
+      "factor_name": "大豆沙拉油 (18 L)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "桶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 27.7,
+      "direct_kg_co2e": 19.39,
+      "hidden_supply_kg_co2e": 8.31,
+      "keywords": [
+        "大豆沙拉油 (18 L)",
+        "大豆沙拉油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0391",
+      "factor_name": "大豆沙拉油 (18 kg)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "桶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 30.4,
+      "direct_kg_co2e": 21.28,
+      "hidden_supply_kg_co2e": 9.12,
+      "keywords": [
+        "大豆沙拉油 (18 kg)",
+        "大豆沙拉油",
+        "kg"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0392",
+      "factor_name": "烤酥油 (2 L)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.07,
+      "direct_kg_co2e": 2.149,
+      "hidden_supply_kg_co2e": 0.921,
+      "keywords": [
+        "烤酥油 (2 L)",
+        "烤酥油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0393",
+      "factor_name": "烤酥油 (3 L)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 4.42,
+      "direct_kg_co2e": 3.094,
+      "hidden_supply_kg_co2e": 1.326,
+      "keywords": [
+        "烤酥油 (3 L)",
+        "烤酥油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0394",
+      "factor_name": "烤酥油 (18 L)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "桶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 27.5,
+      "direct_kg_co2e": 19.25,
+      "hidden_supply_kg_co2e": 8.25,
+      "keywords": [
+        "烤酥油 (18 L)",
+        "烤酥油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0395",
+      "factor_name": "烤酥油 (18 kg)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "桶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 30.5,
+      "direct_kg_co2e": 21.35,
+      "hidden_supply_kg_co2e": 9.15,
+      "keywords": [
+        "烤酥油 (18 kg)",
+        "烤酥油",
+        "kg"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0396",
+      "factor_name": "歪頭奶瓶(240ml)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "個",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.16,
+      "direct_kg_co2e": 2.212,
+      "hidden_supply_kg_co2e": 0.948,
+      "keywords": [
+        "歪頭奶瓶(240ml)",
+        "歪頭奶瓶",
+        "ml"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0398",
+      "factor_name": "水性白膠",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.1,
+      "direct_kg_co2e": 0.77,
+      "hidden_supply_kg_co2e": 0.33,
+      "keywords": [
+        "水性白膠"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0764",
+      "factor_name": "豆漿(450ml，鋁箔包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "盒",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.38,
+      "direct_kg_co2e": 0.266,
+      "hidden_supply_kg_co2e": 0.114,
+      "keywords": [
+        "豆漿(450ml，鋁箔包裝)",
+        "豆漿",
+        "ml",
+        "鋁箔包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0748",
+      "factor_name": "奶茶(250ml，鋁箔包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.13,
+      "direct_kg_co2e": 0.091,
+      "hidden_supply_kg_co2e": 0.039,
+      "keywords": [
+        "奶茶(250ml，鋁箔包裝)",
+        "奶茶",
+        "ml",
+        "鋁箔包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0749",
+      "factor_name": "奶茶(300ml，鋁箔包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.14,
+      "direct_kg_co2e": 0.098,
+      "hidden_supply_kg_co2e": 0.042,
+      "keywords": [
+        "奶茶(300ml，鋁箔包裝)",
+        "奶茶",
+        "ml",
+        "鋁箔包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0751",
+      "factor_name": "奶茶(375ml，鋁箔包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.2,
+      "direct_kg_co2e": 0.14,
+      "hidden_supply_kg_co2e": 0.06,
+      "keywords": [
+        "奶茶(375ml，鋁箔包裝)",
+        "奶茶",
+        "ml",
+        "鋁箔包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0752",
+      "factor_name": "紅茶(250ml，鋁箔包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.1,
+      "direct_kg_co2e": 0.07,
+      "hidden_supply_kg_co2e": 0.03,
+      "keywords": [
+        "紅茶(250ml，鋁箔包裝)",
+        "紅茶",
+        "ml",
+        "鋁箔包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0753",
+      "factor_name": "紅茶(300ml，鋁箔包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.12,
+      "direct_kg_co2e": 0.084,
+      "hidden_supply_kg_co2e": 0.036,
+      "keywords": [
+        "紅茶(300ml，鋁箔包裝)",
+        "紅茶",
+        "ml",
+        "鋁箔包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0754",
+      "factor_name": "紅茶(375ml，鋁箔包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.16,
+      "direct_kg_co2e": 0.112,
+      "hidden_supply_kg_co2e": 0.048,
+      "keywords": [
+        "紅茶(375ml，鋁箔包裝)",
+        "紅茶",
+        "ml",
+        "鋁箔包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0412",
+      "factor_name": "綠茶(250ml，鋁箔包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.09,
+      "direct_kg_co2e": 0.063,
+      "hidden_supply_kg_co2e": 0.027,
+      "keywords": [
+        "綠茶(250ml，鋁箔包裝)",
+        "綠茶",
+        "ml",
+        "鋁箔包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0413",
+      "factor_name": "綠茶(300ml，鋁箔包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.1,
+      "direct_kg_co2e": 0.07,
+      "hidden_supply_kg_co2e": 0.03,
+      "keywords": [
+        "綠茶(300ml，鋁箔包裝)",
+        "綠茶",
+        "ml",
+        "鋁箔包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0420",
+      "factor_name": "麵粉",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.531,
+      "direct_kg_co2e": 0.3717,
+      "hidden_supply_kg_co2e": 0.1593,
+      "keywords": [
+        "麵粉"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-1179",
+      "factor_name": "沐浴乳",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "毫升(ml)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.001543,
+      "direct_kg_co2e": 0.00108,
+      "hidden_supply_kg_co2e": 0.000463,
+      "keywords": [
+        "沐浴乳"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2026"
+    },
+    {
+      "factor_code": "MOENV-0442",
+      "factor_name": "沐浴乳(15ml，鋁箔包裝)",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.0571,
+      "direct_kg_co2e": 0.03997,
+      "hidden_supply_kg_co2e": 0.01713,
+      "keywords": [
+        "沐浴乳(15ml，鋁箔包裝)",
+        "沐浴乳",
+        "ml",
+        "鋁箔包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0443",
+      "factor_name": "沐浴乳(30ml，軟管包裝)",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "罐",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.115,
+      "direct_kg_co2e": 0.0805,
+      "hidden_supply_kg_co2e": 0.0345,
+      "keywords": [
+        "沐浴乳(30ml，軟管包裝)",
+        "沐浴乳",
+        "ml",
+        "軟管包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0444",
+      "factor_name": "沐浴乳(30ml，瓶裝包裝)",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "罐",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.115,
+      "direct_kg_co2e": 0.0805,
+      "hidden_supply_kg_co2e": 0.0345,
+      "keywords": [
+        "沐浴乳(30ml，瓶裝包裝)",
+        "沐浴乳",
+        "ml",
+        "瓶裝包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0467",
+      "factor_name": "清麻油(300 ml)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.38,
+      "direct_kg_co2e": 0.966,
+      "hidden_supply_kg_co2e": 0.414,
+      "keywords": [
+        "清麻油(300 ml)",
+        "清麻油",
+        "ml"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0468",
+      "factor_name": "清麻油(500 ml)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.54,
+      "direct_kg_co2e": 1.778,
+      "hidden_supply_kg_co2e": 0.762,
+      "keywords": [
+        "清麻油(500 ml)",
+        "清麻油",
+        "ml"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0469",
+      "factor_name": "黑麻油(300 ml)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.38,
+      "direct_kg_co2e": 0.966,
+      "hidden_supply_kg_co2e": 0.414,
+      "keywords": [
+        "黑麻油(300 ml)",
+        "黑麻油",
+        "ml"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0470",
+      "factor_name": "黑麻油(500 ml)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.53,
+      "direct_kg_co2e": 1.771,
+      "hidden_supply_kg_co2e": 0.759,
+      "keywords": [
+        "黑麻油(500 ml)",
+        "黑麻油",
+        "ml"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2016"
+    },
+    {
+      "factor_code": "MOENV-0472",
+      "factor_name": "燃料油使用(蒸餘油/重油使用，2015)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 4.0,
+      "direct_kg_co2e": 2.8,
+      "hidden_supply_kg_co2e": 1.2,
+      "keywords": [
+        "燃料油使用(蒸餘油/重油使用，2015)",
+        "燃料油使用",
+        "蒸餘油",
+        "重油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0473",
+      "factor_name": "柴油(未燃燒，2015)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.752,
+      "direct_kg_co2e": 0.5264,
+      "hidden_supply_kg_co2e": 0.2256,
+      "keywords": [
+        "柴油(未燃燒，2015)",
+        "柴油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0474",
+      "factor_name": "柴油(於固定源使用，2015)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.45,
+      "direct_kg_co2e": 2.415,
+      "hidden_supply_kg_co2e": 1.035,
+      "keywords": [
+        "柴油(於固定源使用，2015)",
+        "柴油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0475",
+      "factor_name": "柴油(於移動源使用，2015)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.48,
+      "direct_kg_co2e": 2.436,
+      "hidden_supply_kg_co2e": 1.044,
+      "keywords": [
+        "柴油(於移動源使用，2015)",
+        "柴油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0480",
+      "factor_name": "車用汽油(未燃燒，2015)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.671,
+      "direct_kg_co2e": 0.4697,
+      "hidden_supply_kg_co2e": 0.2013,
+      "keywords": [
+        "車用汽油(未燃燒，2015)",
+        "車用汽油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0485",
+      "factor_name": "車用汽油(於固定源使用，2015)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.02,
+      "direct_kg_co2e": 2.114,
+      "hidden_supply_kg_co2e": 0.906,
+      "keywords": [
+        "車用汽油(於固定源使用，2015)",
+        "車用汽油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0490",
+      "factor_name": "車用汽油(於移動源使用，2015)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.1,
+      "direct_kg_co2e": 2.17,
+      "hidden_supply_kg_co2e": 0.93,
+      "keywords": [
+        "車用汽油(於移動源使用，2015)",
+        "車用汽油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0495",
+      "factor_name": "液化石油氣(於固定源使用，2015)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.26,
+      "direct_kg_co2e": 1.582,
+      "hidden_supply_kg_co2e": 0.678,
+      "keywords": [
+        "液化石油氣(於固定源使用，2015)",
+        "液化石油氣",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0499",
+      "factor_name": "煤油使用(2015)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.02,
+      "direct_kg_co2e": 2.114,
+      "hidden_supply_kg_co2e": 0.906,
+      "keywords": [
+        "煤油使用(2015)",
+        "煤油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0510",
+      "factor_name": "葵花油",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 5.78,
+      "direct_kg_co2e": 4.046,
+      "hidden_supply_kg_co2e": 1.734,
+      "keywords": [
+        "葵花油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0514",
+      "factor_name": "有機越光米",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.59,
+      "direct_kg_co2e": 1.113,
+      "hidden_supply_kg_co2e": 0.477,
+      "keywords": [
+        "有機越光米"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0520",
+      "factor_name": "紅茶",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 7.04,
+      "direct_kg_co2e": 4.928,
+      "hidden_supply_kg_co2e": 2.112,
+      "keywords": [
+        "紅茶"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0524",
+      "factor_name": "水梨",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.79,
+      "direct_kg_co2e": 1.253,
+      "hidden_supply_kg_co2e": 0.537,
+      "keywords": [
+        "水梨"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0528",
+      "factor_name": "未漂白牛皮紙袋和麻袋用紙",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.24,
+      "direct_kg_co2e": 0.868,
+      "hidden_supply_kg_co2e": 0.372,
+      "keywords": [
+        "未漂白牛皮紙袋和麻袋用紙"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0533",
+      "factor_name": "水泥(不分型號)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.907,
+      "direct_kg_co2e": 0.6349,
+      "hidden_supply_kg_co2e": 0.2721,
+      "keywords": [
+        "水泥(不分型號)",
+        "水泥",
+        "不分型號"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0825",
+      "factor_name": "水中混凝土(210kgf/cm2)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 359.0,
+      "direct_kg_co2e": 251.3,
+      "hidden_supply_kg_co2e": 107.7,
+      "keywords": [
+        "水中混凝土(210kgf/cm2)",
+        "水中混凝土",
+        "kgf",
+        "cm"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0543",
+      "factor_name": "水中混凝土(280kgf/cm2)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 275.0,
+      "direct_kg_co2e": 192.5,
+      "hidden_supply_kg_co2e": 82.5,
+      "keywords": [
+        "水中混凝土(280kgf/cm2)",
+        "水中混凝土",
+        "kgf",
+        "cm"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0554",
+      "factor_name": "再生料-廢輪胎-再生裂解油(未燃燒)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公秉(kl)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 310.0,
+      "direct_kg_co2e": 217.0,
+      "hidden_supply_kg_co2e": 93.0,
+      "keywords": [
+        "再生料-廢輪胎-再生裂解油(未燃燒)",
+        "再生料",
+        "廢輪胎",
+        "再生裂解油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0571",
+      "factor_name": "素沙茶醬",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.58,
+      "direct_kg_co2e": 1.106,
+      "hidden_supply_kg_co2e": 0.474,
+      "keywords": [
+        "素沙茶醬"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0573",
+      "factor_name": "鰹魚柴魚花",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 3.82,
+      "direct_kg_co2e": 2.674,
+      "hidden_supply_kg_co2e": 1.146,
+      "keywords": [
+        "鰹魚柴魚花"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0579",
+      "factor_name": "鯖魚柴魚花",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 3.63,
+      "direct_kg_co2e": 2.541,
+      "hidden_supply_kg_co2e": 1.089,
+      "keywords": [
+        "鯖魚柴魚花"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0580",
+      "factor_name": "低地板甲類市區公車運輸服務(包含營業據點及公車站點排放)",
+      "category_key": "transport",
+      "category_label": "運輸交通",
+      "declared_unit": "延人公里(pkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.0575,
+      "direct_kg_co2e": 0.04025,
+      "hidden_supply_kg_co2e": 0.01725,
+      "keywords": [
+        "低地板甲類市區公車運輸服務(包含營業據點及公車站點排放)",
+        "低地板甲類市區公車運輸服務",
+        "包含營業據點及公車站點排放"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0581",
+      "factor_name": "乙類市區公車運輸服務(包含營業據點及公車站點排放)",
+      "category_key": "transport",
+      "category_label": "運輸交通",
+      "declared_unit": "延人公里(pkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.0784,
+      "direct_kg_co2e": 0.05488,
+      "hidden_supply_kg_co2e": 0.02352,
+      "keywords": [
+        "乙類市區公車運輸服務(包含營業據點及公車站點排放)",
+        "乙類市區公車運輸服務",
+        "包含營業據點及公車站點排放"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0582",
+      "factor_name": "普通甲類市區公車運輸服務(包含營業據點及公車站點排放)",
+      "category_key": "transport",
+      "category_label": "運輸交通",
+      "declared_unit": "延人公里(pkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.0767,
+      "direct_kg_co2e": 0.05369,
+      "hidden_supply_kg_co2e": 0.02301,
+      "keywords": [
+        "普通甲類市區公車運輸服務(包含營業據點及公車站點排放)",
+        "普通甲類市區公車運輸服務",
+        "包含營業據點及公車站點排放"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0779",
+      "factor_name": "洗衣粉",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "盒",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.8,
+      "direct_kg_co2e": 2.66,
+      "hidden_supply_kg_co2e": 1.14,
+      "keywords": [
+        "洗衣粉"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0609",
+      "factor_name": "咖啡菇",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "盒",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.3,
+      "direct_kg_co2e": 0.21,
+      "hidden_supply_kg_co2e": 0.09,
+      "keywords": [
+        "咖啡菇"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0610",
+      "factor_name": "咖啡菇(斤耳)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "盒",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.278,
+      "direct_kg_co2e": 0.1946,
+      "hidden_supply_kg_co2e": 0.0834,
+      "keywords": [
+        "咖啡菇(斤耳)",
+        "咖啡菇",
+        "斤耳"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0612",
+      "factor_name": "咖啡菇(冬雪菇)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "盒",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.286,
+      "direct_kg_co2e": 0.2002,
+      "hidden_supply_kg_co2e": 0.0858,
+      "keywords": [
+        "咖啡菇(冬雪菇)",
+        "咖啡菇",
+        "冬雪菇"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0613",
+      "factor_name": "咖啡菇(杏鮑菇)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "盒",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.339,
+      "direct_kg_co2e": 0.2373,
+      "hidden_supply_kg_co2e": 0.1017,
+      "keywords": [
+        "咖啡菇(杏鮑菇)",
+        "咖啡菇",
+        "杏鮑菇"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0614",
+      "factor_name": "咖啡菇(秀珍菇)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "盒",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.288,
+      "direct_kg_co2e": 0.2016,
+      "hidden_supply_kg_co2e": 0.0864,
+      "keywords": [
+        "咖啡菇(秀珍菇)",
+        "咖啡菇",
+        "秀珍菇"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0615",
+      "factor_name": "咖啡菇(柳松菇)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "盒",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.322,
+      "direct_kg_co2e": 0.2254,
+      "hidden_supply_kg_co2e": 0.0966,
+      "keywords": [
+        "咖啡菇(柳松菇)",
+        "咖啡菇",
+        "柳松菇"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0616",
+      "factor_name": "咖啡菇(珊瑚菇)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "盒",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.282,
+      "direct_kg_co2e": 0.1974,
+      "hidden_supply_kg_co2e": 0.0846,
+      "keywords": [
+        "咖啡菇(珊瑚菇)",
+        "咖啡菇",
+        "珊瑚菇"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0617",
+      "factor_name": "咖啡菇(夏雪菇)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "盒",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.287,
+      "direct_kg_co2e": 0.2009,
+      "hidden_supply_kg_co2e": 0.0861,
+      "keywords": [
+        "咖啡菇(夏雪菇)",
+        "咖啡菇",
+        "夏雪菇"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0618",
+      "factor_name": "咖啡菇(猴頭菇)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "盒",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.341,
+      "direct_kg_co2e": 0.2387,
+      "hidden_supply_kg_co2e": 0.1023,
+      "keywords": [
+        "咖啡菇(猴頭菇)",
+        "咖啡菇",
+        "猴頭菇"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0619",
+      "factor_name": "咖啡菇(黑木耳)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "盒",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.279,
+      "direct_kg_co2e": 0.1953,
+      "hidden_supply_kg_co2e": 0.0837,
+      "keywords": [
+        "咖啡菇(黑木耳)",
+        "咖啡菇",
+        "黑木耳"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0620",
+      "factor_name": "咖啡菇(豬肚菇)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "盒",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.309,
+      "direct_kg_co2e": 0.2163,
+      "hidden_supply_kg_co2e": 0.0927,
+      "keywords": [
+        "咖啡菇(豬肚菇)",
+        "咖啡菇",
+        "豬肚菇"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0621",
+      "factor_name": "咖啡菇(鮑魚菇)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "盒",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.32,
+      "direct_kg_co2e": 0.224,
+      "hidden_supply_kg_co2e": 0.096,
+      "keywords": [
+        "咖啡菇(鮑魚菇)",
+        "咖啡菇",
+        "鮑魚菇"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0622",
+      "factor_name": "麵條",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.24,
+      "direct_kg_co2e": 0.868,
+      "hidden_supply_kg_co2e": 0.372,
+      "keywords": [
+        "麵條"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0623",
+      "factor_name": "原味關廟麵",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.85,
+      "direct_kg_co2e": 1.295,
+      "hidden_supply_kg_co2e": 0.555,
+      "keywords": [
+        "原味關廟麵"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0624",
+      "factor_name": "烏龍麵",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.85,
+      "direct_kg_co2e": 1.295,
+      "hidden_supply_kg_co2e": 0.555,
+      "keywords": [
+        "烏龍麵"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0626",
+      "factor_name": "芝麻油(543 ml)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.22,
+      "direct_kg_co2e": 0.854,
+      "hidden_supply_kg_co2e": 0.366,
+      "keywords": [
+        "芝麻油(543 ml)",
+        "芝麻油",
+        "ml"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0627",
+      "factor_name": "芝麻油(217ml)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.62,
+      "direct_kg_co2e": 0.434,
+      "hidden_supply_kg_co2e": 0.186,
+      "keywords": [
+        "芝麻油(217ml)",
+        "芝麻油",
+        "ml"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0631",
+      "factor_name": "刀削麵",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.13,
+      "direct_kg_co2e": 0.791,
+      "hidden_supply_kg_co2e": 0.339,
+      "keywords": [
+        "刀削麵"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0632",
+      "factor_name": "意麵",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.13,
+      "direct_kg_co2e": 0.791,
+      "hidden_supply_kg_co2e": 0.339,
+      "keywords": [
+        "意麵"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0633",
+      "factor_name": "拉麵",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.49,
+      "direct_kg_co2e": 1.043,
+      "hidden_supply_kg_co2e": 0.447,
+      "keywords": [
+        "拉麵"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0634",
+      "factor_name": "麵線",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.24,
+      "direct_kg_co2e": 0.868,
+      "hidden_supply_kg_co2e": 0.372,
+      "keywords": [
+        "麵線"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0635",
+      "factor_name": "營養麵條",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 7.26,
+      "direct_kg_co2e": 5.082,
+      "hidden_supply_kg_co2e": 2.178,
+      "keywords": [
+        "營養麵條"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0636",
+      "factor_name": "芋香米(台梗4號)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.4,
+      "direct_kg_co2e": 2.38,
+      "hidden_supply_kg_co2e": 1.02,
+      "keywords": [
+        "芋香米(台梗4號)",
+        "芋香米",
+        "台梗",
+        "號"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0637",
+      "factor_name": "山穀米(台梗4號)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 5.5,
+      "direct_kg_co2e": 3.85,
+      "hidden_supply_kg_co2e": 1.65,
+      "keywords": [
+        "山穀米(台梗4號)",
+        "山穀米",
+        "台梗",
+        "號"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0638",
+      "factor_name": "良質米(高雄139號品種)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 6.5,
+      "direct_kg_co2e": 4.55,
+      "hidden_supply_kg_co2e": 1.95,
+      "keywords": [
+        "良質米(高雄139號品種)",
+        "良質米",
+        "高雄",
+        "號品種"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0641",
+      "factor_name": "大捲筒衛生紙",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "捲",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.8,
+      "direct_kg_co2e": 1.26,
+      "hidden_supply_kg_co2e": 0.54,
+      "keywords": [
+        "大捲筒衛生紙"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0642",
+      "factor_name": "抽取式衛生紙(110抽)",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.4,
+      "direct_kg_co2e": 0.28,
+      "hidden_supply_kg_co2e": 0.12,
+      "keywords": [
+        "抽取式衛生紙(110抽)",
+        "抽取式衛生紙",
+        "抽"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0956",
+      "factor_name": "環保抽取式衛生紙",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.279,
+      "direct_kg_co2e": 0.1953,
+      "hidden_supply_kg_co2e": 0.0837,
+      "keywords": [
+        "環保抽取式衛生紙"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0645",
+      "factor_name": "燃料油使用(含90wt％ 生質燃料油，2015)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公秉(kl)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3140.0,
+      "direct_kg_co2e": 2198.0,
+      "hidden_supply_kg_co2e": 942.0,
+      "keywords": [
+        "燃料油使用(含90wt％ 生質燃料油，2015)",
+        "燃料油使用",
+        "含",
+        "wt％",
+        "生質燃料油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0646",
+      "factor_name": "高山烏龍茶(無烘培-部分發酵)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 5.71,
+      "direct_kg_co2e": 3.997,
+      "hidden_supply_kg_co2e": 1.713,
+      "keywords": [
+        "高山烏龍茶(無烘培-部分發酵)",
+        "高山烏龍茶",
+        "無烘培",
+        "部分發酵"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0647",
+      "factor_name": "高山烏龍茶(有烘培-部分發酵)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 7.69,
+      "direct_kg_co2e": 5.383,
+      "hidden_supply_kg_co2e": 2.307,
+      "keywords": [
+        "高山烏龍茶(有烘培-部分發酵)",
+        "高山烏龍茶",
+        "有烘培",
+        "部分發酵"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0649",
+      "factor_name": "高山烏龍茶(無烘培-完全發酵)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 6.3,
+      "direct_kg_co2e": 4.41,
+      "hidden_supply_kg_co2e": 1.89,
+      "keywords": [
+        "高山烏龍茶(無烘培-完全發酵)",
+        "高山烏龍茶",
+        "無烘培",
+        "完全發酵"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0650",
+      "factor_name": "紅殼雞蛋",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "顆",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.107,
+      "direct_kg_co2e": 0.0749,
+      "hidden_supply_kg_co2e": 0.0321,
+      "keywords": [
+        "紅殼雞蛋"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0659",
+      "factor_name": "豬肉(不帶骨)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 37.1,
+      "direct_kg_co2e": 25.97,
+      "hidden_supply_kg_co2e": 11.13,
+      "keywords": [
+        "豬肉(不帶骨)",
+        "豬肉",
+        "不帶骨"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0660",
+      "factor_name": "霜降豬肉(不帶骨)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 36.6,
+      "direct_kg_co2e": 25.62,
+      "hidden_supply_kg_co2e": 10.98,
+      "keywords": [
+        "霜降豬肉(不帶骨)",
+        "霜降豬肉",
+        "不帶骨"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0661",
+      "factor_name": "豬肋排(帶骨50％)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 36.4,
+      "direct_kg_co2e": 25.48,
+      "hidden_supply_kg_co2e": 10.92,
+      "keywords": [
+        "豬肋排(帶骨50％)",
+        "豬肋排",
+        "帶骨",
+        "％"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0662",
+      "factor_name": "豬肋排(骨頭100％)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 36.7,
+      "direct_kg_co2e": 25.69,
+      "hidden_supply_kg_co2e": 11.01,
+      "keywords": [
+        "豬肋排(骨頭100％)",
+        "豬肋排",
+        "骨頭",
+        "％"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0667",
+      "factor_name": "豬肉",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 36.9,
+      "direct_kg_co2e": 25.83,
+      "hidden_supply_kg_co2e": 11.07,
+      "keywords": [
+        "豬肉"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0668",
+      "factor_name": "燃料油使用(蒸餘油/重油使用，2016)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.96,
+      "direct_kg_co2e": 2.772,
+      "hidden_supply_kg_co2e": 1.188,
+      "keywords": [
+        "燃料油使用(蒸餘油/重油使用，2016)",
+        "燃料油使用",
+        "蒸餘油",
+        "重油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0669",
+      "factor_name": "擂茶",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.64,
+      "direct_kg_co2e": 2.548,
+      "hidden_supply_kg_co2e": 1.092,
+      "keywords": [
+        "擂茶"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0671",
+      "factor_name": "綠茶擂茶",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 4.5,
+      "direct_kg_co2e": 3.15,
+      "hidden_supply_kg_co2e": 1.35,
+      "keywords": [
+        "綠茶擂茶"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0951",
+      "factor_name": "廢(污)水處理服務(羅東地區水資源回收中心)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.34,
+      "direct_kg_co2e": 0.238,
+      "hidden_supply_kg_co2e": 0.102,
+      "keywords": [
+        "廢(污)水處理服務(羅東地區水資源回收中心)",
+        "廢",
+        "污",
+        "水處理服務",
+        "羅東地區水資源回收中心"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0673",
+      "factor_name": "蛋白質護髮霜",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.54,
+      "direct_kg_co2e": 1.078,
+      "hidden_supply_kg_co2e": 0.462,
+      "keywords": [
+        "蛋白質護髮霜"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0680",
+      "factor_name": "R45水泥混凝土",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 445.0,
+      "direct_kg_co2e": 311.5,
+      "hidden_supply_kg_co2e": 133.5,
+      "keywords": [
+        "R45水泥混凝土",
+        "R",
+        "水泥混凝土"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0681",
+      "factor_name": "氫化石油樹脂",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 2.73,
+      "direct_kg_co2e": 1.911,
+      "hidden_supply_kg_co2e": 0.819,
+      "keywords": [
+        "氫化石油樹脂"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2017"
+    },
+    {
+      "factor_code": "MOENV-0683",
+      "factor_name": "柴油(未燃燒，2016)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.735,
+      "direct_kg_co2e": 0.5145,
+      "hidden_supply_kg_co2e": 0.2205,
+      "keywords": [
+        "柴油(未燃燒，2016)",
+        "柴油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0684",
+      "factor_name": "柴油(於固定源使用，2016)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.35,
+      "direct_kg_co2e": 2.345,
+      "hidden_supply_kg_co2e": 1.005,
+      "keywords": [
+        "柴油(於固定源使用，2016)",
+        "柴油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0689",
+      "factor_name": "柴油(於公路運輸移動源使用，2016)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.38,
+      "direct_kg_co2e": 2.366,
+      "hidden_supply_kg_co2e": 1.014,
+      "keywords": [
+        "柴油(於公路運輸移動源使用，2016)",
+        "柴油",
+        "於公路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0693",
+      "factor_name": "車用汽油(未燃燒，2016)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.656,
+      "direct_kg_co2e": 0.4592,
+      "hidden_supply_kg_co2e": 0.1968,
+      "keywords": [
+        "車用汽油(未燃燒，2016)",
+        "車用汽油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0698",
+      "factor_name": "車用汽油(於固定源使用，2016)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.93,
+      "direct_kg_co2e": 2.051,
+      "hidden_supply_kg_co2e": 0.879,
+      "keywords": [
+        "車用汽油(於固定源使用，2016)",
+        "車用汽油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0703",
+      "factor_name": "車用汽油(於移動源使用，2016)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.01,
+      "direct_kg_co2e": 2.107,
+      "hidden_supply_kg_co2e": 0.903,
+      "keywords": [
+        "車用汽油(於移動源使用，2016)",
+        "車用汽油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0704",
+      "factor_name": "煤油使用(2016)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.98,
+      "direct_kg_co2e": 2.086,
+      "hidden_supply_kg_co2e": 0.894,
+      "keywords": [
+        "煤油使用(2016)",
+        "煤油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0706",
+      "factor_name": "液化石油氣(於固定源使用，2016)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.24,
+      "direct_kg_co2e": 1.568,
+      "hidden_supply_kg_co2e": 0.672,
+      "keywords": [
+        "液化石油氣(於固定源使用，2016)",
+        "液化石油氣",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0711",
+      "factor_name": "生牛皮(含養牛階段)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 4.86,
+      "direct_kg_co2e": 3.402,
+      "hidden_supply_kg_co2e": 1.458,
+      "keywords": [
+        "生牛皮(含養牛階段)",
+        "生牛皮",
+        "含養牛階段"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0712",
+      "factor_name": "生牛皮(不含養牛階段)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.27,
+      "direct_kg_co2e": 0.189,
+      "hidden_supply_kg_co2e": 0.081,
+      "keywords": [
+        "生牛皮(不含養牛階段)",
+        "生牛皮",
+        "不含養牛階段"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0713",
+      "factor_name": "水楊酸",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 2.37,
+      "direct_kg_co2e": 1.659,
+      "hidden_supply_kg_co2e": 0.711,
+      "keywords": [
+        "水楊酸"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0719",
+      "factor_name": "精製豬油",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.785,
+      "direct_kg_co2e": 0.5495,
+      "hidden_supply_kg_co2e": 0.2355,
+      "keywords": [
+        "精製豬油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0720",
+      "factor_name": "精緻牛油",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.694,
+      "direct_kg_co2e": 0.4858,
+      "hidden_supply_kg_co2e": 0.2082,
+      "keywords": [
+        "精緻牛油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0721",
+      "factor_name": "花生油",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.95,
+      "direct_kg_co2e": 1.365,
+      "hidden_supply_kg_co2e": 0.585,
+      "keywords": [
+        "花生油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0729",
+      "factor_name": "鋁質水泥",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 10.1,
+      "direct_kg_co2e": 7.07,
+      "hidden_supply_kg_co2e": 3.03,
+      "keywords": [
+        "鋁質水泥"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0733",
+      "factor_name": "以柴油動力垃圾車清除運輸一般廢棄物",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "延噸公里(tkm)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.31,
+      "direct_kg_co2e": 0.917,
+      "hidden_supply_kg_co2e": 0.393,
+      "keywords": [
+        "以柴油動力垃圾車清除運輸一般廢棄物"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0739",
+      "factor_name": "雞蛋",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "顆",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.162,
+      "direct_kg_co2e": 0.1134,
+      "hidden_supply_kg_co2e": 0.0486,
+      "keywords": [
+        "雞蛋"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0740",
+      "factor_name": "廢（污）水處理服務（中部科學工業園區台中園區污水處理廠）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.45,
+      "direct_kg_co2e": 0.315,
+      "hidden_supply_kg_co2e": 0.135,
+      "keywords": [
+        "廢（污）水處理服務（中部科學工業園區台中園區污水處理廠）",
+        "廢",
+        "污",
+        "水處理服務",
+        "中部科學工業園區台中園區污水處理廠"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0741",
+      "factor_name": "廢（污）水處理服務（高雄市楠梓污水處理廠）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.4,
+      "direct_kg_co2e": 0.28,
+      "hidden_supply_kg_co2e": 0.12,
+      "keywords": [
+        "廢（污）水處理服務（高雄市楠梓污水處理廠）",
+        "廢",
+        "污",
+        "水處理服務",
+        "高雄市楠梓污水處理廠"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0742",
+      "factor_name": "廢（污）水處理服務（中部科學工業園區管理局-虎尾園區）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.7,
+      "direct_kg_co2e": 1.19,
+      "hidden_supply_kg_co2e": 0.51,
+      "keywords": [
+        "廢（污）水處理服務（中部科學工業園區管理局-虎尾園區）",
+        "廢",
+        "污",
+        "水處理服務",
+        "中部科學工業園區管理局",
+        "虎尾園區"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0745",
+      "factor_name": "柴油（於鐵路運輸與非道路運輸移動源使用，2016）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.61,
+      "direct_kg_co2e": 2.527,
+      "hidden_supply_kg_co2e": 1.083,
+      "keywords": [
+        "柴油（於鐵路運輸與非道路運輸移動源使用，2016）",
+        "柴油",
+        "於鐵路運輸與非道路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0746",
+      "factor_name": "綠茶（250ml，鋁箔包裝）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.11,
+      "direct_kg_co2e": 0.077,
+      "hidden_supply_kg_co2e": 0.033,
+      "keywords": [
+        "綠茶（250ml，鋁箔包裝）",
+        "綠茶",
+        "ml",
+        "鋁箔包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0747",
+      "factor_name": "綠茶（300ml，鋁箔包裝）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.12,
+      "direct_kg_co2e": 0.084,
+      "hidden_supply_kg_co2e": 0.036,
+      "keywords": [
+        "綠茶（300ml，鋁箔包裝）",
+        "綠茶",
+        "ml",
+        "鋁箔包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0750",
+      "factor_name": "柴油（於水路運輸移動源使用，2016）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.37,
+      "direct_kg_co2e": 2.359,
+      "hidden_supply_kg_co2e": 1.011,
+      "keywords": [
+        "柴油（於水路運輸移動源使用，2016）",
+        "柴油",
+        "於水路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0757",
+      "factor_name": "柴油（於捕撈移動源使用，2016）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.36,
+      "direct_kg_co2e": 2.352,
+      "hidden_supply_kg_co2e": 1.008,
+      "keywords": [
+        "柴油（於捕撈移動源使用，2016）",
+        "柴油",
+        "於捕撈移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0758",
+      "factor_name": "廢（污）水處理服務（臺南市政府水利局柳營區水資源回收中心）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.5,
+      "direct_kg_co2e": 0.35,
       "hidden_supply_kg_co2e": 0.15,
-      "keywords": ["純喫茶綠", "綠茶", "原萃", "茶裏王", "烏龍茶", "青茶"]
+      "keywords": [
+        "廢（污）水處理服務（臺南市政府水利局柳營區水資源回收中心）",
+        "廢",
+        "污",
+        "水處理服務",
+        "臺南市政府水利局柳營區水資源回收中心"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
     },
     {
-      "factor_code": "CFP-BEV-003",
-      "factor_name": "現調咖啡／拿鐵飲品（每杯）",
+      "factor_code": "MOENV-0886",
+      "factor_name": "瓶裝水（600ml，PET包裝）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.14,
+      "direct_kg_co2e": 0.098,
+      "hidden_supply_kg_co2e": 0.042,
+      "keywords": [
+        "瓶裝水（600ml，PET包裝）",
+        "瓶裝水",
+        "ml",
+        "PET包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0760",
+      "factor_name": "瓶裝水(1500ml，PET包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.25,
+      "direct_kg_co2e": 0.175,
+      "hidden_supply_kg_co2e": 0.075,
+      "keywords": [
+        "瓶裝水(1500ml，PET包裝)",
+        "瓶裝水",
+        "ml",
+        "PET包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0762",
+      "factor_name": "瓶裝水(2000ml，PET包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.368,
+      "direct_kg_co2e": 0.2576,
+      "hidden_supply_kg_co2e": 0.1104,
+      "keywords": [
+        "瓶裝水(2000ml，PET包裝)",
+        "瓶裝水",
+        "ml",
+        "PET包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0772",
+      "factor_name": "綠茶洗髮精（1000ml）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 27.0,
+      "direct_kg_co2e": 18.9,
+      "hidden_supply_kg_co2e": 8.1,
+      "keywords": [
+        "綠茶洗髮精（1000ml）",
+        "綠茶洗髮精",
+        "ml"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0775",
+      "factor_name": "橄欖洗髮精（1000ml）",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 30.0,
+      "direct_kg_co2e": 21.0,
+      "hidden_supply_kg_co2e": 9.0,
+      "keywords": [
+        "橄欖洗髮精（1000ml）",
+        "橄欖洗髮精",
+        "ml"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0867",
+      "factor_name": "洗髮精（1000ml）",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 21.0,
+      "direct_kg_co2e": 14.7,
+      "hidden_supply_kg_co2e": 6.3,
+      "keywords": [
+        "洗髮精（1000ml）",
+        "洗髮精",
+        "ml"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0780",
+      "factor_name": "洗碗精（1000ml）",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.0,
+      "direct_kg_co2e": 1.4,
+      "hidden_supply_kg_co2e": 0.6,
+      "keywords": [
+        "洗碗精（1000ml）",
+        "洗碗精",
+        "ml"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0782",
+      "factor_name": "工業用水（韓國，1998）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.000102,
+      "direct_kg_co2e": 7.1e-05,
+      "hidden_supply_kg_co2e": 3.1e-05,
+      "keywords": [
+        "工業用水（韓國，1998）",
+        "工業用水",
+        "韓國"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0783",
+      "factor_name": "飲用水（韓國，2002）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.000332,
+      "direct_kg_co2e": 0.000232,
+      "hidden_supply_kg_co2e": 0.0001,
+      "keywords": [
+        "飲用水（韓國，2002）",
+        "飲用水",
+        "韓國"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0784",
+      "factor_name": "柴油（未燃燒，韓國，2000）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.0682,
+      "direct_kg_co2e": 0.04774,
+      "hidden_supply_kg_co2e": 0.02046,
+      "keywords": [
+        "柴油（未燃燒，韓國，2000）",
+        "柴油",
+        "未燃燒",
+        "韓國"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0786",
+      "factor_name": "重質燃料油（未燃燒，韓國，1998）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.325,
+      "direct_kg_co2e": 0.2275,
+      "hidden_supply_kg_co2e": 0.0975,
+      "keywords": [
+        "重質燃料油（未燃燒，韓國，1998）",
+        "重質燃料油",
+        "未燃燒",
+        "韓國"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0787",
+      "factor_name": "汽油（未燃燒，韓國，2000）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.0832,
+      "direct_kg_co2e": 0.05824,
+      "hidden_supply_kg_co2e": 0.02496,
+      "keywords": [
+        "汽油（未燃燒，韓國，2000）",
+        "汽油",
+        "未燃燒",
+        "韓國"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0789",
+      "factor_name": "液化石油氣（未燃燒，韓國，2006）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.394,
+      "direct_kg_co2e": 0.2758,
+      "hidden_supply_kg_co2e": 0.1182,
+      "keywords": [
+        "液化石油氣（未燃燒，韓國，2006）",
+        "液化石油氣",
+        "未燃燒",
+        "韓國"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0790",
+      "factor_name": "液化石油氣（未燃燒，泰國，2008）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.412,
+      "direct_kg_co2e": 0.2884,
+      "hidden_supply_kg_co2e": 0.1236,
+      "keywords": [
+        "液化石油氣（未燃燒，泰國，2008）",
+        "液化石油氣",
+        "未燃燒",
+        "泰國"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0791",
+      "factor_name": "汽油（未燃燒，泰國，2005）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.706,
+      "direct_kg_co2e": 0.4942,
+      "hidden_supply_kg_co2e": 0.2118,
+      "keywords": [
+        "汽油（未燃燒，泰國，2005）",
+        "汽油",
+        "未燃燒",
+        "泰國"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0792",
+      "factor_name": "燃料油（未燃燒，泰國，2005）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.305,
+      "direct_kg_co2e": 0.2135,
+      "hidden_supply_kg_co2e": 0.0915,
+      "keywords": [
+        "燃料油（未燃燒，泰國，2005）",
+        "燃料油",
+        "未燃燒",
+        "泰國"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0793",
+      "factor_name": "柴油（未燃燒，泰國，2005）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.328,
+      "direct_kg_co2e": 0.2296,
+      "hidden_supply_kg_co2e": 0.0984,
+      "keywords": [
+        "柴油（未燃燒，泰國，2005）",
+        "柴油",
+        "未燃燒",
+        "泰國"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2018"
+    },
+    {
+      "factor_code": "MOENV-0796",
+      "factor_name": "燃料油使用(蒸餘油/重油使用，2017)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.96,
+      "direct_kg_co2e": 2.772,
+      "hidden_supply_kg_co2e": 1.188,
+      "keywords": [
+        "燃料油使用(蒸餘油/重油使用，2017)",
+        "燃料油使用",
+        "蒸餘油",
+        "重油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0797",
+      "factor_name": "車用汽油(未燃燒，2017)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.658,
+      "direct_kg_co2e": 0.4606,
+      "hidden_supply_kg_co2e": 0.1974,
+      "keywords": [
+        "車用汽油(未燃燒，2017)",
+        "車用汽油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0798",
+      "factor_name": "柴油(未燃燒，2017)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.735,
+      "direct_kg_co2e": 0.5145,
+      "hidden_supply_kg_co2e": 0.2205,
+      "keywords": [
+        "柴油(未燃燒，2017)",
+        "柴油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0799",
+      "factor_name": "柴油(於固定源使用，2017)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.35,
+      "direct_kg_co2e": 2.345,
+      "hidden_supply_kg_co2e": 1.005,
+      "keywords": [
+        "柴油(於固定源使用，2017)",
+        "柴油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0800",
+      "factor_name": "柴油(於公路運輸移動源使用，2017)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.38,
+      "direct_kg_co2e": 2.366,
+      "hidden_supply_kg_co2e": 1.014,
+      "keywords": [
+        "柴油(於公路運輸移動源使用，2017)",
+        "柴油",
+        "於公路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0801",
+      "factor_name": "柴油（於鐵路運輸與非道路運輸移動源使用，2017）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.61,
+      "direct_kg_co2e": 2.527,
+      "hidden_supply_kg_co2e": 1.083,
+      "keywords": [
+        "柴油（於鐵路運輸與非道路運輸移動源使用，2017）",
+        "柴油",
+        "於鐵路運輸與非道路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0802",
+      "factor_name": "柴油（於水路運輸移動源使用，2017）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.37,
+      "direct_kg_co2e": 2.359,
+      "hidden_supply_kg_co2e": 1.011,
+      "keywords": [
+        "柴油（於水路運輸移動源使用，2017）",
+        "柴油",
+        "於水路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0803",
+      "factor_name": "柴油（於捕撈移動源使用，2017）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.36,
+      "direct_kg_co2e": 2.352,
+      "hidden_supply_kg_co2e": 1.008,
+      "keywords": [
+        "柴油（於捕撈移動源使用，2017）",
+        "柴油",
+        "於捕撈移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0806",
+      "factor_name": "PLA蛋盤(10盒裝)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 4.78,
+      "direct_kg_co2e": 3.346,
+      "hidden_supply_kg_co2e": 1.434,
+      "keywords": [
+        "PLA蛋盤(10盒裝)",
+        "PLA蛋盤",
+        "盒裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0935",
+      "factor_name": "卜特蘭水泥(Ⅱ型)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.981,
+      "direct_kg_co2e": 0.6867,
+      "hidden_supply_kg_co2e": 0.2943,
+      "keywords": [
+        "卜特蘭水泥(Ⅱ型)",
+        "卜特蘭水泥",
+        "Ⅱ型"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0837",
+      "factor_name": "車用汽油(於固定源使用，2017)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.93,
+      "direct_kg_co2e": 2.051,
+      "hidden_supply_kg_co2e": 0.879,
+      "keywords": [
+        "車用汽油(於固定源使用，2017)",
+        "車用汽油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0849",
+      "factor_name": "車用汽油(於移動源使用，2017)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.02,
+      "direct_kg_co2e": 2.114,
+      "hidden_supply_kg_co2e": 0.906,
+      "keywords": [
+        "車用汽油(於移動源使用，2017)",
+        "車用汽油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0851",
+      "factor_name": "液化石油氣(於固定源使用，2017)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.25,
+      "direct_kg_co2e": 1.575,
+      "hidden_supply_kg_co2e": 0.675,
+      "keywords": [
+        "液化石油氣(於固定源使用，2017)",
+        "液化石油氣",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0852",
+      "factor_name": "煤油使用(2017)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.98,
+      "direct_kg_co2e": 2.086,
+      "hidden_supply_kg_co2e": 0.894,
+      "keywords": [
+        "煤油使用(2017)",
+        "煤油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0853",
+      "factor_name": "潤滑油(未燃燒，2017)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.05,
+      "direct_kg_co2e": 0.735,
+      "hidden_supply_kg_co2e": 0.315,
+      "keywords": [
+        "潤滑油(未燃燒，2017)",
+        "潤滑油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0854",
+      "factor_name": "臺灣自來水(2017)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.299,
+      "direct_kg_co2e": 0.2093,
+      "hidden_supply_kg_co2e": 0.0897,
+      "keywords": [
+        "臺灣自來水(2017)",
+        "臺灣自來水"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0859",
+      "factor_name": "食用烤酥油",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 3.75,
+      "direct_kg_co2e": 2.625,
+      "hidden_supply_kg_co2e": 1.125,
+      "keywords": [
+        "食用烤酥油"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0862",
+      "factor_name": "蔭油膏",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.01,
+      "direct_kg_co2e": 0.707,
+      "hidden_supply_kg_co2e": 0.303,
+      "keywords": [
+        "蔭油膏"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0872",
+      "factor_name": "良質米（高雄139號品種）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 6.0,
+      "direct_kg_co2e": 4.2,
+      "hidden_supply_kg_co2e": 1.8,
+      "keywords": [
+        "良質米（高雄139號品種）",
+        "良質米",
+        "高雄",
+        "號品種"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0874",
+      "factor_name": "茶葉蛋",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.4,
+      "direct_kg_co2e": 1.68,
+      "hidden_supply_kg_co2e": 0.72,
+      "keywords": [
+        "茶葉蛋"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0876",
+      "factor_name": "大豆沙拉油（0.6L）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.0,
+      "direct_kg_co2e": 0.7,
+      "hidden_supply_kg_co2e": 0.3,
+      "keywords": [
+        "大豆沙拉油（0.6L）",
+        "大豆沙拉油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0877",
+      "factor_name": "大豆沙拉油（1L）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.7,
+      "direct_kg_co2e": 1.19,
+      "hidden_supply_kg_co2e": 0.51,
+      "keywords": [
+        "大豆沙拉油（1L）",
+        "大豆沙拉油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0878",
+      "factor_name": "大豆沙拉油（2L）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.4,
+      "direct_kg_co2e": 2.38,
+      "hidden_supply_kg_co2e": 1.02,
+      "keywords": [
+        "大豆沙拉油（2L）",
+        "大豆沙拉油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0879",
+      "factor_name": "大豆沙拉油（2.6L）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 4.5,
+      "direct_kg_co2e": 3.15,
+      "hidden_supply_kg_co2e": 1.35,
+      "keywords": [
+        "大豆沙拉油（2.6L）",
+        "大豆沙拉油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0880",
+      "factor_name": "大豆沙拉油（3L）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 5.0,
+      "direct_kg_co2e": 3.5,
+      "hidden_supply_kg_co2e": 1.5,
+      "keywords": [
+        "大豆沙拉油（3L）",
+        "大豆沙拉油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0881",
+      "factor_name": "大豆沙拉油（18L）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "桶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 30.0,
+      "direct_kg_co2e": 21.0,
+      "hidden_supply_kg_co2e": 9.0,
+      "keywords": [
+        "大豆沙拉油（18L）",
+        "大豆沙拉油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0882",
+      "factor_name": "大豆沙拉油（19.56L）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "桶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 32.0,
+      "direct_kg_co2e": 22.4,
+      "hidden_supply_kg_co2e": 9.6,
+      "keywords": [
+        "大豆沙拉油（19.56L）",
+        "大豆沙拉油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0883",
+      "factor_name": "烤酥油（2L）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.4,
+      "direct_kg_co2e": 2.38,
+      "hidden_supply_kg_co2e": 1.02,
+      "keywords": [
+        "烤酥油（2L）",
+        "烤酥油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0884",
+      "factor_name": "烤酥油（18L）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "桶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 30.0,
+      "direct_kg_co2e": 21.0,
+      "hidden_supply_kg_co2e": 9.0,
+      "keywords": [
+        "烤酥油（18L）",
+        "烤酥油",
+        "L"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0885",
+      "factor_name": "瓶裝水（330ml，PET包裝）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.15,
+      "direct_kg_co2e": 0.105,
+      "hidden_supply_kg_co2e": 0.045,
+      "keywords": [
+        "瓶裝水（330ml，PET包裝）",
+        "瓶裝水",
+        "ml",
+        "PET包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0887",
+      "factor_name": "瓶裝水（1500ml，PET包裝）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.27,
+      "direct_kg_co2e": 0.189,
+      "hidden_supply_kg_co2e": 0.081,
+      "keywords": [
+        "瓶裝水（1500ml，PET包裝）",
+        "瓶裝水",
+        "ml",
+        "PET包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2019"
+    },
+    {
+      "factor_code": "MOENV-0890",
+      "factor_name": "燃料油使用(蒸餘油/重油使用，2018)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.94,
+      "direct_kg_co2e": 2.758,
+      "hidden_supply_kg_co2e": 1.182,
+      "keywords": [
+        "燃料油使用(蒸餘油/重油使用，2018)",
+        "燃料油使用",
+        "蒸餘油",
+        "重油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0891",
+      "factor_name": "燃料油未燃燒(蒸餘油/重油未燃燒，2018)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.822,
+      "direct_kg_co2e": 0.5754,
+      "hidden_supply_kg_co2e": 0.2466,
+      "keywords": [
+        "燃料油未燃燒(蒸餘油/重油未燃燒，2018)",
+        "燃料油未燃燒",
+        "蒸餘油",
+        "重油未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0892",
+      "factor_name": "柴油(未燃燒，2018)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.724,
+      "direct_kg_co2e": 0.5068,
+      "hidden_supply_kg_co2e": 0.2172,
+      "keywords": [
+        "柴油(未燃燒，2018)",
+        "柴油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0893",
+      "factor_name": "柴油(於固定源使用，2018)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.34,
+      "direct_kg_co2e": 2.338,
+      "hidden_supply_kg_co2e": 1.002,
+      "keywords": [
+        "柴油(於固定源使用，2018)",
+        "柴油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0894",
+      "factor_name": "柴油(於公路運輸移動源使用，2018)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.37,
+      "direct_kg_co2e": 2.359,
+      "hidden_supply_kg_co2e": 1.011,
+      "keywords": [
+        "柴油(於公路運輸移動源使用，2018)",
+        "柴油",
+        "於公路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0895",
+      "factor_name": "柴油（於鐵路運輸與非道路運輸移動源使用，2018）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.6,
+      "direct_kg_co2e": 2.52,
+      "hidden_supply_kg_co2e": 1.08,
+      "keywords": [
+        "柴油（於鐵路運輸與非道路運輸移動源使用，2018）",
+        "柴油",
+        "於鐵路運輸與非道路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0896",
+      "factor_name": "柴油（於水路運輸移動源使用，2018）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.36,
+      "direct_kg_co2e": 2.352,
+      "hidden_supply_kg_co2e": 1.008,
+      "keywords": [
+        "柴油（於水路運輸移動源使用，2018）",
+        "柴油",
+        "於水路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0897",
+      "factor_name": "柴油（於捕撈移動源使用，2018）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.35,
+      "direct_kg_co2e": 2.345,
+      "hidden_supply_kg_co2e": 1.005,
+      "keywords": [
+        "柴油（於捕撈移動源使用，2018）",
+        "柴油",
+        "於捕撈移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0898",
+      "factor_name": "車用汽油(未燃燒，2018)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.65,
+      "direct_kg_co2e": 0.455,
+      "hidden_supply_kg_co2e": 0.195,
+      "keywords": [
+        "車用汽油(未燃燒，2018)",
+        "車用汽油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0899",
+      "factor_name": "車用汽油(於固定源使用，2018)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.92,
+      "direct_kg_co2e": 2.044,
+      "hidden_supply_kg_co2e": 0.876,
+      "keywords": [
+        "車用汽油(於固定源使用，2018)",
+        "車用汽油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0900",
+      "factor_name": "車用汽油(於移動源使用，2018)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.01,
+      "direct_kg_co2e": 2.107,
+      "hidden_supply_kg_co2e": 0.903,
+      "keywords": [
+        "車用汽油(於移動源使用，2018)",
+        "車用汽油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0903",
+      "factor_name": "液化石油氣(於固定源使用，2018)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.25,
+      "direct_kg_co2e": 1.575,
+      "hidden_supply_kg_co2e": 0.675,
+      "keywords": [
+        "液化石油氣(於固定源使用，2018)",
+        "液化石油氣",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0904",
+      "factor_name": "液化石油氣(未燃燒，2018)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.491,
+      "direct_kg_co2e": 0.3437,
+      "hidden_supply_kg_co2e": 0.1473,
+      "keywords": [
+        "液化石油氣(未燃燒，2018)",
+        "液化石油氣",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0905",
+      "factor_name": "煤油使用(2018)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.97,
+      "direct_kg_co2e": 2.079,
+      "hidden_supply_kg_co2e": 0.891,
+      "keywords": [
+        "煤油使用(2018)",
+        "煤油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0906",
+      "factor_name": "煤油(未燃燒，2018)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.403,
+      "direct_kg_co2e": 0.2821,
+      "hidden_supply_kg_co2e": 0.1209,
+      "keywords": [
+        "煤油(未燃燒，2018)",
+        "煤油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0907",
+      "factor_name": "潤滑油(未燃燒，2018)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.02,
+      "direct_kg_co2e": 0.714,
+      "hidden_supply_kg_co2e": 0.306,
+      "keywords": [
+        "潤滑油(未燃燒，2018)",
+        "潤滑油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0921",
+      "factor_name": "溫度米(台梗16號)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.0,
+      "direct_kg_co2e": 2.1,
+      "hidden_supply_kg_co2e": 0.9,
+      "keywords": [
+        "溫度米(台梗16號)",
+        "溫度米",
+        "台梗",
+        "號"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0926",
+      "factor_name": "高壓透水混凝土地磚(20cm*10cm*6cm)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "片",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.53,
+      "direct_kg_co2e": 0.371,
+      "hidden_supply_kg_co2e": 0.159,
+      "keywords": [
+        "高壓透水混凝土地磚(20cm*10cm*6cm)",
+        "高壓透水混凝土地磚",
+        "cm*",
+        "cm"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0927",
+      "factor_name": "高壓透水混凝土地磚(20cm*20cm*6cm)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "片",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.06,
+      "direct_kg_co2e": 0.742,
+      "hidden_supply_kg_co2e": 0.318,
+      "keywords": [
+        "高壓透水混凝土地磚(20cm*20cm*6cm)",
+        "高壓透水混凝土地磚",
+        "cm*",
+        "cm"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0928",
+      "factor_name": "高壓透水混凝土地磚(30cm*30cm*6cm)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "片",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.38,
+      "direct_kg_co2e": 1.666,
+      "hidden_supply_kg_co2e": 0.714,
+      "keywords": [
+        "高壓透水混凝土地磚(30cm*30cm*6cm)",
+        "高壓透水混凝土地磚",
+        "cm*",
+        "cm"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0929",
+      "factor_name": "再生高壓透水混凝土地磚(20cm*10cm*6cm)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "片",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.59,
+      "direct_kg_co2e": 0.413,
+      "hidden_supply_kg_co2e": 0.177,
+      "keywords": [
+        "再生高壓透水混凝土地磚(20cm*10cm*6cm)",
+        "再生高壓透水混凝土地磚",
+        "cm*",
+        "cm"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0930",
+      "factor_name": "再生高壓透水混凝土地磚(20cm*20cm*6cm)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "片",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.18,
+      "direct_kg_co2e": 0.826,
+      "hidden_supply_kg_co2e": 0.354,
+      "keywords": [
+        "再生高壓透水混凝土地磚(20cm*20cm*6cm)",
+        "再生高壓透水混凝土地磚",
+        "cm*",
+        "cm"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0931",
+      "factor_name": "再生高壓透水混凝土地磚(30cm*30cm*6cm)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "片",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.65,
+      "direct_kg_co2e": 1.855,
+      "hidden_supply_kg_co2e": 0.795,
+      "keywords": [
+        "再生高壓透水混凝土地磚(30cm*30cm*6cm)",
+        "再生高壓透水混凝土地磚",
+        "cm*",
+        "cm"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0932",
+      "factor_name": "包裝飲用水(600ml，PET包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.121,
+      "direct_kg_co2e": 0.0847,
+      "hidden_supply_kg_co2e": 0.0363,
+      "keywords": [
+        "包裝飲用水(600ml，PET包裝)",
+        "包裝飲用水",
+        "ml",
+        "PET包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0933",
+      "factor_name": "包裝飲用水(1460ml，PET包裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "瓶",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.253,
+      "direct_kg_co2e": 0.1771,
+      "hidden_supply_kg_co2e": 0.0759,
+      "keywords": [
+        "包裝飲用水(1460ml，PET包裝)",
+        "包裝飲用水",
+        "ml",
+        "PET包裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
+    },
+    {
+      "factor_code": "MOENV-0934",
+      "factor_name": "黑咖啡",
       "category_key": "beverage",
       "category_label": "樂活飲品",
       "declared_unit": "杯",
       "unit_to_base_gram": 1.0,
       "is_weight_unit": 0,
-      "kg_co2e": 0.34,
-      "direct_kg_co2e": 0.21,
-      "hidden_supply_kg_co2e": 0.13,
-      "keywords": ["咖啡", "美式", "拿鐵", "冰拿鐵", "熱美式"]
+      "kg_co2e": 0.304,
+      "direct_kg_co2e": 0.2128,
+      "hidden_supply_kg_co2e": 0.0912,
+      "keywords": [
+        "黑咖啡"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
     },
     {
-      "factor_code": "CFP-BEV-004",
-      "factor_name": "鮮乳／豆漿飲品（每公升）",
+      "factor_code": "MOENV-0941",
+      "factor_name": "預拌水中混凝土(210 kgf/cm2)",
       "category_key": "beverage",
       "category_label": "樂活飲品",
-      "declared_unit": "L",
-      "unit_to_base_gram": 1000.0,
-      "is_weight_unit": 1,
-      "kg_co2e": 1.52,
-      "direct_kg_co2e": 1.05,
-      "hidden_supply_kg_co2e": 0.47,
-      "keywords": ["鮮奶", "鮮乳", "豆漿", "無糖豆漿", "綠豆沙", "可可"]
-    },
-    {
-      "factor_code": "CFP-FOOD-001",
-      "factor_name": "超商鮮食便當／米食餐盒（每份）",
-      "category_key": "food",
-      "category_label": "餐飲食物",
-      "declared_unit": "份",
+      "declared_unit": "立方公尺(m3)",
       "unit_to_base_gram": 1.0,
       "is_weight_unit": 0,
-      "kg_co2e": 1.68,
-      "direct_kg_co2e": 1.15,
-      "hidden_supply_kg_co2e": 0.53,
-      "keywords": ["便當", "排骨便當", "雞腿便當", "白飯", "炒飯", "丼飯", "飯糰"]
+      "kg_co2e": 346.0,
+      "direct_kg_co2e": 242.2,
+      "hidden_supply_kg_co2e": 103.8,
+      "keywords": [
+        "預拌水中混凝土(210 kgf/cm2)",
+        "預拌水中混凝土",
+        "kgf",
+        "cm"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
     },
     {
-      "factor_code": "CFP-FOOD-002",
-      "factor_name": "麵食／水餃／速食餐點（每份）",
-      "category_key": "food",
-      "category_label": "餐飲食物",
-      "declared_unit": "份",
+      "factor_code": "MOENV-0952",
+      "factor_name": "廢(污)水處理服務(科技部新竹科學工業園區管理局竹南園區污水處理廠)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
       "unit_to_base_gram": 1.0,
       "is_weight_unit": 0,
-      "kg_co2e": 1.25,
-      "direct_kg_co2e": 0.88,
-      "hidden_supply_kg_co2e": 0.37,
-      "keywords": ["牛肉麵", "乾麵", "涼麵", "水餃", "鍋貼", "漢堡"]
+      "kg_co2e": 0.553,
+      "direct_kg_co2e": 0.3871,
+      "hidden_supply_kg_co2e": 0.1659,
+      "keywords": [
+        "廢(污)水處理服務(科技部新竹科學工業園區管理局竹南園區污水處理廠)",
+        "廢",
+        "污",
+        "水處理服務",
+        "科技部新竹科學工業園區管理局竹南園區污水處理廠"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
     },
     {
-      "factor_code": "CFP-FOOD-003",
-      "factor_name": "烘焙麵包／餅乾零食（每件）",
-      "category_key": "food",
-      "category_label": "餐飲食物",
-      "declared_unit": "件",
+      "factor_code": "MOENV-0953",
+      "factor_name": "廢(污)水處理服務(科技部南部科學園區高雄園區污水處理廠)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
       "unit_to_base_gram": 1.0,
       "is_weight_unit": 0,
-      "kg_co2e": 0.69,
-      "direct_kg_co2e": 0.48,
-      "hidden_supply_kg_co2e": 0.21,
-      "keywords": ["麵包", "吐司", "三明治", "餅乾", "洋芋片", "蛋糕"]
+      "kg_co2e": 0.3,
+      "direct_kg_co2e": 0.21,
+      "hidden_supply_kg_co2e": 0.09,
+      "keywords": [
+        "廢(污)水處理服務(科技部南部科學園區高雄園區污水處理廠)",
+        "廢",
+        "污",
+        "水處理服務",
+        "科技部南部科學園區高雄園區污水處理廠"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2020"
     },
     {
-      "factor_code": "CFP-LIV-001",
-      "factor_name": "抽取式衛生紙／紙類日用品（每包/串）",
+      "factor_code": "MOENV-1181",
+      "factor_name": "抽取式衛生紙",
       "category_key": "living",
       "category_label": "生活民生",
-      "declared_unit": "件",
+      "declared_unit": "抽",
       "unit_to_base_gram": 1.0,
       "is_weight_unit": 0,
-      "kg_co2e": 0.92,
-      "direct_kg_co2e": 0.64,
-      "hidden_supply_kg_co2e": 0.28,
-      "keywords": ["衛生紙", "抽取衛生紙", "舒潔", "五月花", "面紙", "紙巾"]
+      "kg_co2e": 0.003342,
+      "direct_kg_co2e": 0.002339,
+      "hidden_supply_kg_co2e": 0.001003,
+      "keywords": [
+        "抽取式衛生紙"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2026"
     },
     {
-      "factor_code": "CFP-LIV-002",
-      "factor_name": "個人清潔／洗沐日用品（每瓶）",
-      "category_key": "living",
-      "category_label": "生活民生",
-      "declared_unit": "件",
-      "unit_to_base_gram": 1.0,
+      "factor_code": "MOENV-0969",
+      "factor_name": "液化石油氣(未燃燒，2019)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
       "is_weight_unit": 0,
-      "kg_co2e": 0.76,
-      "direct_kg_co2e": 0.52,
-      "hidden_supply_kg_co2e": 0.24,
-      "keywords": ["洗髮精", "沐浴乳", "洗面乳", "牙膏", "洗衣精", "化妝棉"]
+      "kg_co2e": 0.467,
+      "direct_kg_co2e": 0.3269,
+      "hidden_supply_kg_co2e": 0.1401,
+      "keywords": [
+        "液化石油氣(未燃燒，2019)",
+        "液化石油氣",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
     },
     {
-      "factor_code": "CFP-TRANS-001",
-      "factor_name": "車用無鉛汽油／柴油（每公升）",
-      "category_key": "transport",
-      "category_label": "運輸交通",
-      "declared_unit": "L",
+      "factor_code": "MOENV-0970",
+      "factor_name": "柴油（於水路運輸移動源使用，2019）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.36,
+      "direct_kg_co2e": 2.352,
+      "hidden_supply_kg_co2e": 1.008,
+      "keywords": [
+        "柴油（於水路運輸移動源使用，2019）",
+        "柴油",
+        "於水路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
+    },
+    {
+      "factor_code": "MOENV-0971",
+      "factor_name": "煤油使用(2019)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.98,
+      "direct_kg_co2e": 2.086,
+      "hidden_supply_kg_co2e": 0.894,
+      "keywords": [
+        "煤油使用(2019)",
+        "煤油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
+    },
+    {
+      "factor_code": "MOENV-0972",
+      "factor_name": "燃料油使用(蒸餘油/重油使用，2019)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.95,
+      "direct_kg_co2e": 2.765,
+      "hidden_supply_kg_co2e": 1.185,
+      "keywords": [
+        "燃料油使用(蒸餘油/重油使用，2019)",
+        "燃料油使用",
+        "蒸餘油",
+        "重油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
+    },
+    {
+      "factor_code": "MOENV-0973",
+      "factor_name": "煤油(未燃燒，2019)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.413,
+      "direct_kg_co2e": 0.2891,
+      "hidden_supply_kg_co2e": 0.1239,
+      "keywords": [
+        "煤油(未燃燒，2019)",
+        "煤油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
+    },
+    {
+      "factor_code": "MOENV-0974",
+      "factor_name": "柴油（於捕撈移動源使用，2019）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.36,
+      "direct_kg_co2e": 2.352,
+      "hidden_supply_kg_co2e": 1.008,
+      "keywords": [
+        "柴油（於捕撈移動源使用，2019）",
+        "柴油",
+        "於捕撈移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
+    },
+    {
+      "factor_code": "MOENV-0975",
+      "factor_name": "燃料油未燃燒(蒸餘油/重油未燃燒，2019)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.832,
+      "direct_kg_co2e": 0.5824,
+      "hidden_supply_kg_co2e": 0.2496,
+      "keywords": [
+        "燃料油未燃燒(蒸餘油/重油未燃燒，2019)",
+        "燃料油未燃燒",
+        "蒸餘油",
+        "重油未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
+    },
+    {
+      "factor_code": "MOENV-0976",
+      "factor_name": "柴油(未燃燒，2019)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.733,
+      "direct_kg_co2e": 0.5131,
+      "hidden_supply_kg_co2e": 0.2199,
+      "keywords": [
+        "柴油(未燃燒，2019)",
+        "柴油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
+    },
+    {
+      "factor_code": "MOENV-0977",
+      "factor_name": "車用汽油(未燃燒，2019)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.66,
+      "direct_kg_co2e": 0.462,
+      "hidden_supply_kg_co2e": 0.198,
+      "keywords": [
+        "車用汽油(未燃燒，2019)",
+        "車用汽油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
+    },
+    {
+      "factor_code": "MOENV-0978",
+      "factor_name": "柴油(於固定源使用，2019)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.35,
+      "direct_kg_co2e": 2.345,
+      "hidden_supply_kg_co2e": 1.005,
+      "keywords": [
+        "柴油(於固定源使用，2019)",
+        "柴油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
+    },
+    {
+      "factor_code": "MOENV-0979",
+      "factor_name": "車用汽油(於固定源使用，2019)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.93,
+      "direct_kg_co2e": 2.051,
+      "hidden_supply_kg_co2e": 0.879,
+      "keywords": [
+        "車用汽油(於固定源使用，2019)",
+        "車用汽油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
+    },
+    {
+      "factor_code": "MOENV-0980",
+      "factor_name": "潤滑油(未燃燒，2019)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
       "unit_to_base_gram": 1000.0,
       "is_weight_unit": 1,
-      "kg_co2e": 2.74,
-      "direct_kg_co2e": 2.26,
-      "hidden_supply_kg_co2e": 0.48,
-      "keywords": ["95無鉛", "92無鉛", "98無鉛", "中油", "加油", "柴油"]
+      "kg_co2e": 1.02,
+      "direct_kg_co2e": 0.714,
+      "hidden_supply_kg_co2e": 0.306,
+      "keywords": [
+        "潤滑油(未燃燒，2019)",
+        "潤滑油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
     },
     {
-      "factor_code": "CFP-ELEC-001",
-      "factor_name": "3C 週邊配件／線材充電器（每件）",
-      "category_key": "electronics",
-      "category_label": "電子產品",
-      "declared_unit": "件",
+      "factor_code": "MOENV-0981",
+      "factor_name": "車用汽油(於移動源使用，2019)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.02,
+      "direct_kg_co2e": 2.114,
+      "hidden_supply_kg_co2e": 0.906,
+      "keywords": [
+        "車用汽油(於移動源使用，2019)",
+        "車用汽油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
+    },
+    {
+      "factor_code": "MOENV-0983",
+      "factor_name": "柴油(於公路運輸移動源使用，2019)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.38,
+      "direct_kg_co2e": 2.366,
+      "hidden_supply_kg_co2e": 1.014,
+      "keywords": [
+        "柴油(於公路運輸移動源使用，2019)",
+        "柴油",
+        "於公路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
+    },
+    {
+      "factor_code": "MOENV-0986",
+      "factor_name": "柴油（於鐵路運輸與非道路運輸移動源使用，2019）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.61,
+      "direct_kg_co2e": 2.527,
+      "hidden_supply_kg_co2e": 1.083,
+      "keywords": [
+        "柴油（於鐵路運輸與非道路運輸移動源使用，2019）",
+        "柴油",
+        "於鐵路運輸與非道路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
+    },
+    {
+      "factor_code": "MOENV-0988",
+      "factor_name": "液化石油氣(於固定源使用，2019)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.22,
+      "direct_kg_co2e": 1.554,
+      "hidden_supply_kg_co2e": 0.666,
+      "keywords": [
+        "液化石油氣(於固定源使用，2019)",
+        "液化石油氣",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2021"
+    },
+    {
+      "factor_code": "MOENV-0993",
+      "factor_name": "燃料油使用(蒸餘油/重油使用，2020)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.95,
+      "direct_kg_co2e": 2.765,
+      "hidden_supply_kg_co2e": 1.185,
+      "keywords": [
+        "燃料油使用(蒸餘油/重油使用，2020)",
+        "燃料油使用",
+        "蒸餘油",
+        "重油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-0994",
+      "factor_name": "燃料油未燃燒(蒸餘油/重油未燃燒，2020)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.829,
+      "direct_kg_co2e": 0.5803,
+      "hidden_supply_kg_co2e": 0.2487,
+      "keywords": [
+        "燃料油未燃燒(蒸餘油/重油未燃燒，2020)",
+        "燃料油未燃燒",
+        "蒸餘油",
+        "重油未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-0995",
+      "factor_name": "柴油(未燃燒，2020)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.73,
+      "direct_kg_co2e": 0.511,
+      "hidden_supply_kg_co2e": 0.219,
+      "keywords": [
+        "柴油(未燃燒，2020)",
+        "柴油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-0996",
+      "factor_name": "柴油(於固定源使用，2020)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.34,
+      "direct_kg_co2e": 2.338,
+      "hidden_supply_kg_co2e": 1.002,
+      "keywords": [
+        "柴油(於固定源使用，2020)",
+        "柴油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-0997",
+      "factor_name": "柴油(於公路運輸移動源使用，2020)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.38,
+      "direct_kg_co2e": 2.366,
+      "hidden_supply_kg_co2e": 1.014,
+      "keywords": [
+        "柴油(於公路運輸移動源使用，2020)",
+        "柴油",
+        "於公路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-0998",
+      "factor_name": "柴油（於鐵路運輸與非道路運輸移動源使用，2020）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.61,
+      "direct_kg_co2e": 2.527,
+      "hidden_supply_kg_co2e": 1.083,
+      "keywords": [
+        "柴油（於鐵路運輸與非道路運輸移動源使用，2020）",
+        "柴油",
+        "於鐵路運輸與非道路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-0999",
+      "factor_name": "柴油（於水路運輸移動源使用，2020）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.36,
+      "direct_kg_co2e": 2.352,
+      "hidden_supply_kg_co2e": 1.008,
+      "keywords": [
+        "柴油（於水路運輸移動源使用，2020）",
+        "柴油",
+        "於水路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1000",
+      "factor_name": "柴油（於捕撈移動源使用，2020）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.35,
+      "direct_kg_co2e": 2.345,
+      "hidden_supply_kg_co2e": 1.005,
+      "keywords": [
+        "柴油（於捕撈移動源使用，2020）",
+        "柴油",
+        "於捕撈移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1001",
+      "factor_name": "車用汽油(未燃燒，2020)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.657,
+      "direct_kg_co2e": 0.4599,
+      "hidden_supply_kg_co2e": 0.1971,
+      "keywords": [
+        "車用汽油(未燃燒，2020)",
+        "車用汽油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1002",
+      "factor_name": "車用汽油(於固定源使用，2020)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.93,
+      "direct_kg_co2e": 2.051,
+      "hidden_supply_kg_co2e": 0.879,
+      "keywords": [
+        "車用汽油(於固定源使用，2020)",
+        "車用汽油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1003",
+      "factor_name": "車用汽油(於移動源使用，2020)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.01,
+      "direct_kg_co2e": 2.107,
+      "hidden_supply_kg_co2e": 0.903,
+      "keywords": [
+        "車用汽油(於移動源使用，2020)",
+        "車用汽油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1006",
+      "factor_name": "液化石油氣(於固定源使用，2020)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.22,
+      "direct_kg_co2e": 1.554,
+      "hidden_supply_kg_co2e": 0.666,
+      "keywords": [
+        "液化石油氣(於固定源使用，2020)",
+        "液化石油氣",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1007",
+      "factor_name": "液化石油氣(未燃燒，2020)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.467,
+      "direct_kg_co2e": 0.3269,
+      "hidden_supply_kg_co2e": 0.1401,
+      "keywords": [
+        "液化石油氣(未燃燒，2020)",
+        "液化石油氣",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1008",
+      "factor_name": "煤油使用(2020)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.98,
+      "direct_kg_co2e": 2.086,
+      "hidden_supply_kg_co2e": 0.894,
+      "keywords": [
+        "煤油使用(2020)",
+        "煤油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1009",
+      "factor_name": "煤油(未燃燒，2020)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.411,
+      "direct_kg_co2e": 0.2877,
+      "hidden_supply_kg_co2e": 0.1233,
+      "keywords": [
+        "煤油(未燃燒，2020)",
+        "煤油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1010",
+      "factor_name": "潤滑油(未燃燒，2020)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.09,
+      "direct_kg_co2e": 0.763,
+      "hidden_supply_kg_co2e": 0.327,
+      "keywords": [
+        "潤滑油(未燃燒，2020)",
+        "潤滑油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1018",
+      "factor_name": "轉化液糖(20公噸)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公噸(mt)",
       "unit_to_base_gram": 1.0,
       "is_weight_unit": 0,
-      "kg_co2e": 4.5,
-      "direct_kg_co2e": 3.1,
-      "hidden_supply_kg_co2e": 1.4,
-      "keywords": ["充電線", "充電器", "行動電源", "滑鼠", "耳機", "隨身碟"]
+      "kg_co2e": 23800.0,
+      "direct_kg_co2e": 16660.0,
+      "hidden_supply_kg_co2e": 7140.0,
+      "keywords": [
+        "轉化液糖(20公噸)",
+        "轉化液糖",
+        "公噸"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1027",
+      "factor_name": "混凝土及水泥砂漿用水淬高爐爐碴粉(散裝，不含轉運)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公噸(mt)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 58.9,
+      "direct_kg_co2e": 41.23,
+      "hidden_supply_kg_co2e": 17.67,
+      "keywords": [
+        "混凝土及水泥砂漿用水淬高爐爐碴粉(散裝，不含轉運)",
+        "混凝土及水泥砂漿用水淬高爐爐碴粉",
+        "散裝",
+        "不含轉運"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1028",
+      "factor_name": "混凝土及水泥砂漿用水淬高爐爐碴粉(散裝，含轉運)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公噸(mt)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 61.3,
+      "direct_kg_co2e": 42.91,
+      "hidden_supply_kg_co2e": 18.39,
+      "keywords": [
+        "混凝土及水泥砂漿用水淬高爐爐碴粉(散裝，含轉運)",
+        "混凝土及水泥砂漿用水淬高爐爐碴粉",
+        "散裝",
+        "含轉運"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1029",
+      "factor_name": "混凝土及水泥砂漿用水淬高爐爐碴粉(太空袋裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "袋",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 59.3,
+      "direct_kg_co2e": 41.51,
+      "hidden_supply_kg_co2e": 17.79,
+      "keywords": [
+        "混凝土及水泥砂漿用水淬高爐爐碴粉(太空袋裝)",
+        "混凝土及水泥砂漿用水淬高爐爐碴粉",
+        "太空袋裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1032",
+      "factor_name": "卜特蘭高爐爐碴水泥(太空袋裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "袋",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 573.0,
+      "direct_kg_co2e": 401.1,
+      "hidden_supply_kg_co2e": 171.9,
+      "keywords": [
+        "卜特蘭高爐爐碴水泥(太空袋裝)",
+        "卜特蘭高爐爐碴水泥",
+        "太空袋裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1033",
+      "factor_name": "新型高爐水泥(50公斤，紙袋裝)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 25.6,
+      "direct_kg_co2e": 17.92,
+      "hidden_supply_kg_co2e": 7.68,
+      "keywords": [
+        "新型高爐水泥(50公斤，紙袋裝)",
+        "新型高爐水泥",
+        "公斤",
+        "紙袋裝"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1062",
+      "factor_name": "臺灣自來水(2020)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.233,
+      "direct_kg_co2e": 0.1631,
+      "hidden_supply_kg_co2e": 0.0699,
+      "keywords": [
+        "臺灣自來水(2020)",
+        "臺灣自來水"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1063",
+      "factor_name": "臺北自來水(2020)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "立方公尺(m3)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.0948,
+      "direct_kg_co2e": 0.06636,
+      "hidden_supply_kg_co2e": 0.02844,
+      "keywords": [
+        "臺北自來水(2020)",
+        "臺北自來水"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2022"
+    },
+    {
+      "factor_code": "MOENV-1066",
+      "factor_name": "燃料油使用(蒸餘油/重油使用，2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.88,
+      "direct_kg_co2e": 2.716,
+      "hidden_supply_kg_co2e": 1.164,
+      "keywords": [
+        "燃料油使用(蒸餘油/重油使用，2021)",
+        "燃料油使用",
+        "蒸餘油",
+        "重油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1067",
+      "factor_name": "燃料油未燃燒(蒸餘油/重油未燃燒，2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.764,
+      "direct_kg_co2e": 0.5348,
+      "hidden_supply_kg_co2e": 0.2292,
+      "keywords": [
+        "燃料油未燃燒(蒸餘油/重油未燃燒，2021)",
+        "燃料油未燃燒",
+        "蒸餘油",
+        "重油未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1068",
+      "factor_name": "柴油(未燃燒，2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.673,
+      "direct_kg_co2e": 0.4711,
+      "hidden_supply_kg_co2e": 0.2019,
+      "keywords": [
+        "柴油(未燃燒，2021)",
+        "柴油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1069",
+      "factor_name": "柴油(於固定源使用，2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.29,
+      "direct_kg_co2e": 2.303,
+      "hidden_supply_kg_co2e": 0.987,
+      "keywords": [
+        "柴油(於固定源使用，2021)",
+        "柴油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1070",
+      "factor_name": "柴油(於公路運輸移動源使用，2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.32,
+      "direct_kg_co2e": 2.324,
+      "hidden_supply_kg_co2e": 0.996,
+      "keywords": [
+        "柴油(於公路運輸移動源使用，2021)",
+        "柴油",
+        "於公路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1071",
+      "factor_name": "柴油(於鐵路運輸與非道路運輸移動源使用，2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.56,
+      "direct_kg_co2e": 2.492,
+      "hidden_supply_kg_co2e": 1.068,
+      "keywords": [
+        "柴油(於鐵路運輸與非道路運輸移動源使用，2021)",
+        "柴油",
+        "於鐵路運輸與非道路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1072",
+      "factor_name": "柴油(於水路運輸移動源使用，2021)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.3,
+      "direct_kg_co2e": 2.31,
+      "hidden_supply_kg_co2e": 0.99,
+      "keywords": [
+        "柴油(於水路運輸移動源使用，2021)",
+        "柴油",
+        "於水路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1073",
+      "factor_name": "柴油(於捕撈移動源使用，2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.29,
+      "direct_kg_co2e": 2.303,
+      "hidden_supply_kg_co2e": 0.987,
+      "keywords": [
+        "柴油(於捕撈移動源使用，2021)",
+        "柴油",
+        "於捕撈移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1074",
+      "factor_name": "車用汽油(未燃燒，2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.604,
+      "direct_kg_co2e": 0.4228,
+      "hidden_supply_kg_co2e": 0.1812,
+      "keywords": [
+        "車用汽油(未燃燒，2021)",
+        "車用汽油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1075",
+      "factor_name": "車用汽油(於固定源使用，2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.88,
+      "direct_kg_co2e": 2.016,
+      "hidden_supply_kg_co2e": 0.864,
+      "keywords": [
+        "車用汽油(於固定源使用，2021)",
+        "車用汽油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1076",
+      "factor_name": "車用汽油(於移動源使用，2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.92,
+      "direct_kg_co2e": 2.044,
+      "hidden_supply_kg_co2e": 0.876,
+      "keywords": [
+        "車用汽油(於移動源使用，2021)",
+        "車用汽油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1079",
+      "factor_name": "液化石油氣(於固定源使用，2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.21,
+      "direct_kg_co2e": 1.547,
+      "hidden_supply_kg_co2e": 0.663,
+      "keywords": [
+        "液化石油氣(於固定源使用，2021)",
+        "液化石油氣",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1080",
+      "factor_name": "液化石油氣(未燃燒，2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.453,
+      "direct_kg_co2e": 0.3171,
+      "hidden_supply_kg_co2e": 0.1359,
+      "keywords": [
+        "液化石油氣(未燃燒，2021)",
+        "液化石油氣",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1081",
+      "factor_name": "煤油使用(2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.91,
+      "direct_kg_co2e": 2.037,
+      "hidden_supply_kg_co2e": 0.873,
+      "keywords": [
+        "煤油使用(2021)",
+        "煤油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1082",
+      "factor_name": "煤油(未燃燒，2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.353,
+      "direct_kg_co2e": 0.2471,
+      "hidden_supply_kg_co2e": 0.1059,
+      "keywords": [
+        "煤油(未燃燒，2021)",
+        "煤油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1083",
+      "factor_name": "潤滑油(未燃燒，2021)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.09,
+      "direct_kg_co2e": 0.763,
+      "hidden_supply_kg_co2e": 0.327,
+      "keywords": [
+        "潤滑油(未燃燒，2021)",
+        "潤滑油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2023"
+    },
+    {
+      "factor_code": "MOENV-1114",
+      "factor_name": "燃料油未燃燒(蒸餘油/重油未燃燒，2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.7687,
+      "direct_kg_co2e": 0.53809,
+      "hidden_supply_kg_co2e": 0.23061,
+      "keywords": [
+        "燃料油未燃燒(蒸餘油/重油未燃燒，2022)",
+        "燃料油未燃燒",
+        "蒸餘油",
+        "重油未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1115",
+      "factor_name": "燃料油使用(蒸餘油/重油使用，2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.889,
+      "direct_kg_co2e": 2.7223,
+      "hidden_supply_kg_co2e": 1.1667,
+      "keywords": [
+        "燃料油使用(蒸餘油/重油使用，2022)",
+        "燃料油使用",
+        "蒸餘油",
+        "重油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1116",
+      "factor_name": "潤滑油(未燃燒，2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.09,
+      "direct_kg_co2e": 0.763,
+      "hidden_supply_kg_co2e": 0.327,
+      "keywords": [
+        "潤滑油(未燃燒，2022)",
+        "潤滑油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1117",
+      "factor_name": "車用汽油(未燃燒，2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.6078,
+      "direct_kg_co2e": 0.42546,
+      "hidden_supply_kg_co2e": 0.18234,
+      "keywords": [
+        "車用汽油(未燃燒，2022)",
+        "車用汽油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1118",
+      "factor_name": "車用汽油(於固定源使用，2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.879,
+      "direct_kg_co2e": 2.0153,
+      "hidden_supply_kg_co2e": 0.8637,
+      "keywords": [
+        "車用汽油(於固定源使用，2022)",
+        "車用汽油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1119",
+      "factor_name": "車用汽油(於移動源使用，2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.93,
+      "direct_kg_co2e": 2.051,
+      "hidden_supply_kg_co2e": 0.879,
+      "keywords": [
+        "車用汽油(於移動源使用，2022)",
+        "車用汽油",
+        "於移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1120",
+      "factor_name": "煤油(未燃燒，2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.3575,
+      "direct_kg_co2e": 0.25025,
+      "hidden_supply_kg_co2e": 0.10725,
+      "keywords": [
+        "煤油(未燃燒，2022)",
+        "煤油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1121",
+      "factor_name": "煤油使用(2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.925,
+      "direct_kg_co2e": 2.0475,
+      "hidden_supply_kg_co2e": 0.8775,
+      "keywords": [
+        "煤油使用(2022)",
+        "煤油使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1122",
+      "factor_name": "柴油(未燃燒，2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.677,
+      "direct_kg_co2e": 0.4739,
+      "hidden_supply_kg_co2e": 0.2031,
+      "keywords": [
+        "柴油(未燃燒，2022)",
+        "柴油",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1123",
+      "factor_name": "柴油(於固定源使用，2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.292,
+      "direct_kg_co2e": 2.3044,
+      "hidden_supply_kg_co2e": 0.9876,
+      "keywords": [
+        "柴油(於固定源使用，2022)",
+        "柴油",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1124",
+      "factor_name": "柴油(於公路運輸移動源使用，2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.324,
+      "direct_kg_co2e": 2.3268,
+      "hidden_supply_kg_co2e": 0.9972,
+      "keywords": [
+        "柴油(於公路運輸移動源使用，2022)",
+        "柴油",
+        "於公路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1125",
+      "factor_name": "柴油(於鐵路運輸與非道路運輸移動源使用，2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.562,
+      "direct_kg_co2e": 2.4934,
+      "hidden_supply_kg_co2e": 1.0686,
+      "keywords": [
+        "柴油(於鐵路運輸與非道路運輸移動源使用，2022)",
+        "柴油",
+        "於鐵路運輸與非道路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1126",
+      "factor_name": "柴油(於水路運輸移動源使用，2022)",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.309,
+      "direct_kg_co2e": 2.3163,
+      "hidden_supply_kg_co2e": 0.9927,
+      "keywords": [
+        "柴油(於水路運輸移動源使用，2022)",
+        "柴油",
+        "於水路運輸移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1127",
+      "factor_name": "柴油(於捕撈移動源使用，2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.299,
+      "direct_kg_co2e": 2.3093,
+      "hidden_supply_kg_co2e": 0.9897,
+      "keywords": [
+        "柴油(於捕撈移動源使用，2022)",
+        "柴油",
+        "於捕撈移動源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1128",
+      "factor_name": "液化石油氣(未燃燒，2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.4559,
+      "direct_kg_co2e": 0.31913,
+      "hidden_supply_kg_co2e": 0.13677,
+      "keywords": [
+        "液化石油氣(未燃燒，2022)",
+        "液化石油氣",
+        "未燃燒"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1129",
+      "factor_name": "液化石油氣(於固定源使用，2022)",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公升(L)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 2.21,
+      "direct_kg_co2e": 1.547,
+      "hidden_supply_kg_co2e": 0.663,
+      "keywords": [
+        "液化石油氣(於固定源使用，2022)",
+        "液化石油氣",
+        "於固定源使用"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1147",
+      "factor_name": "霧峰香米（慣行農法）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 5.525,
+      "direct_kg_co2e": 3.8675,
+      "hidden_supply_kg_co2e": 1.6575,
+      "keywords": [
+        "霧峰香米（慣行農法）",
+        "霧峰香米",
+        "慣行農法"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1148",
+      "factor_name": "霧峰香米（有機農法）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "包",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 4.159,
+      "direct_kg_co2e": 2.9113,
+      "hidden_supply_kg_co2e": 1.2477,
+      "keywords": [
+        "霧峰香米（有機農法）",
+        "霧峰香米",
+        "有機農法"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2025"
+    },
+    {
+      "factor_code": "MOENV-1174",
+      "factor_name": "綠茶（品種：青心大冇）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "袋(pcs)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.8911,
+      "direct_kg_co2e": 0.62377,
+      "hidden_supply_kg_co2e": 0.26733,
+      "keywords": [
+        "綠茶（品種：青心大冇）",
+        "綠茶",
+        "品種：青心大冇"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2026"
+    },
+    {
+      "factor_code": "MOENV-1175",
+      "factor_name": "烏龍茶（品種：沁玉）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "盒(pcs)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.8992,
+      "direct_kg_co2e": 0.62944,
+      "hidden_supply_kg_co2e": 0.26976,
+      "keywords": [
+        "烏龍茶（品種：沁玉）",
+        "烏龍茶",
+        "品種：沁玉"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2026"
+    },
+    {
+      "factor_code": "MOENV-1177",
+      "factor_name": "白肉雞",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "公斤(kg)",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 4.078,
+      "direct_kg_co2e": 2.8546,
+      "hidden_supply_kg_co2e": 1.2234,
+      "keywords": [
+        "白肉雞"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2026"
+    },
+    {
+      "factor_code": "MOENV-1178",
+      "factor_name": "紅茶（品種：阿薩姆）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "罐(pcs)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.497,
+      "direct_kg_co2e": 1.0479,
+      "hidden_supply_kg_co2e": 0.4491,
+      "keywords": [
+        "紅茶（品種：阿薩姆）",
+        "紅茶",
+        "品種：阿薩姆"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2026"
+    },
+    {
+      "factor_code": "MOENV-1182",
+      "factor_name": "包裝飲用水",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "毫升(ml)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.000438,
+      "direct_kg_co2e": 0.000307,
+      "hidden_supply_kg_co2e": 0.000131,
+      "keywords": [
+        "包裝飲用水"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2026"
+    },
+    {
+      "factor_code": "MOENV-1183",
+      "factor_name": "洗髮精",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "毫升(ml)",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.001388,
+      "direct_kg_co2e": 0.000972,
+      "hidden_supply_kg_co2e": 0.000416,
+      "keywords": [
+        "洗髮精"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2026"
+    },
+    {
+      "factor_code": "MOENV-1184",
+      "factor_name": "大捲筒衛生紙（1公斤）",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "捲",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 3.189,
+      "direct_kg_co2e": 2.2323,
+      "hidden_supply_kg_co2e": 0.9567,
+      "keywords": [
+        "大捲筒衛生紙（1公斤）",
+        "大捲筒衛生紙",
+        "公斤"
+      ],
+      "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+      "announce_year": "2026"
     }
   ]
 }

@@ -12,6 +12,7 @@ router = APIRouter(prefix="/api/carbon", tags=["Carbon MOENV Service"])
 
 BASE_DIR = Path(__file__).resolve().parent
 SEED_JSON_PATH = BASE_DIR / "moenv_cfp_seed_data.json"
+CONFIG_JSON_PATH = BASE_DIR / "carbon_estimation_config.json"
 
 DEFAULT_CATEGORY_AVERAGES: Dict[str, Dict[str, Any]] = {
     "utility": {"label": "水電瓦斯", "avg_kg_co2e": 0.474, "unit": "度"},
@@ -23,16 +24,58 @@ DEFAULT_CATEGORY_AVERAGES: Dict[str, Dict[str, Any]] = {
 }
 
 
+def load_estimation_config() -> Dict[str, Any]:
+    default_cfg: Dict[str, Any] = {
+        "confidence_threshold": 0.75,
+        "fallback_category_key": "food",
+        "carbon_split": {
+            "direct_ratio": 0.70,
+            "hidden_ratio": 0.30,
+            "basis": "依系統碳排拆算規則區分為直接碳足跡與隱形碳成本",
+        },
+        "category_averages": {},
+    }
+    if CONFIG_JSON_PATH.exists():
+        try:
+            with CONFIG_JSON_PATH.open("r", encoding="utf-8") as f:
+                loaded = json.load(f)
+                if isinstance(loaded, dict):
+                    merged = {**default_cfg, **loaded}
+                    merged["carbon_split"] = {
+                        **default_cfg["carbon_split"],
+                        **(loaded.get("carbon_split") or {}),
+                    }
+                    return merged
+        except Exception:
+            pass
+    return default_cfg
+
+
+def get_carbon_split() -> Dict[str, Any]:
+    cfg = load_estimation_config()
+    split = cfg.get("carbon_split") or {}
+    direct_ratio = float(split.get("direct_ratio", 0.70))
+    hidden_ratio = float(split.get("hidden_ratio", 0.30))
+    if direct_ratio + hidden_ratio <= 0:
+        direct_ratio, hidden_ratio = 0.70, 0.30
+    return {
+        "direct_ratio": direct_ratio,
+        "hidden_ratio": hidden_ratio,
+        "basis": str(split.get("basis") or "系統預設碳排拆算比例"),
+    }
+
+
 def load_seed_data() -> Dict[str, Any]:
     if SEED_JSON_PATH.exists():
         with SEED_JSON_PATH.open("r", encoding="utf-8") as f:
             return json.load(f)
+    cfg = load_estimation_config()
     return {
         "source": {
             "name": "環境部產品碳足跡資訊網",
             "url": "https://cfp.moenv.gov.tw/WebPage/Index.aspx",
             "announce_year": "115年",
-            "confidence_threshold": 0.75,
+            "confidence_threshold": float(cfg.get("confidence_threshold", 0.75)),
         },
         "category_averages": DEFAULT_CATEGORY_AVERAGES,
         "emission_factors": [],
@@ -82,6 +125,10 @@ def _get_mysql_connection() -> Optional[pymysql.connections.Connection]:
 
 
 def _normalize_factor_row(r: Dict[str, Any]) -> Dict[str, Any]:
+    split = get_carbon_split()
+    direct_ratio = split["direct_ratio"]
+    hidden_ratio = split["hidden_ratio"]
+
     kw_raw = r.get("keywords") or ""
     if isinstance(kw_raw, str):
         kw_list = [k.strip() for k in kw_raw.split(",") if k.strip()]
@@ -94,12 +141,12 @@ def _normalize_factor_row(r: Dict[str, Any]) -> Dict[str, Any]:
     direct_kg = (
         float(r.get("direct_kg_co2e"))
         if r.get("direct_kg_co2e") is not None
-        else round(total_kg * 0.70, 6)
+        else round(total_kg * direct_ratio, 6)
     )
     hidden_kg = (
         float(r.get("hidden_supply_kg_co2e"))
         if r.get("hidden_supply_kg_co2e") is not None
-        else round(total_kg * 0.30, 6)
+        else round(total_kg * hidden_ratio, 6)
     )
 
     return {
@@ -153,11 +200,34 @@ def get_all_emission_factors() -> List[Dict[str, Any]]:
 
 
 def get_category_averages() -> Dict[str, Dict[str, Any]]:
+    cfg = load_estimation_config()
     seed = load_seed_data()
-    averages = seed.get("category_averages")
-    if isinstance(averages, dict) and averages:
-        return averages
-    return DEFAULT_CATEGORY_AVERAGES
+
+    merged: Dict[str, Dict[str, Any]] = {
+        k: dict(v) for k, v in DEFAULT_CATEGORY_AVERAGES.items()
+    }
+
+    seed_avgs = seed.get("category_averages")
+    if isinstance(seed_avgs, dict):
+        for k, v in seed_avgs.items():
+            if isinstance(v, dict):
+                merged[k] = {**merged.get(k, {}), **v}
+
+    cfg_avgs = cfg.get("category_averages")
+    if isinstance(cfg_avgs, dict):
+        for k, v in cfg_avgs.items():
+            if isinstance(v, dict):
+                val = v.get("avg_kg_co2e")
+                if val is None:
+                    val = v.get("kg_co2e")
+                if val is not None:
+                    merged[k] = {
+                        **merged.get(k, {}),
+                        **v,
+                        "avg_kg_co2e": float(val),
+                    }
+
+    return merged
 
 
 class EstimateRequest(BaseModel):
@@ -173,12 +243,17 @@ class EstimateRequest(BaseModel):
 @router.get("/factors")
 def list_factors(category_key: Optional[str] = Query(default=None)) -> Dict[str, Any]:
     seed = load_seed_data()
+    cfg = load_estimation_config()
     factors = get_all_emission_factors()
     if category_key:
         factors = [f for f in factors if f.get("category_key") == category_key]
 
+    source_info = dict(seed.get("source") or {})
+    source_info["confidence_threshold"] = float(cfg.get("confidence_threshold", 0.75))
+
     return {
-        "source": seed.get("source"),
+        "source": source_info,
+        "carbon_split": get_carbon_split(),
         "category_averages": get_category_averages(),
         "total": len(factors),
         "factors": factors,
@@ -189,6 +264,10 @@ def list_factors(category_key: Optional[str] = Query(default=None)) -> Dict[str,
 def estimate_item_carbon(req: EstimateRequest) -> Dict[str, Any]:
     factors = get_all_emission_factors()
     averages = get_category_averages()
+    cfg = load_estimation_config()
+    split = get_carbon_split()
+    seed = load_seed_data()
+    source_name = (seed.get("source") or {}).get("name") or "環境部產品碳足跡資訊網"
 
     selected_factor = None
     if req.factor_code:
@@ -201,8 +280,16 @@ def estimate_item_carbon(req: EstimateRequest) -> Dict[str, Any]:
 
     if selected_factor is not None:
         base_kg = float(selected_factor["kg_co2e"])
-        direct_unit = float(selected_factor.get("direct_kg_co2e") or round(base_kg * 0.70, 6))
-        hidden_unit = float(selected_factor.get("hidden_supply_kg_co2e") or round(base_kg * 0.30, 6))
+        direct_unit = float(
+            selected_factor.get("direct_kg_co2e")
+            if selected_factor.get("direct_kg_co2e") is not None
+            else round(base_kg * split["direct_ratio"], 6)
+        )
+        hidden_unit = float(
+            selected_factor.get("hidden_supply_kg_co2e")
+            if selected_factor.get("hidden_supply_kg_co2e") is not None
+            else round(base_kg * split["hidden_ratio"], 6)
+        )
         is_weight = int(selected_factor.get("is_weight_unit") or 0)
         unit_to_base = float(selected_factor.get("unit_to_base_gram") or 1.0)
         declared_unit = str(selected_factor.get("declared_unit") or "").strip().lower()
@@ -231,22 +318,33 @@ def estimate_item_carbon(req: EstimateRequest) -> Dict[str, Any]:
             "hidden_carbon_cost_kg": round(hidden_unit * effective_units, 4),
             "is_estimated": False,
             "label": "已對齊碳係數",
+            "source": selected_factor.get("source") or source_name,
+            "basis": f"依指定標準係數 {selected_factor['factor_name']}（{base_kg} kg CO2e/{selected_factor['declared_unit']}）計算",
         }
 
-    cat_info = averages.get(req.category_key) or averages["food"]
-    avg_kg = float(cat_info["avg_kg_co2e"])
+    fallback_key = str(cfg.get("fallback_category_key") or "food")
+    resolved_key = (
+        req.category_key
+        if req.category_key in averages
+        else (fallback_key if fallback_key in averages else next(iter(averages.keys())))
+    )
+    cat_info = averages[resolved_key]
+    avg_kg = float(cat_info.get("avg_kg_co2e") or cat_info.get("kg_co2e") or 0.0)
     total_kg_co2e = round(avg_kg * float(req.quantity), 4)
+
     return {
         "item_name": req.item_name,
         "factor_code": None,
-        "factor_name": f"{cat_info['label']}類別平均係數",
-        "category_key": req.category_key if req.category_key in averages else "food",
-        "category_label": cat_info["label"],
+        "factor_name": f"{cat_info.get('label', resolved_key)}類別平均係數",
+        "category_key": resolved_key,
+        "category_label": cat_info.get("label", resolved_key),
         "effective_units": float(req.quantity),
         "unit_kg_co2e": avg_kg,
         "total_kg_co2e": total_kg_co2e,
-        "direct_kg_co2e": round(total_kg_co2e * 0.70, 4),
-        "hidden_carbon_cost_kg": round(total_kg_co2e * 0.30, 4),
+        "direct_kg_co2e": round(total_kg_co2e * split["direct_ratio"], 4),
+        "hidden_carbon_cost_kg": round(total_kg_co2e * split["hidden_ratio"], 4),
         "is_estimated": True,
         "label": "估算品項",
+        "source": "系統估算設定檔（carbon_estimation_config.json）",
+        "basis": cat_info.get("basis") or f"{cat_info.get('label', resolved_key)}類別平均係數估算",
     }
