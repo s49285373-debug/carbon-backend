@@ -3,7 +3,7 @@ import math
 import os
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import chromadb
 from fastapi import APIRouter
@@ -25,6 +25,41 @@ FEEDBACK_FILE = BASE_DIR / "manual_corrections.json"
 seed_meta = load_seed_data().get("source", {})
 CONFIDENCE_THRESHOLD = float(seed_meta.get("confidence_threshold", 0.75))
 
+FOOD_HINTS = (
+    "麵",
+    "杯麵",
+    "泡麵",
+    "來一客",
+    "飯",
+    "御飯糰",
+    "便當",
+    "蛋",
+    "餃",
+    "鍋貼",
+    "漢堡",
+    "麵包",
+    "餅乾",
+    "吐司",
+    "三明治",
+)
+BEVERAGE_HINTS = (
+    "茶",
+    "咖啡",
+    "拿鐵",
+    "美式",
+    "鮮奶",
+    "鮮乳",
+    "豆漿",
+    "綠豆沙",
+    "可可",
+    "飲料",
+    "ml",
+    "毫升",
+)
+
+_CACHED_COLLECTION: Any = None
+_CACHED_SIGNATURE: Optional[str] = None
+
 
 def _load_feedback_map() -> Dict[str, Dict[str, Any]]:
     if FEEDBACK_FILE.exists():
@@ -39,11 +74,8 @@ def _load_feedback_map() -> Dict[str, Dict[str, Any]]:
 
 
 def _save_feedback_map(data: Dict[str, Dict[str, Any]]) -> None:
-    try:
-        with FEEDBACK_FILE.open("w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-    except Exception:
-        pass
+    with FEEDBACK_FILE.open("w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
 
 
 def _get_openai_client() -> Optional[OpenAI]:
@@ -53,13 +85,41 @@ def _get_openai_client() -> Optional[OpenAI]:
     return OpenAI(api_key=api_key)
 
 
-def _build_chroma_collection() -> Any:
-    CHROMA_DIR.mkdir(parents=True, exist_ok=True)
-    client = chromadb.PersistentClient(path=str(CHROMA_DIR))
-    collection = client.get_or_create_collection(name="moenv_emission_factors")
+def _compute_data_signature(factors: List[Dict[str, Any]], feedback: Dict[str, Any]) -> str:
+    payload = json.dumps(
+        {"factors": factors, "feedback": feedback}, ensure_ascii=False, sort_keys=True
+    )
+    return str(abs(hash(payload)))
+
+
+def _split_carbon_units(raw: Dict[str, Any]) -> Tuple[float, float, float]:
+    total_kg = float(raw.get("kg_co2e") or 0.0)
+    direct_kg = (
+        float(raw.get("direct_kg_co2e"))
+        if raw.get("direct_kg_co2e") is not None
+        else round(total_kg * 0.70, 6)
+    )
+    hidden_kg = (
+        float(raw.get("hidden_supply_kg_co2e"))
+        if raw.get("hidden_supply_kg_co2e") is not None
+        else round(total_kg * 0.30, 6)
+    )
+    return total_kg, direct_kg, hidden_kg
+
+
+def _build_chroma_collection(force_rebuild: bool = False) -> Any:
+    global _CACHED_COLLECTION, _CACHED_SIGNATURE
 
     factors = get_all_emission_factors()
     feedback = _load_feedback_map()
+    sig = _compute_data_signature(factors, feedback)
+
+    if not force_rebuild and _CACHED_COLLECTION is not None and _CACHED_SIGNATURE == sig:
+        return _CACHED_COLLECTION
+
+    CHROMA_DIR.mkdir(parents=True, exist_ok=True)
+    client = chromadb.PersistentClient(path=str(CHROMA_DIR))
+    collection = client.get_or_create_collection(name="moenv_emission_factors")
 
     ids: List[str] = []
     documents: List[str] = []
@@ -69,9 +129,12 @@ def _build_chroma_collection() -> Any:
         code = str(f["factor_code"])
         kw_list = f.get("keywords") or []
         kw_text = "、".join(kw_list) if isinstance(kw_list, list) else str(kw_list)
+        total_kg, direct_kg, hidden_kg = _split_carbon_units(f)
+
         doc_text = (
             f"係數代碼:{code} | 品項:{f['factor_name']} | "
-            f"類別:{f['category_label']}({f['category_key']}) | 關鍵字:{kw_text}"
+            f"類別:{f['category_label']}({f['category_key']}) | "
+            f"單位:{f.get('declared_unit') or '件'} | 關鍵字:{kw_text}"
         )
         ids.append(f"factor::{code}")
         documents.append(doc_text)
@@ -81,7 +144,9 @@ def _build_chroma_collection() -> Any:
                 "factor_name": str(f["factor_name"]),
                 "category_key": str(f["category_key"]),
                 "category_label": str(f["category_label"]),
-                "kg_co2e": float(f["kg_co2e"]),
+                "kg_co2e": total_kg,
+                "direct_kg_co2e": direct_kg,
+                "hidden_supply_kg_co2e": hidden_kg,
                 "declared_unit": str(f.get("declared_unit") or "件"),
                 "unit_to_base_gram": float(f.get("unit_to_base_gram") or 1.0),
                 "is_weight_unit": int(f.get("is_weight_unit") or 0),
@@ -91,6 +156,8 @@ def _build_chroma_collection() -> Any:
 
     for raw_name, fb in feedback.items():
         fb_id = f"feedback::{raw_name}"
+        total_kg, direct_kg, hidden_kg = _split_carbon_units(fb)
+
         doc_text = (
             f"人工校正品名:{raw_name} -> 係數:{fb.get('factor_name')} "
             f"({fb.get('factor_code')}) | 類別:{fb.get('category_label')}"
@@ -103,7 +170,9 @@ def _build_chroma_collection() -> Any:
                 "factor_name": str(fb.get("factor_name") or ""),
                 "category_key": str(fb.get("category_key") or "food"),
                 "category_label": str(fb.get("category_label") or "餐飲食物"),
-                "kg_co2e": float(fb.get("kg_co2e") or 1.45),
+                "kg_co2e": total_kg,
+                "direct_kg_co2e": direct_kg,
+                "hidden_supply_kg_co2e": hidden_kg,
                 "declared_unit": str(fb.get("declared_unit") or "份"),
                 "unit_to_base_gram": float(fb.get("unit_to_base_gram") or 1.0),
                 "is_weight_unit": int(fb.get("is_weight_unit") or 0),
@@ -114,19 +183,61 @@ def _build_chroma_collection() -> Any:
     if ids:
         collection.upsert(ids=ids, documents=documents, metadatas=metadatas)
 
+    _CACHED_COLLECTION = collection
+    _CACHED_SIGNATURE = sig
     return collection
 
 
-def _extract_volume_or_weight(item_name: str) -> Optional[float]:
-    match = re.search(r"(\d+(?:\.\d+)?)\s*(ml|mL|ML|g|G)\b", item_name)
-    if match:
-        return float(match.group(1))
+def _extract_amount_and_unit(item_name: str) -> Tuple[Optional[float], Optional[str]]:
+    m_weight = re.search(r"(\d+(?:\.\d+)?)\s*(公克|g|G)\b", item_name)
+    if m_weight:
+        return float(m_weight.group(1)), "g"
+
+    m_vol = re.search(r"(\d+(?:\.\d+)?)\s*(毫升|ml|mL|ML)\b", item_name)
+    if m_vol:
+        return float(m_vol.group(1)), "ml"
+
+    m_liter = re.search(r"(\d+(?:\.\d+)?)\s*(公升|l|L)\b", item_name)
+    if m_liter:
+        return float(m_liter.group(1)) * 1000.0, "ml"
+
     tail_match = re.search(r"(\d{3,4})$", item_name.strip())
     if tail_match:
         val = float(tail_match.group(1))
         if 100.0 <= val <= 2000.0:
-            return val
-    return None
+            return val, "ml"
+
+    return None, None
+
+
+def _compute_effective_units(
+    meta: Dict[str, Any],
+    quantity: float,
+    amount_val: Optional[float],
+    amount_unit: Optional[str],
+) -> float:
+    is_weight = int(meta.get("is_weight_unit") or 0)
+    unit_to_base = float(meta.get("unit_to_base_gram") or 1.0)
+    declared_unit = str(meta.get("declared_unit") or "").strip().lower()
+
+    if amount_val is not None and amount_val > 0 and unit_to_base > 0:
+        if declared_unit in ("l", "公升") and amount_unit in ("ml", "g"):
+            return (amount_val / 1000.0) * float(quantity)
+        if is_weight == 1 and amount_unit in ("g", "ml"):
+            return (amount_val / unit_to_base) * float(quantity)
+
+    return float(quantity)
+
+
+def _infer_category_from_name(item_name: str, default_cat: str) -> str:
+    lower = item_name.lower()
+    has_food = any(h in item_name or h in lower for h in FOOD_HINTS)
+    has_bev = any(h in item_name or h in lower for h in BEVERAGE_HINTS)
+    if has_food and not has_bev:
+        return "food"
+    if has_bev and not has_food:
+        return "beverage"
+    return default_cat
 
 
 def _llm_rerank_and_score(
@@ -160,8 +271,9 @@ def _llm_rerank_and_score(
                 {
                     "role": "system",
                     "content": (
-                        "你是碳足跡品項語意對齊助手。請根據輸入的發票或消費品項名稱，"
-                        "從候選排放係數中選出最貼切的一筆，並給出 0.0 到 1.0 的信心分數 confidence。"
+                        "你是台灣環境部產品碳足跡語意對齊助手。請根據輸入的發票或消費品項名稱，"
+                        "從候選排放係數中選出最貼切且同類別的一筆，並給出 0.0 到 1.0 的信心分數 confidence。"
+                        "若候選皆不貼切或跨大類錯誤，請給較低信心分數（< 0.75）。"
                         '僅回傳 JSON：{"factor_code": "...", "confidence": 0.0, "reason": "..."}'
                     ),
                 },
@@ -191,24 +303,36 @@ def _keyword_fallback_candidates(
     item_name: str, factors_all: List[Dict[str, Any]]
 ) -> List[Dict[str, Any]]:
     lower_name = item_name.lower()
+    inferred_cat = _infer_category_from_name(item_name, "")
     matched: List[Dict[str, Any]] = []
+
     for f in factors_all:
         kw_list = f.get("keywords") or []
         hit = any(kw and str(kw).lower() in lower_name for kw in kw_list)
-        if hit or str(f.get("factor_name") or "").lower() in lower_name:
+        name_hit = str(f.get("factor_name") or "").lower() in lower_name
+        if hit or name_hit:
+            sim = 0.88 if hit else 0.78
+            if inferred_cat == "food" and f.get("category_key") == "beverage":
+                sim -= 0.25
+            total_kg, direct_kg, hidden_kg = _split_carbon_units(f)
+
             matched.append(
                 {
                     "factor_code": str(f.get("factor_code") or ""),
                     "factor_name": str(f.get("factor_name") or ""),
                     "category_key": str(f.get("category_key") or "food"),
                     "category_label": str(f.get("category_label") or "餐飲食物"),
-                    "kg_co2e": float(f.get("kg_co2e") or 0.0),
+                    "kg_co2e": total_kg,
+                    "direct_kg_co2e": direct_kg,
+                    "hidden_supply_kg_co2e": hidden_kg,
                     "declared_unit": str(f.get("declared_unit") or "件"),
                     "unit_to_base_gram": float(f.get("unit_to_base_gram") or 1.0),
                     "is_weight_unit": int(f.get("is_weight_unit") or 0),
-                    "similarity": 0.86 if hit else 0.78,
+                    "similarity": round(max(0.0, min(1.0, sim)), 4),
                 }
             )
+
+    matched.sort(key=lambda x: x["similarity"], reverse=True)
     return matched[:3]
 
 
@@ -229,23 +353,27 @@ class ManualCorrectionRequest(BaseModel):
     )
 
 
+@router.post("/rebuild-index")
+def rebuild_index() -> Dict[str, Any]:
+    col = _build_chroma_collection(force_rebuild=True)
+    return {"status": "ok", "count": col.count()}
+
+
 @router.post("/align-item")
 def align_item(req: AlignItemRequest) -> Dict[str, Any]:
     feedback = _load_feedback_map()
     averages = get_category_averages()
     factors_all = get_all_emission_factors()
-    amount_val = _extract_volume_or_weight(req.item_name)
+    amount_val, amount_unit = _extract_amount_and_unit(req.item_name)
+    inferred_cat = _infer_category_from_name(req.item_name, req.fallback_category_key)
 
     if req.item_name in feedback:
         fb = feedback[req.item_name]
-        base_kg = float(fb["kg_co2e"])
-        is_weight = int(fb.get("is_weight_unit") or 0)
-        unit_to_base = float(fb.get("unit_to_base_gram") or 1.0)
-        effective_units = (
-            (amount_val / unit_to_base) * float(req.quantity)
-            if (is_weight == 1 and amount_val and unit_to_base > 0)
-            else float(req.quantity)
+        base_kg, direct_unit, hidden_unit = _split_carbon_units(fb)
+        effective_units = _compute_effective_units(
+            fb, float(req.quantity), amount_val, amount_unit
         )
+        total_kg = round(base_kg * effective_units, 4)
         return {
             "item_name": req.item_name,
             "matched": True,
@@ -258,14 +386,16 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
             "category_key": fb["category_key"],
             "category_label": fb["category_label"],
             "effective_units": round(effective_units, 4),
-            "total_kg_co2e": round(base_kg * effective_units, 4),
+            "total_kg_co2e": total_kg,
+            "direct_kg_co2e": round(direct_unit * effective_units, 4),
+            "hidden_carbon_cost_kg": round(hidden_unit * effective_units, 4),
             "top3_candidates": [],
         }
 
     top3: List[Dict[str, Any]] = []
     chroma_ok = False
     try:
-        collection = _build_chroma_collection()
+        collection = _build_chroma_collection(force_rebuild=False)
         query_res = collection.query(query_texts=[req.item_name], n_results=3)
 
         metadatas_list = (query_res.get("metadatas") or [[]])[0]
@@ -274,23 +404,29 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
         for meta, dist in zip(metadatas_list, distances_list):
             if not meta:
                 continue
-            similarity = round(max(0.0, min(1.0, 1.0 - float(dist) / 2.0)), 4)
-            if float(dist) <= 1.0:
-                similarity = round(max(0.0, min(1.0, math.exp(-float(dist)))), 4)
+            d = max(0.0, float(dist))
+            similarity = round(max(0.0, min(1.0, math.exp(-d * 0.65))), 4)
+            cat_k = str(meta.get("category_key") or "food")
+            if inferred_cat == "food" and cat_k == "beverage":
+                similarity = round(max(0.0, similarity - 0.25), 4)
 
+            total_kg, direct_kg, hidden_kg = _split_carbon_units(meta)
             top3.append(
                 {
                     "factor_code": str(meta.get("factor_code") or ""),
                     "factor_name": str(meta.get("factor_name") or ""),
-                    "category_key": str(meta.get("category_key") or "food"),
+                    "category_key": cat_k,
                     "category_label": str(meta.get("category_label") or "餐飲食物"),
-                    "kg_co2e": float(meta.get("kg_co2e") or 0.0),
+                    "kg_co2e": total_kg,
+                    "direct_kg_co2e": direct_kg,
+                    "hidden_supply_kg_co2e": hidden_kg,
                     "declared_unit": str(meta.get("declared_unit") or "件"),
                     "unit_to_base_gram": float(meta.get("unit_to_base_gram") or 1.0),
                     "is_weight_unit": int(meta.get("is_weight_unit") or 0),
                     "similarity": similarity,
                 }
             )
+        top3.sort(key=lambda x: x["similarity"], reverse=True)
         chroma_ok = True
     except Exception:
         top3 = _keyword_fallback_candidates(req.item_name, factors_all)
@@ -318,12 +454,23 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
     if best is None or confidence < CONFIDENCE_THRESHOLD:
         cat_key = (
             best["category_key"]
-            if (best and best.get("category_key") in averages)
-            else (req.fallback_category_key if req.fallback_category_key in averages else "food")
+            if (
+                best
+                and best.get("category_key") in averages
+                and not (inferred_cat == "food" and best.get("category_key") == "beverage")
+            )
+            else (inferred_cat if inferred_cat in averages else "food")
         )
         cat_info = averages[cat_key]
         avg_kg = float(cat_info["avg_kg_co2e"])
-        total_kg_co2e = round(avg_kg * float(req.quantity), 4)
+
+        if amount_unit == "g" and amount_val:
+            eff_units = round((amount_val / 100.0) * float(req.quantity), 4)
+            est_total = round(avg_kg * eff_units * 0.35, 4)
+        else:
+            eff_units = float(req.quantity)
+            est_total = round(avg_kg * eff_units, 4)
+
         return {
             "item_name": req.item_name,
             "matched": False,
@@ -335,18 +482,16 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
             "factor_name": f"{cat_info['label']}大類平均係數",
             "category_key": cat_key,
             "category_label": cat_info["label"],
-            "effective_units": float(req.quantity),
-            "total_kg_co2e": total_kg_co2e,
+            "effective_units": eff_units,
+            "total_kg_co2e": est_total,
+            "direct_kg_co2e": round(est_total * 0.70, 4),
+            "hidden_carbon_cost_kg": round(est_total * 0.30, 4),
             "top3_candidates": top3,
         }
 
-    base_kg = float(best["kg_co2e"])
-    is_weight = int(best.get("is_weight_unit") or 0)
-    unit_to_base = float(best.get("unit_to_base_gram") or 1.0)
-    effective_units = (
-        (amount_val / unit_to_base) * float(req.quantity)
-        if (is_weight == 1 and amount_val and unit_to_base > 0)
-        else float(req.quantity)
+    base_kg, direct_unit, hidden_unit = _split_carbon_units(best)
+    effective_units = _compute_effective_units(
+        best, float(req.quantity), amount_val, amount_unit
     )
     total_kg_co2e = round(base_kg * effective_units, 4)
 
@@ -363,6 +508,8 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
         "category_label": best["category_label"],
         "effective_units": round(effective_units, 4),
         "total_kg_co2e": total_kg_co2e,
+        "direct_kg_co2e": round(direct_unit * effective_units, 4),
+        "hidden_carbon_cost_kg": round(hidden_unit * effective_units, 4),
         "top3_candidates": top3,
     }
 
@@ -383,23 +530,33 @@ def save_manual_correction(req: ManualCorrectionRequest) -> Dict[str, Any]:
     cat_info = averages[cat_key]
 
     if chosen_factor is not None:
+        total_kg = float(req.custom_kg_co2e or chosen_factor["kg_co2e"])
         record = {
             "factor_code": chosen_factor["factor_code"],
             "factor_name": chosen_factor["factor_name"],
             "category_key": chosen_factor["category_key"],
             "category_label": chosen_factor["category_label"],
-            "kg_co2e": float(req.custom_kg_co2e or chosen_factor["kg_co2e"]),
+            "kg_co2e": total_kg,
+            "direct_kg_co2e": float(
+                chosen_factor.get("direct_kg_co2e") or round(total_kg * 0.70, 6)
+            ),
+            "hidden_supply_kg_co2e": float(
+                chosen_factor.get("hidden_supply_kg_co2e") or round(total_kg * 0.30, 6)
+            ),
             "declared_unit": chosen_factor.get("declared_unit", "件"),
             "unit_to_base_gram": float(chosen_factor.get("unit_to_base_gram", 1.0)),
             "is_weight_unit": int(chosen_factor.get("is_weight_unit", 0)),
         }
     else:
+        total_kg = float(req.custom_kg_co2e or cat_info["avg_kg_co2e"])
         record = {
             "factor_code": "MANUAL-CUSTOM",
             "factor_name": f"{cat_info['label']}手動校正係數",
             "category_key": cat_key,
             "category_label": cat_info["label"],
-            "kg_co2e": float(req.custom_kg_co2e or cat_info["avg_kg_co2e"]),
+            "kg_co2e": total_kg,
+            "direct_kg_co2e": round(total_kg * 0.70, 6),
+            "hidden_supply_kg_co2e": round(total_kg * 0.30, 6),
             "declared_unit": cat_info.get("unit", "份"),
             "unit_to_base_gram": 1.0,
             "is_weight_unit": 0,
@@ -409,7 +566,7 @@ def save_manual_correction(req: ManualCorrectionRequest) -> Dict[str, Any]:
     feedback[req.item_name] = record
     _save_feedback_map(feedback)
     try:
-        _build_chroma_collection()
+        _build_chroma_collection(force_rebuild=True)
     except Exception:
         pass
 

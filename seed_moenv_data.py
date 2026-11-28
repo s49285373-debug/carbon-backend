@@ -2,7 +2,7 @@ import argparse
 import json
 import os
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import urlparse
 
 import pymysql
@@ -19,10 +19,37 @@ def load_json_file(json_path: Path) -> Dict[str, Any]:
         return json.load(f)
 
 
+def _resolve_carbon_values(item: Dict[str, Any]) -> Tuple[float, float, float]:
+    """回傳 (kg_co2e, direct_kg_co2e, hidden_supply_kg_co2e)"""
+    total_raw = item.get("kg_co2e")
+    direct_raw = item.get("direct_kg_co2e")
+    hidden_raw = item.get("hidden_supply_kg_co2e")
+
+    if total_raw is not None:
+        total_val = float(total_raw)
+    else:
+        total_val = round(float(direct_raw or 0.0) + float(hidden_raw or 0.0), 6)
+
+    if direct_raw is not None and hidden_raw is not None:
+        direct_val = float(direct_raw)
+        hidden_val = float(hidden_raw)
+    elif direct_raw is not None:
+        direct_val = float(direct_raw)
+        hidden_val = round(max(0.0, total_val - direct_val), 6)
+    elif hidden_raw is not None:
+        hidden_val = float(hidden_raw)
+        direct_val = round(max(0.0, total_val - hidden_val), 6)
+    else:
+        hidden_val = round(total_val * 0.30, 6)
+        direct_val = round(total_val - hidden_val, 6)
+
+    return round(total_val, 6), round(direct_val, 6), round(hidden_val, 6)
+
+
 def collect_emission_factors(
     files: Optional[List[Path]] = None,
     include_extra_glob: bool = True,
-) -> tuple[List[Dict[str, Any]], Dict[str, Any]]:
+) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     target_files: List[Path] = list(files) if files else list(DEFAULT_SEED_FILES)
 
     if include_extra_glob:
@@ -35,6 +62,7 @@ def collect_emission_factors(
         "name": "環境部產品碳足跡資訊網",
         "url": "https://cfp.moenv.gov.tw/WebPage/Index.aspx",
         "announce_year": "115年",
+        "confidence_threshold": 0.75,
     }
 
     loaded_files_count = 0
@@ -53,15 +81,24 @@ def collect_emission_factors(
                 code = str(item.get("factor_code", "")).strip()
                 if not code:
                     continue
+                total_kg, direct_kg, hidden_kg = _resolve_carbon_values(item)
                 merged_by_code[code] = {
                     **item,
+                    "factor_code": code,
+                    "kg_co2e": total_kg,
+                    "direct_kg_co2e": direct_kg,
+                    "hidden_supply_kg_co2e": hidden_kg,
+                    "unit_to_base_gram": float(item.get("unit_to_base_gram") or 1.0),
+                    "is_weight_unit": int(item.get("is_weight_unit") or 0),
                     "_source_file": path.name,
                     "_source_name": item.get("source_name") or source_info.get("name"),
                     "_source_url": item.get("source_url") or source_info.get("url"),
                     "_announce_year": item.get("announce_year") or source_info.get("announce_year"),
                 }
 
-    print(f"已掃描並載入 {loaded_files_count} 份係數 JSON 檔案，合併後共 {len(merged_by_code)} 筆品項。")
+    print(
+        f"已掃描並載入 {loaded_files_count} 份係數 JSON 檔案，合併後共 {len(merged_by_code)} 筆品項。"
+    )
     return list(merged_by_code.values()), source_info
 
 
@@ -80,7 +117,11 @@ def get_mysql_connection() -> pymysql.connections.Connection:
         or os.getenv("DB_NAME")
     )
 
-    db_url = os.getenv("MYSQL_URL") or os.getenv("MYSQL_PUBLIC_URL") or os.getenv("DATABASE_URL")
+    db_url = (
+        os.getenv("MYSQL_URL")
+        or os.getenv("MYSQL_PUBLIC_URL")
+        or os.getenv("DATABASE_URL")
+    )
     if (not host or not user or not database) and db_url:
         parsed = urlparse(db_url)
         host = host or parsed.hostname or "127.0.0.1"
@@ -100,6 +141,23 @@ def get_mysql_connection() -> pymysql.connections.Connection:
     )
 
 
+def ensure_emission_factors_columns(cursor: pymysql.cursors.Cursor) -> None:
+    """確保 emission_factors 具備 direct_kg_co2e 與 hidden_supply_kg_co2e 欄位"""
+    cursor.execute("SHOW COLUMNS FROM emission_factors")
+    existing_cols = {
+        str(row[0] if not isinstance(row, dict) else row.get("Field"))
+        for row in cursor.fetchall()
+    }
+    if "direct_kg_co2e" not in existing_cols:
+        cursor.execute(
+            "ALTER TABLE emission_factors ADD COLUMN direct_kg_co2e DECIMAL(12,6) NULL AFTER kg_co2e"
+        )
+    if "hidden_supply_kg_co2e" not in existing_cols:
+        cursor.execute(
+            "ALTER TABLE emission_factors ADD COLUMN hidden_supply_kg_co2e DECIMAL(12,6) NULL AFTER direct_kg_co2e"
+        )
+
+
 def seed_emission_factors(rows: List[Dict[str, Any]], source_info: Dict[str, Any]) -> int:
     if not rows:
         print("沒有可寫入的 emission_factors 資料。")
@@ -115,12 +173,14 @@ def seed_emission_factors(rows: List[Dict[str, Any]], source_info: Dict[str, Any
         unit_to_base_gram,
         is_weight_unit,
         kg_co2e,
+        direct_kg_co2e,
+        hidden_supply_kg_co2e,
         keywords,
         source_name,
         source_url,
         announce_year
     ) VALUES (
-        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+        %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
     )
     ON DUPLICATE KEY UPDATE
         factor_name = VALUES(factor_name),
@@ -130,6 +190,8 @@ def seed_emission_factors(rows: List[Dict[str, Any]], source_info: Dict[str, Any
         unit_to_base_gram = VALUES(unit_to_base_gram),
         is_weight_unit = VALUES(is_weight_unit),
         kg_co2e = VALUES(kg_co2e),
+        direct_kg_co2e = VALUES(direct_kg_co2e),
+        hidden_supply_kg_co2e = VALUES(hidden_supply_kg_co2e),
         keywords = VALUES(keywords),
         source_name = VALUES(source_name),
         source_url = VALUES(source_url),
@@ -148,12 +210,7 @@ def seed_emission_factors(rows: List[Dict[str, Any]], source_info: Dict[str, Any
         else:
             keywords_str = str(raw_keywords or "").strip()
 
-        if item.get("kg_co2e") is not None:
-            total_kg_co2e = float(item["kg_co2e"])
-        else:
-            direct_val = float(item.get("direct_kg_co2e") or 0.0)
-            hidden_val = float(item.get("hidden_supply_kg_co2e") or 0.0)
-            total_kg_co2e = round(direct_val + hidden_val, 6)
+        total_kg, direct_kg, hidden_kg = _resolve_carbon_values(item)
 
         params_list.append(
             (
@@ -161,10 +218,12 @@ def seed_emission_factors(rows: List[Dict[str, Any]], source_info: Dict[str, Any
                 str(item["factor_name"]).strip(),
                 str(item["category_key"]).strip(),
                 str(item["category_label"]).strip(),
-                str(item["declared_unit"]).strip(),
-                float(item.get("unit_to_base_gram", 1000.0)),
-                int(item.get("is_weight_unit", 1)),
-                total_kg_co2e,
+                str(item.get("declared_unit") or "件").strip(),
+                float(item.get("unit_to_base_gram", 1.0)),
+                int(item.get("is_weight_unit", 0)),
+                total_kg,
+                direct_kg,
+                hidden_kg,
                 keywords_str,
                 str(item.get("_source_name") or default_source_name),
                 str(item.get("_source_url") or default_source_url),
@@ -175,6 +234,7 @@ def seed_emission_factors(rows: List[Dict[str, Any]], source_info: Dict[str, Any
     conn = get_mysql_connection()
     try:
         with conn.cursor() as cursor:
+            ensure_emission_factors_columns(cursor)
             cursor.executemany(sql, params_list)
         conn.commit()
         return len(params_list)
