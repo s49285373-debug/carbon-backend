@@ -187,6 +187,7 @@ def _build_chroma_collection(force_rebuild: bool = False) -> Any:
             "declared_unit": str(f.get("declared_unit") or "件"),
             "unit_to_base_gram": float(f.get("unit_to_base_gram") or 1.0),
             "is_weight_unit": int(f.get("is_weight_unit") or 0),
+            "source": str(f.get("source") or "環境部產品碳足跡係數庫（MOENV CFP_P_02）"),
             "is_user_feedback": False,
         }
         records_to_index.append((f"factor::{code}", doc_text, meta))
@@ -210,6 +211,7 @@ def _build_chroma_collection(force_rebuild: bool = False) -> Any:
             "declared_unit": str(fb.get("declared_unit") or "份"),
             "unit_to_base_gram": float(fb.get("unit_to_base_gram") or 1.0),
             "is_weight_unit": int(fb.get("is_weight_unit") or 0),
+            "source": str(fb.get("source") or "人工校正記憶（manual_corrections.json）"),
             "is_user_feedback": True,
         }
         records_to_index.append((fb_id, doc_text, meta))
@@ -365,6 +367,7 @@ def _keyword_fallback_candidates(
                     "declared_unit": str(f.get("declared_unit") or "件"),
                     "unit_to_base_gram": float(f.get("unit_to_base_gram") or 1.0),
                     "is_weight_unit": int(f.get("is_weight_unit") or 0),
+                    "source": str(f.get("source") or "環境部產品碳足跡係數庫（MOENV CFP_P_02）"),
                     "similarity": round(max(0.0, min(1.0, sim)), 4),
                 }
             )
@@ -417,6 +420,7 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
             fb, float(req.quantity), amount_val, amount_unit
         )
         total_kg = round(base_kg * effective_units, 4)
+        fb_source = str(fb.get("source") or "人工校正記憶（manual_corrections.json）")
         return {
             "item_name": req.item_name,
             "matched": True,
@@ -434,7 +438,8 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
             "total_kg_co2e": total_kg,
             "direct_kg_co2e": round(direct_unit * effective_units, 4),
             "hidden_carbon_cost_kg": round(hidden_unit * effective_units, 4),
-            "source": "人工校正記憶（manual_corrections.json）",
+            "source": fb_source,
+            "factor_source": fb_source,
             "basis": f"依先前人工校正紀錄對齊 {fb['factor_name']}（{base_kg} kg CO2e/{fb.get('declared_unit', '件')}）",
             "top3_candidates": [],
         }
@@ -470,6 +475,7 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
                     "declared_unit": str(meta.get("declared_unit") or "件"),
                     "unit_to_base_gram": float(meta.get("unit_to_base_gram") or 1.0),
                     "is_weight_unit": int(meta.get("is_weight_unit") or 0),
+                    "source": str(meta.get("source") or "環境部產品碳足跡係數庫（MOENV CFP_P_02）"),
                     "similarity": similarity,
                 }
             )
@@ -515,6 +521,7 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
         avg_kg = float(cat_info.get("avg_kg_co2e") or cat_info.get("kg_co2e") or 0.0)
         eff_units = float(req.quantity)
         est_total = round(avg_kg * eff_units, 4)
+        est_source = "系統估算設定檔（carbon_estimation_config.json）"
 
         return {
             "item_name": req.item_name,
@@ -533,7 +540,8 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
             "total_kg_co2e": est_total,
             "direct_kg_co2e": round(est_total * split["direct_ratio"], 4),
             "hidden_carbon_cost_kg": round(est_total * split["hidden_ratio"], 4),
-            "source": "系統估算設定檔（carbon_estimation_config.json）",
+            "source": est_source,
+            "factor_source": est_source,
             "basis": cat_info.get("basis")
             or f"信心分數 {confidence} 低於門檻 {threshold}，依 {cat_info.get('label', cat_key)} 類別平均係數（{avg_kg} kg CO2e）× 數量 {eff_units} 估算",
             "top3_candidates": top3,
@@ -544,6 +552,7 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
         best, float(req.quantity), amount_val, amount_unit
     )
     total_kg_co2e = round(base_kg * effective_units, 4)
+    matched_source = str(best.get("source") or "環境部產品碳足跡係數庫（MOENV CFP_P_02）")
 
     return {
         "item_name": req.item_name,
@@ -562,7 +571,8 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
         "total_kg_co2e": total_kg_co2e,
         "direct_kg_co2e": round(direct_unit * effective_units, 4),
         "hidden_carbon_cost_kg": round(hidden_unit * effective_units, 4),
-        "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+        "source": matched_source,
+        "factor_source": matched_source,
         "basis": f"信心分數 {confidence} ≥ 門檻 {threshold}，對齊係數 {best['factor_name']}（{base_kg} kg CO2e/{best['declared_unit']}）× 有效單位 {round(effective_units, 4)}",
         "top3_candidates": top3,
     }
@@ -606,6 +616,7 @@ def save_manual_correction(req: ManualCorrectionRequest) -> Dict[str, Any]:
             "declared_unit": chosen_factor.get("declared_unit", "件"),
             "unit_to_base_gram": float(chosen_factor.get("unit_to_base_gram", 1.0)),
             "is_weight_unit": int(chosen_factor.get("is_weight_unit", 0)),
+            "source": str(chosen_factor.get("source") or "環境部產品碳足跡係數庫（MOENV CFP_P_02）"),
         }
     else:
         total_kg = float(req.custom_kg_co2e or cat_avg_kg)
@@ -620,6 +631,7 @@ def save_manual_correction(req: ManualCorrectionRequest) -> Dict[str, Any]:
             "declared_unit": cat_info.get("unit", "份"),
             "unit_to_base_gram": 1.0,
             "is_weight_unit": 0,
+            "source": "使用者手動校正（manual_corrections.json）",
         }
 
     feedback = _load_feedback_map()

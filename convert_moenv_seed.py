@@ -9,10 +9,76 @@ SEED_JSON_PATH = BASE_DIR / "moenv_cfp_seed_data.json"
 CONFIG_JSON_PATH = BASE_DIR / "carbon_estimation_config.json"
 OUT_SQL_PATH = BASE_DIR / "seed_emission_factors.sql"
 
+EXCLUDE_KEYWORDS = (
+    "廢水",
+    "污水",
+    "汙水",
+    "處理服務",
+    "混凝土",
+    "水泥",
+    "瀝青",
+    "鋼捲",
+    "鋼板",
+    "型鋼",
+    "鋁錠",
+    "銅箔",
+    "矽晶",
+    "樹脂",
+    "橡膠",
+    "塑膠袋",
+    "容器",
+    "包裝材",
+    "奶瓶",
+    "蛋盤",
+    "潤滑油",
+    "燃料油",
+    "裂解油",
+    "工業用水",
+    "自來水廠",
+    "水性水泥漆",
+    "水性白膠",
+    "水中混凝土",
+)
+
 TARGET_KEYWORDS = (
-    "米", "飯", "麵", "蛋", "雞", "豬", "牛", "魚", "蝦", "菜", "蔬", "果",
-    "奶", "豆漿", "茶", "咖啡", "水", "飲", "麵包", "餅乾", "便當", "油", "糖",
-    "衛生紙", "洗碗", "洗衣", "沐浴", "洗髮", "塑膠袋", "紙杯", "公車", "捷運", "高鐵",
+    "米",
+    "飯",
+    "麵",
+    "蛋",
+    "雞",
+    "豬",
+    "牛",
+    "魚",
+    "蝦",
+    "蛤",
+    "牡蠣",
+    "菜",
+    "蔬",
+    "果",
+    "奶",
+    "乳",
+    "優格",
+    "優酪乳",
+    "豆漿",
+    "茶",
+    "咖啡",
+    "飲",
+    "果汁",
+    "可樂",
+    "水",
+    "麵包",
+    "餅乾",
+    "便當",
+    "油",
+    "糖",
+    "衛生紙",
+    "洗碗",
+    "洗衣",
+    "沐浴",
+    "洗髮",
+    "公車",
+    "捷運",
+    "高鐵",
 )
 
 
@@ -42,11 +108,27 @@ def get_split_ratios() -> Tuple[float, float]:
     return 0.70, 0.30
 
 
+def is_valid_daily_item(name: str) -> bool:
+    if not name:
+        return False
+    if any(bad in name for bad in EXCLUDE_KEYWORDS):
+        return False
+    if name.strip() == "水":
+        return False
+    return any(k in name for k in TARGET_KEYWORDS)
+
+
 def map_category(name: str, scope3: str = "") -> Tuple[str, str]:
     s = f"{name} {scope3}".lower()
-    if any(k in name for k in ("茶", "咖啡", "飲", "奶", "豆漿", "果汁", "水")):
+    if any(k in name for k in ("茶", "咖啡", "飲", "奶", "乳", "優酪乳", "豆漿", "果汁", "可樂", "水")):
         return "beverage", "樂活飲品"
-    if any(k in name for k in ("米", "飯", "麵", "蛋", "雞", "豬", "牛", "魚", "蝦", "菜", "蔬", "果", "麵包", "餅乾", "便當", "油", "糖")):
+    if any(
+        k in name
+        for k in (
+            "米", "飯", "麵", "蛋", "雞", "豬", "牛", "魚", "蝦", "蛤", "牡蠣",
+            "菜", "蔬", "果", "優格", "麵包", "餅乾", "便當", "油", "糖",
+        )
+    ):
         return "food", "餐飲食物"
     if any(k in s for k in ("運輸", "公車", "捷運", "高鐵", "客運", "物流")):
         return "transport", "運輸交通"
@@ -58,6 +140,8 @@ def map_category(name: str, scope3: str = "") -> Tuple[str, str]:
 def parse_unit(unit_raw: str) -> Tuple[str, float, int]:
     u = (unit_raw or "件").strip()
     low = u.lower()
+    if "公噸" in u or low in ("mt", "t") or "(mt)" in low:
+        return u, 1000000.0, 1
     if "公斤" in u or low == "kg" or "(kg)" in low:
         return u, 1000.0, 1
     if "公克" in u or low == "g" or "(g)" in low:
@@ -97,7 +181,7 @@ def main() -> None:
         if not isinstance(r, dict):
             continue
         name = str(pick_field(r, "name", "Name", default="")).strip()
-        if not name or not any(k in name for k in TARGET_KEYWORDS):
+        if not is_valid_daily_item(name):
             continue
 
         coe_raw = str(pick_field(r, "coe", "Coe", default="0"))
@@ -127,7 +211,7 @@ def main() -> None:
             "direct_kg_co2e": round(coe * direct_ratio, 6),
             "hidden_supply_kg_co2e": round(coe * hidden_ratio, 6),
             "keywords": build_keywords(name),
-            "source": "環境部產品碳足跡係數庫（MOENV CFP_P_02）",
+            "source": f"環境部產品碳足跡係數庫（CFP_P_02，{year or '最新公告'}）",
             "announce_year": year or "最新公告",
             "_year": year,
         }
