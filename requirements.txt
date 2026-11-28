@@ -4,3 +4,5 @@ pymysql
 cryptography
 bcrypt
 pydantic
+chromadb
+openai

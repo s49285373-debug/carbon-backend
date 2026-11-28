@@ -10,6 +10,9 @@ from pydantic import BaseModel, Field
 import bcrypt
 import pymysql
 
+from carbon_moenv_service import router as carbon_router
+from ai_carbon_aligner import router as ai_carbon_router
+
 app = FastAPI(title="日常發票載具之個人碳足跡與隱形碳成本智慧盤查推估系統")
 
 app.add_middleware(
@@ -19,6 +22,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(carbon_router)
+app.include_router(ai_carbon_router)
+
 
 def get_db_connection():
     return pymysql.connect(
@@ -31,15 +38,18 @@ def get_db_connection():
         cursorclass=pymysql.cursors.DictCursor,
     )
 
+
 class RegisterRequest(BaseModel):
     phone: str = Field(..., description="手機號碼")
     password: str = Field(..., description="密碼")
     nickname: str = Field(..., description="暱稱")
     role: str = Field(..., description="身分")
 
+
 class LoginRequest(BaseModel):
     phone: str = Field(..., description="手機號碼")
     password: str = Field(..., description="密碼")
+
 
 class InvoiceExtractRequest(BaseModel):
     phone: str | None = Field(None, description="會員手機號碼")
@@ -47,12 +57,14 @@ class InvoiceExtractRequest(BaseModel):
     source_type: str = Field("qr", description="來源類型：qr、qr_simulated 或 manual")
     qr_raw_data: str = Field(..., description="發票 QR Code 原始字串或手動輸入 JSON")
 
+
 class InvoiceItemInput(BaseModel):
     item_name: str
     quantity: float = 1.0
     unit_price: float = 0.0
     amount: float = 0.0
     carbon_kg: float = 0.0
+
 
 class InvoiceCreateRequest(BaseModel):
     phone: str = Field(..., description="會員手機號碼")
@@ -69,6 +81,7 @@ class InvoiceCreateRequest(BaseModel):
     calc_label: str | None = Field(None, description="計算方式說明")
     source_type: str = Field("qr", description="來源類型")
     items: list[InvoiceItemInput] = Field(default_factory=list, description="逐項商品明細")
+
 
 @app.post("/api/register")
 def register_user(user: RegisterRequest):
@@ -104,6 +117,7 @@ def register_user(user: RegisterRequest):
     finally:
         connection.close()
 
+
 @app.post("/api/login")
 def login_user(user: LoginRequest):
     connection = get_db_connection()
@@ -128,6 +142,7 @@ def login_user(user: LoginRequest):
             }
     finally:
         connection.close()
+
 
 ITEM_CARBON_FACTORS = {
     "牛肉": 0.0270,
@@ -169,6 +184,7 @@ KNOWN_MERCHANT_MAP: dict[str, tuple[str, str]] = {
 
 HIDDEN_CARBON_COST_PER_KG = 3.2
 
+
 def format_date_slash(date_str: str | None) -> str | None:
     if not date_str:
         return None
@@ -177,6 +193,7 @@ def format_date_slash(date_str: str | None) -> str | None:
         parts = cleaned.split("/")
         return f"{int(parts[0]):04d}/{int(parts[1]):02d}/{int(parts[2]):02d}"
     return cleaned
+
 
 def estimate_item_carbon(item_name: str, amount: float) -> float:
     if amount <= 0:
@@ -187,6 +204,7 @@ def estimate_item_carbon(item_name: str, amount: float) -> float:
         if kw in item_name:
             return round(amount * factor, 4)
     return round(amount * CATEGORY_INTENSITY["一般消費"], 4)
+
 
 def fetch_merchant_from_public_api(seller_tax_id: str) -> tuple[str | None, str | None]:
     if not re.fullmatch(r"\d{8}", seller_tax_id):
@@ -218,6 +236,7 @@ def fetch_merchant_from_public_api(seller_tax_id: str) -> tuple[str | None, str 
     except Exception:
         pass
     return None, None
+
 
 def lookup_merchant_category(
     seller_tax_id: str | None,
@@ -271,7 +290,7 @@ def lookup_merchant_category(
 
     return None, default_category
 
-# 通用的 Base64 / UTF-8 / Big5 / CP950 自動解碼函式（不寫死任何商品名稱）
+
 def decode_text_safely(text: str) -> str:
     cleaned = text.strip()
     if not cleaned:
@@ -296,6 +315,7 @@ def decode_text_safely(text: str) -> str:
 
     return cleaned
 
+
 def parse_roc_date_to_slash(roc_7digits: str) -> str | None:
     if len(roc_7digits) == 7 and roc_7digits.isdigit():
         roc_year = int(roc_7digits[0:3])
@@ -304,6 +324,7 @@ def parse_roc_date_to_slash(roc_7digits: str) -> str | None:
         if 1 <= month <= 12 and 1 <= day <= 31:
             return f"{roc_year + 1911:04d}/{month:02d}/{day:02d}"
     return None
+
 
 def parse_qr_header_amount(header: str) -> float:
     if len(header) >= 37:
@@ -327,6 +348,7 @@ def parse_qr_header_amount(header: str) -> float:
                 return val
     return 0.0
 
+
 def is_valid_item_name(name: str) -> bool:
     cleaned = name.strip()
     if not cleaned:
@@ -336,6 +358,7 @@ def is_valid_item_name(name: str) -> bool:
     if re.fullmatch(r"-?\d+(\.\d+)?", cleaned):
         return False
     return True
+
 
 def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None) -> dict:
     raw = decode_text_safely(raw_data)
@@ -489,6 +512,7 @@ def extract_invoice_content(raw_data: str, source_type: str = "qr", db_conn=None
         "items": items,
     }
 
+
 @app.post("/api/invoices/extract")
 def extract_invoice(req: InvoiceExtractRequest):
     conn = None
@@ -511,6 +535,7 @@ def extract_invoice(req: InvoiceExtractRequest):
     finally:
         if conn is not None:
             conn.close()
+
 
 @app.post("/api/invoices")
 def create_invoice(req: InvoiceCreateRequest):
@@ -600,6 +625,7 @@ def create_invoice(req: InvoiceCreateRequest):
     finally:
         conn.close()
 
+
 @app.get("/api/invoices")
 def list_invoices(phone: str = Query(..., description="會員手機號碼")):
     phone_clean = phone.strip()
@@ -673,6 +699,7 @@ def list_invoices(phone: str = Query(..., description="會員手機號碼")):
     finally:
         conn.close()
 
+
 @app.delete("/api/invoices/{invoice_id}")
 def delete_invoice(invoice_id: int, phone: str = Query(..., description="會員手機號碼")):
     phone_clean = phone.strip()
@@ -693,7 +720,8 @@ def delete_invoice(invoice_id: int, phone: str = Query(..., description="會員�
     finally:
         conn.close()
 
+
 if __name__ == "__main__":
     import uvicorn
     port = int(os.getenv("PORT", 8000))
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)

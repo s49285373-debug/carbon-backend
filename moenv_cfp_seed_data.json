@@ -1,0 +1,161 @@
+{
+  "source": {
+    "name": "環境部產品碳足跡資訊網",
+    "url": "https://cfp.moenv.gov.tw/WebPage/Index.aspx",
+    "announce_year": "115年",
+    "confidence_threshold": 0.75
+  },
+  "category_averages": {
+    "utility": { "label": "水電瓦斯", "avg_kg_co2e": 0.474, "unit": "度" },
+    "food": { "label": "餐飲食物", "avg_kg_co2e": 1.45, "unit": "份" },
+    "beverage": { "label": "樂活飲品", "avg_kg_co2e": 0.32, "unit": "瓶/杯" },
+    "living": { "label": "生活民生", "avg_kg_co2e": 0.78, "unit": "件" },
+    "transport": { "label": "運輸交通", "avg_kg_co2e": 0.12, "unit": "公里" },
+    "electronics": { "label": "電子產品", "avg_kg_co2e": 18.5, "unit": "件" }
+  },
+  "emission_factors": [
+    {
+      "factor_code": "CFP-BEV-001",
+      "factor_name": "包裝紅茶／茶飲料（每公升）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "L",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.58,
+      "direct_kg_co2e": 0.42,
+      "hidden_supply_kg_co2e": 0.16,
+      "keywords": ["純喫茶", "純喫茶紅", "紅茶", "麥香紅茶", "錫蘭紅茶", "瓶裝茶飲", "650ml"]
+    },
+    {
+      "factor_code": "CFP-BEV-002",
+      "factor_name": "包裝綠茶／烏龍茶飲料（每公升）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "L",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 0.54,
+      "direct_kg_co2e": 0.39,
+      "hidden_supply_kg_co2e": 0.15,
+      "keywords": ["純喫茶綠", "綠茶", "原萃", "茶裏王", "烏龍茶", "青茶"]
+    },
+    {
+      "factor_code": "CFP-BEV-003",
+      "factor_name": "現調咖啡／拿鐵飲品（每杯）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "杯",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.34,
+      "direct_kg_co2e": 0.21,
+      "hidden_supply_kg_co2e": 0.13,
+      "keywords": ["咖啡", "美式", "拿鐵", "冰拿鐵", "熱美式"]
+    },
+    {
+      "factor_code": "CFP-BEV-004",
+      "factor_name": "鮮乳／豆漿飲品（每公升）",
+      "category_key": "beverage",
+      "category_label": "樂活飲品",
+      "declared_unit": "L",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 1.52,
+      "direct_kg_co2e": 1.05,
+      "hidden_supply_kg_co2e": 0.47,
+      "keywords": ["鮮奶", "鮮乳", "豆漿", "無糖豆漿", "綠豆沙", "可可"]
+    },
+    {
+      "factor_code": "CFP-FOOD-001",
+      "factor_name": "超商鮮食便當／米食餐盒（每份）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "份",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.68,
+      "direct_kg_co2e": 1.15,
+      "hidden_supply_kg_co2e": 0.53,
+      "keywords": ["便當", "排骨便當", "雞腿便當", "白飯", "炒飯", "丼飯", "飯糰"]
+    },
+    {
+      "factor_code": "CFP-FOOD-002",
+      "factor_name": "麵食／水餃／速食餐點（每份）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "份",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 1.25,
+      "direct_kg_co2e": 0.88,
+      "hidden_supply_kg_co2e": 0.37,
+      "keywords": ["牛肉麵", "乾麵", "涼麵", "水餃", "鍋貼", "漢堡"]
+    },
+    {
+      "factor_code": "CFP-FOOD-003",
+      "factor_name": "烘焙麵包／餅乾零食（每件）",
+      "category_key": "food",
+      "category_label": "餐飲食物",
+      "declared_unit": "件",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.69,
+      "direct_kg_co2e": 0.48,
+      "hidden_supply_kg_co2e": 0.21,
+      "keywords": ["麵包", "吐司", "三明治", "餅乾", "洋芋片", "蛋糕"]
+    },
+    {
+      "factor_code": "CFP-LIV-001",
+      "factor_name": "抽取式衛生紙／紙類日用品（每包/串）",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "件",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.92,
+      "direct_kg_co2e": 0.64,
+      "hidden_supply_kg_co2e": 0.28,
+      "keywords": ["衛生紙", "抽取衛生紙", "舒潔", "五月花", "面紙", "紙巾"]
+    },
+    {
+      "factor_code": "CFP-LIV-002",
+      "factor_name": "個人清潔／洗沐日用品（每瓶）",
+      "category_key": "living",
+      "category_label": "生活民生",
+      "declared_unit": "件",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 0.76,
+      "direct_kg_co2e": 0.52,
+      "hidden_supply_kg_co2e": 0.24,
+      "keywords": ["洗髮精", "沐浴乳", "洗面乳", "牙膏", "洗衣精", "化妝棉"]
+    },
+    {
+      "factor_code": "CFP-TRANS-001",
+      "factor_name": "車用無鉛汽油／柴油（每公升）",
+      "category_key": "transport",
+      "category_label": "運輸交通",
+      "declared_unit": "L",
+      "unit_to_base_gram": 1000.0,
+      "is_weight_unit": 1,
+      "kg_co2e": 2.74,
+      "direct_kg_co2e": 2.26,
+      "hidden_supply_kg_co2e": 0.48,
+      "keywords": ["95無鉛", "92無鉛", "98無鉛", "中油", "加油", "柴油"]
+    },
+    {
+      "factor_code": "CFP-ELEC-001",
+      "factor_name": "3C 週邊配件／線材充電器（每件）",
+      "category_key": "electronics",
+      "category_label": "電子產品",
+      "declared_unit": "件",
+      "unit_to_base_gram": 1.0,
+      "is_weight_unit": 0,
+      "kg_co2e": 4.5,
+      "direct_kg_co2e": 3.1,
+      "hidden_supply_kg_co2e": 1.4,
+      "keywords": ["充電線", "充電器", "行動電源", "滑鼠", "耳機", "隨身碟"]
+    }
+  ]
+}

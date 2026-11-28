@@ -1,0 +1,12 @@
+{
+  "純喫茶紅650": {
+    "factor_code": "CFP-BEV-001",
+    "factor_name": "包裝紅茶／茶飲料（每公升）",
+    "category_key": "beverage",
+    "category_label": "樂活飲品",
+    "kg_co2e": 0.58,
+    "declared_unit": "L",
+    "unit_to_base_gram": 1000.0,
+    "is_weight_unit": 1
+  }
+}
