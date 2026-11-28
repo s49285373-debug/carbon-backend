@@ -12,6 +12,7 @@ import pymysql
 
 from carbon_moenv_service import router as carbon_router
 from ai_carbon_aligner import router as ai_carbon_router
+from meal_service import router as meal_router
 
 app = FastAPI(title="日常發票載具之個人碳足跡與隱形碳成本智慧盤查推估系統")
 
@@ -25,6 +26,7 @@ app.add_middleware(
 
 app.include_router(carbon_router)
 app.include_router(ai_carbon_router)
+app.include_router(meal_router)
 
 
 def get_db_connection():
@@ -719,6 +721,77 @@ def delete_invoice(invoice_id: int, phone: str = Query(..., description="會員�
         return {"status": "success", "message": "發票已刪除"}
     finally:
         conn.close()
+
+
+@app.get("/api/ledger")
+def get_combined_ledger(
+    phone: str = Query(..., description="會員手機號碼"),
+    start_date: str | None = Query(default=None, description="起始日期 YYYY/MM/DD"),
+    end_date: str | None = Query(default=None, description="結束日期 YYYY/MM/DD"),
+):
+    from meal_service import list_meal_records
+
+    phone_clean = phone.strip()
+    if not phone_clean:
+        raise HTTPException(status_code=400, detail="請提供手機號碼")
+
+    meals_res = list_meal_records(phone=phone_clean, start_date=start_date, end_date=end_date)
+    meal_records = meals_res.get("data") or []
+
+    conn = get_db_connection()
+    invoice_records = []
+    try:
+        with conn.cursor() as cursor:
+            sql = "SELECT * FROM invoices WHERE phone = %s"
+            params: list = [phone_clean]
+            if start_date:
+                sql += " AND purchase_date >= %s"
+                params.append(format_date_slash(start_date))
+            if end_date:
+                sql += " AND purchase_date <= %s"
+                params.append(format_date_slash(end_date))
+            sql += " ORDER BY id DESC"
+            cursor.execute(sql, tuple(params))
+            rows = cursor.fetchall()
+            for r in rows:
+                carbon_val = float(r.get("carbon_kg") or 0.0)
+                invoice_records.append(
+                    {
+                        "id": r["id"],
+                        "phone": r["phone"],
+                        "title": r.get("merchant_name") or r.get("invoice_number") or "發票紀錄",
+                        "date": format_date_slash(r.get("purchase_date")) or "",
+                        "amount": float(r.get("total_amount") or 0.0),
+                        "carbon_kg": carbon_val,
+                        "hidden_carbon_cost": float(
+                            r.get("hidden_carbon_cost") or round(carbon_val * HIDDEN_CARBON_COST_PER_KG, 2)
+                        ),
+                        "source_type": "invoice",
+                    }
+                )
+    finally:
+        conn.close()
+
+    total_meal_carbon = round(sum(float(m.get("carbon_kg") or 0.0) for m in meal_records), 4)
+    total_invoice_carbon = round(sum(float(inv.get("carbon_kg") or 0.0) for inv in invoice_records), 4)
+    total_carbon_kg = round(total_meal_carbon + total_invoice_carbon, 4)
+    total_hidden_cost = round(total_carbon_kg * HIDDEN_CARBON_COST_PER_KG, 2)
+
+    return {
+        "status": "success",
+        "data": {
+            "summary": {
+                "total_carbon_kg": total_carbon_kg,
+                "total_meal_carbon_kg": total_meal_carbon,
+                "total_invoice_carbon_kg": total_invoice_carbon,
+                "total_hidden_carbon_cost": total_hidden_cost,
+                "meal_count": len(meal_records),
+                "invoice_count": len(invoice_records),
+            },
+            "meals": meal_records,
+            "invoices": invoice_records,
+        },
+    }
 
 
 if __name__ == "__main__":
