@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, Field
 
 from ai_carbon_aligner import AlignItemRequest, align_item
+from carbon_normalization import convert_unit_to_factor, lookup_dish_recipe
 
 router = APIRouter(prefix="/api/meals", tags=["Meal Carbon Records"])
 
@@ -23,16 +24,7 @@ def _format_meal_date(date_str: Optional[str]) -> str:
 
 
 def _convert_to_grams(quantity: float, unit: str) -> float:
-    u = (unit or "").strip().lower()
-    if "公斤" in u or u == "kg":
-        return quantity * 1000.0
-    if "毫克" in u or u == "mg":
-        return quantity / 1000.0
-    if "台斤" in u or "斤" in u:
-        return quantity * 600.0
-    if "兩" in u:
-        return quantity * 37.5
-    return quantity
+    return convert_unit_to_factor(quantity, unit) * 1000.0
 
 
 class MealIngredientInput(BaseModel):
@@ -63,13 +55,29 @@ def create_meal_record(req: MealCreateRequest) -> Dict[str, Any]:
     if not meal_name_clean:
         raise HTTPException(status_code=400, detail="請輸入餐點名稱")
 
+    effective_items: List[MealIngredientInput] = list(req.items or [])
+    if not effective_items:
+        recipe = lookup_dish_recipe(meal_name_clean)
+        if recipe and isinstance(recipe.get("ingredients"), list):
+            for ing in recipe["ingredients"]:
+                ing_name = str(ing.get("ingredient_name") or "").strip()
+                amount_kg = float(ing.get("amount_kg") or 0.0)
+                if ing_name and amount_kg > 0:
+                    effective_items.append(
+                        MealIngredientInput(
+                            ingredient_name=ing_name,
+                            quantity=round(amount_kg * 1000.0, 2),
+                            unit="公克 (g)",
+                        )
+                    )
+
     aligned_items: List[Dict[str, Any]] = []
     total_carbon_kg = 0.0
     confidences: List[float] = []
     any_estimated = False
 
-    if req.items:
-        for ing in req.items:
+    if effective_items:
+        for ing in effective_items:
             name_clean = ing.ingredient_name.strip()
             if not name_clean:
                 continue

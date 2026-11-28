@@ -1,0 +1,17 @@
+{
+  "source": "MOENV CFP_P_02",
+  "strip_prefixes": ["^\\([A-Za-z0-9]+\\)\\s*", "^【[^】]+】\\s*"],
+  "strip_suffixes": ["\\s*\\([^)]*\\)$", "\\s*-?\\d+(?:\\.\\d+)?(?:g|G|ml|mL|cc|份|杯|碗|瓶|罐|包|顆)$"],
+  "strip_keywords": ["即期品", "友善食光", "加購", "優惠", "任選", "第2件6折", "第二件6折"],
+  "unit_conversions": {"g": 0.001, "公克": 0.001, "kg": 1.0, "公斤": 1.0, "ml": 0.001, "mL": 0.001, "毫升": 0.001, "L": 1.0, "l": 1.0, "公升": 1.0, "份": 1.0, "杯": 1.0, "碗": 1.0, "瓶": 1.0, "罐": 1.0, "包": 1.0, "顆": 1.0},
+  "aliases": [
+    {"canonical_name": "包裝茶飲料", "search_query": "包裝茶飲料 茶 紅茶 綠茶", "fallback_category": "飲料", "unit_to_kg_or_l": 0.6, "keywords": ["純喫茶", "茉莉茶園", "御茶園", "麥香", "紅茶", "綠茶", "青茶", "烏龍茶", "茶飲料"]},
+    {"canonical_name": "含乳冷熱飲品", "search_query": "含乳 拿鐵 奶茶 鮮乳 咖啡", "fallback_category": "飲料", "unit_to_kg_or_l": 0.36, "keywords": ["拿鐵", "奶茶", "鮮奶茶", "珍珠奶茶", "摩卡", "卡布奇諾", "含乳", "鮮乳"]},
+    {"canonical_name": "咖啡飲品", "search_query": "咖啡 美式 咖啡豆", "fallback_category": "飲料", "unit_to_kg_or_l": 0.36, "keywords": ["美式", "黑咖啡", "冰咖啡", "熱咖啡", "咖啡"]},
+    {"canonical_name": "米飯類食品", "search_query": "米飯 飯糰 便當 米 白米", "fallback_category": "食品", "unit_to_kg_or_l": 0.35, "keywords": ["御飯糰", "飯糰", "便當", "丼", "炒飯", "咖哩飯", "滷肉飯", "控肉飯", "白飯"]},
+    {"canonical_name": "麵食類食品", "search_query": "麵 麵條 泡麵 杯麵 意麵", "fallback_category": "食品", "unit_to_kg_or_l": 0.25, "keywords": ["來一客", "排骨雞麵", "牛肉麵", "鍋燒", "意麵", "乾麵", "拉麵", "烏龍麵", "水餃", "蛋餅"]},
+    {"canonical_name": "麵包烘焙食品", "search_query": "麵包 吐司 蛋糕 餅乾", "fallback_category": "食品", "unit_to_kg_or_l": 0.12, "keywords": ["吐司", "麵包", "可頌", "貝果", "蛋塔", "三明治", "漢堡"]},
+    {"canonical_name": "包裝飲用水", "search_query": "飲用水 礦泉水 瓶裝水 水", "fallback_category": "飲料", "unit_to_kg_or_l": 0.6, "keywords": ["礦泉水", "純水", "飲用水", "氣泡水", "瓶裝水"]},
+    {"canonical_name": "清潔與個人衛生用品", "search_query": "衛生紙 洗面乳 洗髮精 沐浴乳 濕紙巾 清潔", "fallback_category": "日用品", "unit_to_kg_or_l": 1.0, "keywords": ["衛生紙", "抽取式", "洗髮", "沐浴", "洗面", "牙膏", "牙刷", "濕紙巾", "垃圾袋", "塑膠袋"]}
+  ]
+}

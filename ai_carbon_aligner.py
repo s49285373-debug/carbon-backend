@@ -17,6 +17,7 @@ from carbon_moenv_service import (
     get_category_averages,
     load_estimation_config,
 )
+from carbon_normalization import normalize_item_query
 
 router = APIRouter(prefix="/api/carbon/ai", tags=["AI Carbon Aligner"])
 
@@ -41,6 +42,12 @@ FOOD_HINTS = (
     "餅乾",
     "吐司",
     "三明治",
+    "魚板",
+    "鮮蝦",
+    "雞腿",
+    "排骨",
+    "肉",
+    "菜",
 )
 BEVERAGE_HINTS = (
     "茶",
@@ -254,6 +261,7 @@ def _compute_effective_units(
     quantity: float,
     amount_val: Optional[float],
     amount_unit: Optional[str],
+    unit_scale: float = 1.0,
 ) -> float:
     is_weight = int(meta.get("is_weight_unit") or 0)
     unit_to_base = float(meta.get("unit_to_base_gram") or 1.0)
@@ -265,7 +273,7 @@ def _compute_effective_units(
         if is_weight == 1 and amount_unit in ("g", "ml"):
             return (amount_val / unit_to_base) * float(quantity)
 
-    return float(quantity)
+    return float(quantity) * (float(unit_scale) if unit_scale > 0 else 1.0)
 
 
 def _infer_category_from_name(item_name: str, default_cat: str) -> str:
@@ -277,6 +285,14 @@ def _infer_category_from_name(item_name: str, default_cat: str) -> str:
     if has_bev and not has_food:
         return "beverage"
     return default_cat
+
+
+def _is_category_conflict(inferred_cat: str, matched_cat: str) -> bool:
+    if inferred_cat == "food" and matched_cat == "beverage":
+        return True
+    if inferred_cat == "beverage" and matched_cat == "food":
+        return True
+    return False
 
 
 def _llm_rerank_and_score(
@@ -339,10 +355,10 @@ def _llm_rerank_and_score(
 
 
 def _keyword_fallback_candidates(
-    item_name: str, factors_all: List[Dict[str, Any]]
+    query_text: str, factors_all: List[Dict[str, Any]]
 ) -> List[Dict[str, Any]]:
-    lower_name = item_name.lower()
-    inferred_cat = _infer_category_from_name(item_name, "")
+    lower_name = query_text.lower()
+    inferred_cat = _infer_category_from_name(query_text, "")
     matched: List[Dict[str, Any]] = []
 
     for f in factors_all:
@@ -351,8 +367,8 @@ def _keyword_fallback_candidates(
         name_hit = str(f.get("factor_name") or "").lower() in lower_name
         if hit or name_hit:
             sim = 0.88 if hit else 0.78
-            if inferred_cat == "food" and f.get("category_key") == "beverage":
-                sim -= 0.25
+            if _is_category_conflict(inferred_cat, str(f.get("category_key") or "")):
+                sim -= 0.35
             total_kg, direct_kg, hidden_kg = _split_carbon_units(f)
 
             matched.append(
@@ -406,23 +422,36 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
     cfg = load_estimation_config()
     cfg_fallback = str(cfg.get("fallback_category_key") or "food")
 
+    norm_info = normalize_item_query(req.item_name)
+    query_text = norm_info["search_query"]
+    unit_scale = float(norm_info.get("unit_scale") or 1.0)
+
     feedback = _load_feedback_map()
     averages = get_category_averages()
     factors_all = get_all_emission_factors()
     amount_val, amount_unit = _extract_amount_and_unit(req.item_name)
     default_cat = req.fallback_category_key if req.fallback_category_key in averages else cfg_fallback
-    inferred_cat = _infer_category_from_name(req.item_name, default_cat)
+    inferred_cat = _infer_category_from_name(
+        f"{req.item_name} {norm_info['cleaned_name']} {norm_info['canonical_name']}",
+        default_cat,
+    )
 
-    if req.item_name in feedback:
-        fb = feedback[req.item_name]
+    fb_key = (
+        req.item_name
+        if req.item_name in feedback
+        else (norm_info["cleaned_name"] if norm_info["cleaned_name"] in feedback else None)
+    )
+    if fb_key is not None:
+        fb = feedback[fb_key]
         base_kg, direct_unit, hidden_unit = _split_carbon_units(fb)
         effective_units = _compute_effective_units(
-            fb, float(req.quantity), amount_val, amount_unit
+            fb, float(req.quantity), amount_val, amount_unit, unit_scale=1.0
         )
         total_kg = round(base_kg * effective_units, 4)
         fb_source = str(fb.get("source") or "人工校正記憶（manual_corrections.json）")
         return {
             "item_name": req.item_name,
+            "canonical_name": norm_info["canonical_name"],
             "matched": True,
             "match_mode": "manual_correction",
             "is_estimated": False,
@@ -448,7 +477,7 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
     chroma_ok = False
     try:
         collection = _build_chroma_collection(force_rebuild=False)
-        query_res = collection.query(query_texts=[req.item_name], n_results=3)
+        query_res = collection.query(query_texts=[query_text], n_results=3)
 
         metadatas_list = (query_res.get("metadatas") or [[]])[0]
         distances_list = (query_res.get("distances") or [[]])[0]
@@ -459,8 +488,8 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
             d = max(0.0, float(dist))
             similarity = round(max(0.0, min(1.0, math.exp(-d * 0.65))), 4)
             cat_k = str(meta.get("category_key") or "food")
-            if inferred_cat == "food" and cat_k == "beverage":
-                similarity = round(max(0.0, similarity - 0.25), 4)
+            if _is_category_conflict(inferred_cat, cat_k):
+                similarity = round(max(0.0, similarity - 0.35), 4)
 
             total_kg, direct_kg, hidden_kg = _split_carbon_units(meta)
             top3.append(
@@ -482,21 +511,22 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
         top3.sort(key=lambda x: x["similarity"], reverse=True)
         chroma_ok = True
     except Exception:
-        top3 = _keyword_fallback_candidates(req.item_name, factors_all)
+        top3 = _keyword_fallback_candidates(query_text, factors_all)
 
-    reranked = _llm_rerank_and_score(req.item_name, top3)
+    reranked = _llm_rerank_and_score(f"{norm_info['canonical_name']} ({req.item_name})", top3)
     if reranked is not None:
         best = reranked
         confidence = float(reranked["confidence"])
     elif top3:
         best = dict(top3[0])
-        kw_hit = False
-        for f in factors_all:
-            if f.get("factor_code") == best["factor_code"]:
-                for kw in f.get("keywords") or []:
-                    if kw and str(kw).lower() in req.item_name.lower():
-                        kw_hit = True
-                        break
+        kw_hit = norm_info["alias_matched"]
+        if not kw_hit:
+            for f in factors_all:
+                if f.get("factor_code") == best["factor_code"]:
+                    for kw in f.get("keywords") or []:
+                        if kw and str(kw).lower() in query_text.lower():
+                            kw_hit = True
+                            break
         base_conf = best["similarity"] if chroma_ok else max(best["similarity"], 0.82)
         confidence = round(min(0.95, max(base_conf, 0.86 if kw_hit else base_conf)), 4)
         best["confidence"] = confidence
@@ -504,15 +534,19 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
         best = None
         confidence = 0.0
 
-    if best is None or confidence < threshold:
+    category_conflict = bool(
+        best and _is_category_conflict(inferred_cat, str(best.get("category_key") or ""))
+    )
+
+    if best is None or confidence < threshold or category_conflict:
         cat_key = (
-            best["category_key"]
-            if (
-                best
-                and best.get("category_key") in averages
-                and not (inferred_cat == "food" and best.get("category_key") == "beverage")
+            inferred_cat
+            if inferred_cat in averages
+            else (
+                best["category_key"]
+                if (best and best.get("category_key") in averages and not category_conflict)
+                else default_cat
             )
-            else (inferred_cat if inferred_cat in averages else default_cat)
         )
         if cat_key not in averages:
             cat_key = next(iter(averages.keys()))
@@ -523,8 +557,18 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
         est_total = round(avg_kg * eff_units, 4)
         est_source = "系統估算設定檔（carbon_estimation_config.json）"
 
+        conflict_reason = (
+            f"候選係數類別（{best.get('category_label')}）與推斷類別（{cat_info.get('label', cat_key)}）不符，改走類別平均估算"
+            if category_conflict and best
+            else (
+                cat_info.get("basis")
+                or f"信心分數 {confidence} 低於門檻 {threshold}，依 {cat_info.get('label', cat_key)} 類別平均係數（{avg_kg} kg CO2e）× 數量 {eff_units} 估算"
+            )
+        )
+
         return {
             "item_name": req.item_name,
+            "canonical_name": norm_info["canonical_name"],
             "matched": False,
             "match_mode": "category_average",
             "is_estimated": True,
@@ -542,20 +586,24 @@ def align_item(req: AlignItemRequest) -> Dict[str, Any]:
             "hidden_carbon_cost_kg": round(est_total * split["hidden_ratio"], 4),
             "source": est_source,
             "factor_source": est_source,
-            "basis": cat_info.get("basis")
-            or f"信心分數 {confidence} 低於門檻 {threshold}，依 {cat_info.get('label', cat_key)} 類別平均係數（{avg_kg} kg CO2e）× 數量 {eff_units} 估算",
+            "basis": conflict_reason,
             "top3_candidates": top3,
         }
 
     base_kg, direct_unit, hidden_unit = _split_carbon_units(best)
     effective_units = _compute_effective_units(
-        best, float(req.quantity), amount_val, amount_unit
+        best,
+        float(req.quantity),
+        amount_val,
+        amount_unit,
+        unit_scale=unit_scale if amount_val is None else 1.0,
     )
     total_kg_co2e = round(base_kg * effective_units, 4)
     matched_source = str(best.get("source") or "環境部產品碳足跡係數庫（MOENV CFP_P_02）")
 
     return {
         "item_name": req.item_name,
+        "canonical_name": norm_info["canonical_name"],
         "matched": True,
         "match_mode": "matched",
         "is_estimated": False,
