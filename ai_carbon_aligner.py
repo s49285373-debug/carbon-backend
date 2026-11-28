@@ -1,3 +1,4 @@
+import gc
 import json
 import math
 import os
@@ -22,6 +23,7 @@ router = APIRouter(prefix="/api/carbon/ai", tags=["AI Carbon Aligner"])
 BASE_DIR = Path(__file__).resolve().parent
 CHROMA_DIR = BASE_DIR / "chroma_store"
 FEEDBACK_FILE = BASE_DIR / "manual_corrections.json"
+BATCH_SIZE = 32
 
 FOOD_HINTS = (
     "麵",
@@ -122,6 +124,21 @@ def _split_carbon_units(raw: Dict[str, Any]) -> Tuple[float, float, float]:
     return total_kg, direct_kg, hidden_kg
 
 
+def _upsert_in_batches(
+    collection: Any,
+    items: List[Tuple[str, str, Dict[str, Any]]],
+    batch_size: int = BATCH_SIZE,
+) -> None:
+    for start in range(0, len(items), batch_size):
+        chunk = items[start : start + batch_size]
+        ids = [x[0] for x in chunk]
+        docs = [x[1] for x in chunk]
+        metas = [x[2] for x in chunk]
+        collection.upsert(ids=ids, documents=docs, metadatas=metas)
+        del ids, docs, metas, chunk
+        gc.collect()
+
+
 def _build_chroma_collection(force_rebuild: bool = False) -> Any:
     global _CACHED_COLLECTION, _CACHED_SIGNATURE
 
@@ -142,12 +159,11 @@ def _build_chroma_collection(force_rebuild: bool = False) -> Any:
             client.delete_collection(name=collection_name)
         except Exception:
             pass
+        gc.collect()
 
     collection = client.get_or_create_collection(name=collection_name)
 
-    ids: List[str] = []
-    documents: List[str] = []
-    metadatas: List[Dict[str, Any]] = []
+    records_to_index: List[Tuple[str, str, Dict[str, Any]]] = []
 
     for f in factors:
         code = str(f["factor_code"])
@@ -160,23 +176,20 @@ def _build_chroma_collection(force_rebuild: bool = False) -> Any:
             f"類別:{f['category_label']}({f['category_key']}) | "
             f"單位:{f.get('declared_unit') or '件'} | 關鍵字:{kw_text}"
         )
-        ids.append(f"factor::{code}")
-        documents.append(doc_text)
-        metadatas.append(
-            {
-                "factor_code": code,
-                "factor_name": str(f["factor_name"]),
-                "category_key": str(f["category_key"]),
-                "category_label": str(f["category_label"]),
-                "kg_co2e": total_kg,
-                "direct_kg_co2e": direct_kg,
-                "hidden_supply_kg_co2e": hidden_kg,
-                "declared_unit": str(f.get("declared_unit") or "件"),
-                "unit_to_base_gram": float(f.get("unit_to_base_gram") or 1.0),
-                "is_weight_unit": int(f.get("is_weight_unit") or 0),
-                "is_user_feedback": False,
-            }
-        )
+        meta = {
+            "factor_code": code,
+            "factor_name": str(f["factor_name"]),
+            "category_key": str(f["category_key"]),
+            "category_label": str(f["category_label"]),
+            "kg_co2e": total_kg,
+            "direct_kg_co2e": direct_kg,
+            "hidden_supply_kg_co2e": hidden_kg,
+            "declared_unit": str(f.get("declared_unit") or "件"),
+            "unit_to_base_gram": float(f.get("unit_to_base_gram") or 1.0),
+            "is_weight_unit": int(f.get("is_weight_unit") or 0),
+            "is_user_feedback": False,
+        }
+        records_to_index.append((f"factor::{code}", doc_text, meta))
 
     for raw_name, fb in feedback.items():
         fb_id = f"feedback::{raw_name}"
@@ -186,26 +199,26 @@ def _build_chroma_collection(force_rebuild: bool = False) -> Any:
             f"人工校正品名:{raw_name} -> 係數:{fb.get('factor_name')} "
             f"({fb.get('factor_code')}) | 類別:{fb.get('category_label')}"
         )
-        ids.append(fb_id)
-        documents.append(doc_text)
-        metadatas.append(
-            {
-                "factor_code": str(fb.get("factor_code") or ""),
-                "factor_name": str(fb.get("factor_name") or ""),
-                "category_key": str(fb.get("category_key") or "food"),
-                "category_label": str(fb.get("category_label") or "餐飲食物"),
-                "kg_co2e": total_kg,
-                "direct_kg_co2e": direct_kg,
-                "hidden_supply_kg_co2e": hidden_kg,
-                "declared_unit": str(fb.get("declared_unit") or "份"),
-                "unit_to_base_gram": float(fb.get("unit_to_base_gram") or 1.0),
-                "is_weight_unit": int(fb.get("is_weight_unit") or 0),
-                "is_user_feedback": True,
-            }
-        )
+        meta = {
+            "factor_code": str(fb.get("factor_code") or ""),
+            "factor_name": str(fb.get("factor_name") or ""),
+            "category_key": str(fb.get("category_key") or "food"),
+            "category_label": str(fb.get("category_label") or "餐飲食物"),
+            "kg_co2e": total_kg,
+            "direct_kg_co2e": direct_kg,
+            "hidden_supply_kg_co2e": hidden_kg,
+            "declared_unit": str(fb.get("declared_unit") or "份"),
+            "unit_to_base_gram": float(fb.get("unit_to_base_gram") or 1.0),
+            "is_weight_unit": int(fb.get("is_weight_unit") or 0),
+            "is_user_feedback": True,
+        }
+        records_to_index.append((fb_id, doc_text, meta))
 
-    if ids:
-        collection.upsert(ids=ids, documents=documents, metadatas=metadatas)
+    if records_to_index:
+        _upsert_in_batches(collection, records_to_index, batch_size=BATCH_SIZE)
+
+    del records_to_index
+    gc.collect()
 
     _CACHED_COLLECTION = collection
     _CACHED_SIGNATURE = sig
